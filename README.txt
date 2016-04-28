@@ -56,14 +56,19 @@ This is because the translation in your language have not be completed.  You can
 == CF7 Code Modification ==
 
 As of this writing, Contact Form 7 plugin does not provide any hook mechanism to add additional columsn to the form table list.  This is due to the fact that the form plugin was coded at a time when Wordpress offered very little such flexibility.  To enable the language coulmns in the CF7 table list, a small change needs to be done in the code,  the file `admin/includes/class-contact-forms-list-table.php` in the plugin folder has the following function on line 88,
+
 `function column_default( $item, $column_name ) {
   return '';
-}`
+}
+`
+
 this need to be changed to,
+
 `function column_default( $item, $column_name ) {
   return apply_filters( "manage_cf7_custom_column", $column_name, $item->id() );
 }
 `
+
 if you want the language columns to be filled in.  I have [requested the author](https://wordpress.org/support/topic/request-for-new-filter-for-extending-cf7-admin-dashboard-table) of the plugin to include the modification in his next release, so I hope this will not be required in the future.
 
 
