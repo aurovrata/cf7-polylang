@@ -356,7 +356,7 @@ class Cf7_Polylang_Admin {
 				
 				//copy the .mo file to the CF7 language folder
 				copy( CF7_POLYLANG_PATH . 'languages/CF7/contact-form-7-'.$locale.'.mo',
-						 WP_PLUGIN_DIR . '/contact-form-7/languages/');
+						 WP_PLUGIN_DIR . '/contact-form-7/languages/contact-form-7-'.$locale.'.mo');
 			}else{
 				//we need to report the missing translation
 				error_log("CF7 POLYLANG: Missing CF7 translation file for locale ".$locale);

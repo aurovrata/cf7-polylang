@@ -174,6 +174,8 @@ class Cf7_Polylang {
 		$this->loader->add_action( 'admin_footer', $plugin_admin, 'polylang_metabox_edit_form',10,1);
 		//edit the link to edit form page
 		$this->loader->add_filter( 'get_edit_post_link', $plugin_admin, 'set_edit_form_link',10,3);
+		//load the CF7 translations
+		$this->loader->add_action( 'plugins_loaded',  $plugin_admin, 'get_cf7_translations',20);
 	}
 
 	/**
