@@ -1,6 +1,6 @@
 === Contact Form 7 Polylang Module ===
 Contributors: aurovrata
-Donate link: http://syllogic.in
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Z83ZQ2ARSZPC8
 Tags: polylang, contact form 7, mulstisite, contact form 7 extension, contact form 7 module, multilingual contact form 7
 Requires at least: 3.0.1
 Tested up to: 4.4.1
