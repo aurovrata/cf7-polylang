@@ -159,6 +159,8 @@ class Cf7_Polylang {
 		$this->loader->add_action( 'pll_get_post_types', $plugin_admin, 'polylang_register_cf7_post_type',10,1);
 		//modify the link to new translation form page
 		$this->loader->add_filter('pll_get_new_post_translation_link', $plugin_admin, 'cf7_new_translation_link',10,3);
+		//Polylang new language locale added
+		$this->loader->add_action( 'created_term', $plugin_admin, 'new_plylang_locale_added', 10, 3 );
 		
 		/**** cf7 hooks  *****/
 		$this->loader->add_filter( 'manage_cf7_custom_column', $plugin_admin, 'polylang_cf7_column_value',10,2);
