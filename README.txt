@@ -16,7 +16,7 @@ This plugin allows multilingual contact form 7 management using the polylang plu
 
 == Installation ==
 
-1. Download and install the PolyLang plugin, and Contact Form 7 plugins.  Activate both plugins.
+1. Download and install the [PolyLang](https://wordpress.org/plugins/polylang/) plugin, and [Contact Form 7](https://wordpress.org/plugins/contact-form-7/) plugins.  Activate both plugins.
 2. Download and install the Contact Form 7 Polylang module plugin and activate it.
 3. Activate the plugin through the 'Plugins' menu in WordPress
 4. Once activated, open the Polylang settings page, Settings->Languages in your admin dashboard.
