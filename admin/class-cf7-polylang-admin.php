@@ -39,6 +39,15 @@ class Cf7_Polylang_Admin {
 	 * @var      string    $version    The current version of this plugin.
 	 */
 	private $version;
+	
+	/**
+	 * The version of this plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      boolean    $is_lang_column_set  be default set to false, true if CF7 calls the function to set the column value.
+	 */
+	private $is_lang_column_set;
 
 	/**
 	 * Initialize the class and set its properties.
@@ -51,6 +60,7 @@ class Cf7_Polylang_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
+		$this->is_lang_column_set=false;
 
 	}
 
@@ -192,7 +202,8 @@ class Cf7_Polylang_Admin {
 		$polylang->filters_columns->post_column( $column, $post_id );
 		$column_value = ob_get_contents();
 		ob_end_clean();
-		
+		//let's keetp track of this
+		$this->is_lang_column_set=true;
 		return $column_value;
 	}
 	/**
@@ -215,15 +226,53 @@ class Cf7_Polylang_Admin {
 				include( plugin_dir_path( __FILE__ ) . 'partials/cf7-polylang-edit-metabox.php');
 				break;
 			case 'none': //assume admin table page
+					error_log("cf7 adding dropdown select");
 				?>
-				<script type="text/javascript">
-					( function( $ ) {
-						$(document).ready( function(){
-							var originalURL = $('.add-new-h2').attr('href');
-							//$('.add-new-h2').attr('href',originalURL+'&post_type=wpcf7_contact_form');
-						} );
-					} )( jQuery );
-				</script>
+					<script id="select-locales-html" type="text/html">
+						<select id="select-locales">
+							<?php
+							$locales = $language_names = array();
+							
+							if( function_exists('pll_languages_list') ){
+								$locales =  pll_languages_list(array('fields'=>'locale'));
+								$language_names = pll_languages_list(array('fields'=>'name'));
+				
+								error_log('CF7 Polylang languages '.print_r($language_names,true));
+							}
+							$default_locale = 'en_GB';
+							if(function_exists('pll_default_language')){
+								$default_locale = pll_default_language('locale');
+							}
+							foreach($locales as $idx => $locale){
+								$selected = $locale == $default_locale ? 'selected' : '';
+								echo '<option '.$selected.' value="'.$locale.'">'.$language_names[$idx].'</option>';
+							}?>
+						</select>
+					</script>
+					<script type="text/javascript">
+						( function( $ ) {
+							$(document).ready( function(){
+								var language_selector = $('#select-locales-html').html();
+								var originalURL = $('.add-new-h2').attr('href');
+								var locale = "<?php echo $default_locale; ?>";
+								var lang = locale.substring(0,2);
+								$('.add-new-h2').attr('href',originalURL+'&locale='+locale+'&new_lang='+lang);
+								$('.add-new-h2').parent().append(language_selector);
+								$('#select-locales').on('change', function() {
+									locale = $(this).val();
+									lang = locale.substring(0,2);
+									$('.add-new-h2').attr('href',originalURL+'&locale='+locale+'&new_lang='+lang);
+								});
+					<?php if( !$this->is_lang_column_set ){ ?>
+								$('table.wp-list-table td.language_'+lang).each(function(){
+									$(this).append('<span class="dashicons dashicons-warning"><span class="polylang-help">To enable PolyLang quicklings follow these <a target"_blank" href="https://github.com/aurovrata/cf7-polylang/wiki#cf7-code-modification">instructions</a></span></span>')
+								});
+								
+					<?php } ?>
+								
+							} );
+						} )( jQuery );
+					</script>
 				<?php
 				break;
 			default:
@@ -323,25 +372,10 @@ class Cf7_Polylang_Admin {
 		//load the text domain for the locales found in Polylang.
 		foreach($languages as $locale){
 			if(isset($cf7_locales[$locale])){
-				$zipFile = CF7_POLYLANG_PATH  . 'languages/CF7/'.$locale.'.zip'; // Local Zip File Path
-				$zipResource = fopen($zipFile, "w");
-				// Get The Zip File From Server
-				$ch = curl_init();
-				curl_setopt($ch, CURLOPT_URL, $cf7_locales[$locale] );
-				curl_setopt($ch, CURLOPT_FAILONERROR, true);
-				curl_setopt($ch, CURLOPT_HEADER, 0);
-				curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-				curl_setopt($ch, CURLOPT_AUTOREFERER, true);
-				curl_setopt($ch, CURLOPT_BINARYTRANSFER,true);
-				curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-				curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); 
-				curl_setopt($ch, CURLOPT_FILE, $zipResource);
-				$page = curl_exec($ch);
-				if(!$page) {
-				 echo "Error :- ".curl_error($ch);
-				}
-				curl_close($ch);
+				$zipFile = $locale.'.zip';
+				$zipPath = CF7_POLYLANG_PATH  . 'languages/CF7/';// Local Zip File Path
+				//get the file stream, not using cURL as may not support https
+				file_put_contents($zipFile, fopen($cf7_locales[$locale], 'r'));
 				
 				/* Open the Zip file */
 				$zip = new ZipArchive;
@@ -352,11 +386,15 @@ class Cf7_Polylang_Admin {
 				/* Extract Zip File */
 				$zip->extractTo($extractPath);
 				$zip->close();
-				error_log("CF7 POLYLANG: Found and installed CF7 translation for locale ".$zipFile);
-				
+				//delete zip file
+				unlink($zipFile);
 				//copy the .mo file to the CF7 language folder
-				copy( CF7_POLYLANG_PATH . 'languages/CF7/contact-form-7-'.$locale.'.mo',
-						 WP_PLUGIN_DIR . '/contact-form-7/languages/contact-form-7-'.$locale.'.mo');
+				if(! copy( CF7_POLYLANG_PATH . 'languages/CF7/contact-form-7-'.$locale.'.mo',
+						 WP_PLUGIN_DIR . '/contact-form-7/languages/contact-form-7-'.$locale.'.mo') ){
+					error_log("CF7 POLYLANG: Unable to copy CF7 translation for locale ".$zipFile." o CF7 plugin folder.");
+				}else{
+					error_log("CF7 POLYLANG: Found and installed CF7 translation for locale ".$zipFile);
+				}
 			}else{
 				//we need to report the missing translation
 				error_log("CF7 POLYLANG: Missing CF7 translation file for locale ".$locale);
