@@ -8,7 +8,7 @@ Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-This plugin allows multilingual contact form 7 management using the polylang plugin. 
+This plugin allows multilingual contact form 7 management using the polylang plugin.
 
 == Description ==
 This plugin allows multilingual contact form 7 management using the polylang plugin.  Both Polylang and Contact Form 7 need to be installed prior to installing this plugin.  Works with miltisite installations too.
@@ -37,15 +37,15 @@ If you have checked the above linked page and are able to find your language, th
  Open the translation page for your specific language (click on the language row in this [table](https://translate.wordpress.org/projects/wp-plugins/contact-form-7)).
  Scroll to the bottom of the page and selected the Export format from the 2nd dropdown to 'Machine Object .mo', then click the Export link.  This will download a zip flie.  Extract the content of this file in the `plugins/contact-form-7/language/` folder.  Rename file name so that the local of the file matches the local of your language as defined by Polylang.  When you create a new form in your language you will find the polylang locale code in the url attributes of your browser address bar.  So if your locale is tk_TK, and you have dowloaded and extracted a file called contact-form-7-tk.mo, rename it to contact-form-7-tk_TK.mo.  This will ensure the correct file is picked.
 
-=  My forms are only partially translated = 
+=  My forms are only partially translated =
 
 This is because the translation in your language have not be completed.  You can help the community by completing the translation [online](https://translate.wordpress.org/projects/wp-plugins/contact-form-7).  You will need to sign up for an account if you haven't got one already and login.  You can also complete the translation on your computer by following the above procedure to download the current status of your language translation.  Insread of the 'Machine Obect .mo' format, select the 'Portable Object .po' format.  Extract the file from the zip archive your download and edit the file using the [PoEdit(or)](https://poedit.net/).  You can then save your translation in the 'Machine Object format' and follow the remaining instructions above to make sure your new translation file is picked up by the plugin.
 
 == Screenshots ==
-
-1. Contact form table list with Polylang language columns.
-2. Creating a new translation form, with polylang language metabox options.
-3. There is a bug in the integration which fails to pick the fact that language options have been saved.  So even after click the 'Save' button you will see the familiar alert window popup, you can safely ignore the message.
+1. By default the PolyLang quick links don't work due to a bug in the CF7 plugin.  You can fix the bug in your own copy of CF7 by following these [instructions](#cf7change).
+2. Contact form table list with Polylang language columns.
+3. Creating a new translation form, with polylang language metabox options.
+4. There is a bug in the integration which fails to pick the fact that language options have been saved.  So even after click the 'Save' button you will see the familiar alert window popup, you can safely ignore the message.
 
 == Changelog ==
 
@@ -53,7 +53,7 @@ This is because the translation in your language have not be completed.  You can
 * first verions
 
 
-== CF7 Code Modification ==
+== <a name="cf7change"></a>CF7 Code Modification ==
 
 As of this writing, Contact Form 7 plugin does not provide any hook mechanism to add additional columsn to the form table list.  This is due to the fact that the form plugin was coded at a time when Wordpress offered very little such flexibility.  To enable the language coulmns in the CF7 table list, a small change needs to be done in the code,  the file `admin/includes/class-contact-forms-list-table.php` in the plugin folder has the following function on line 88,
 
@@ -71,4 +71,4 @@ this need to be changed to,
 
 if you want the language columns to be filled in.  I have [requested the author](https://wordpress.org/support/topic/request-for-new-filter-for-extending-cf7-admin-dashboard-table) of the plugin to include the modification in his next release, so I hope this will not be required in the future.
 
-
+As of CF7 v4.4.1 this change has yet to be included.  If you read this and CF7 has been updated but the filter has not been included, please link to the above support thread and voice your request for this filter.  The more people request this change the more likely the author will include it. 
