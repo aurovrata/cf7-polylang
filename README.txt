@@ -1,7 +1,7 @@
 === Contact Form 7 Polylang Module ===
 Contributors: aurovrata
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Z83ZQ2ARSZPC8
-Tags: polylang, contact form 7, mulstisite, contact form 7 extension, contact form 7 module, multilingual contact form 7
+Tags: polylang, contact form 7, multisite, contact form 7 extension, contact form 7 module, multilingual contact form 7
 Requires at least: 3.0.1
 Tested up to: 4.4.1
 Stable tag: 1.0
@@ -20,7 +20,7 @@ This plugin allows multilingual contact form 7 management using the polylang plu
 2. Download and install the Contact Form 7 Polylang module plugin and activate it.
 3. Activate the plugin through the 'Plugins' menu in WordPress
 4. Once activated, open the Polylang settings page, Settings->Languages in your admin dashboard.
-5. Select the Settings tab and open the section 'Custom Post Types and Taxonomie', ensure that Contact Form checkbox is selected, and save your settings.
+5. Select the Settings tab and open the section 'Custom Post Types and Taxonomy', ensure that Contact Form checkbox is selected, and save your settings.
 6. If you already have Contact Forms created, Polylang settings page should notify you that there are some content that needs to be assigned to the default language.  Click on the link, this will assign all your current contact forms to the default language you have selected in your Polylang settings.
 7. Now open the Contact Form table list and you should see the polylang language columns added to your form table.  You can edit forms and change their language assignment, as well as associate translated forms.
 8. The form table list does not display the language content properly, this is due to a restriction in the CF7 code.  There is a small change that can be done to the code to enable this, and you can follow my instructions in the section **CF7 Code Modification** below if you wish.  It should not stop you from using the plugin, you will just be missing the table language columns content and links.
@@ -50,10 +50,10 @@ This is because the translation in your language have not be completed.  You can
 == Changelog ==
 
 = 1.0 =
-* first verions
+* first version
 
 
-== <a name="cf7change"></a>CF7 Code Modification ==
+== CF7 Code Modification ==
 
 As of this writing, Contact Form 7 plugin does not provide any hook mechanism to add additional columsn to the form table list.  This is due to the fact that the form plugin was coded at a time when Wordpress offered very little such flexibility.  To enable the language coulmns in the CF7 table list, a small change needs to be done in the code,  the file `admin/includes/class-contact-forms-list-table.php` in the plugin folder has the following function on line 88,
 
@@ -71,4 +71,4 @@ this need to be changed to,
 
 if you want the language columns to be filled in.  I have [requested the author](https://wordpress.org/support/topic/request-for-new-filter-for-extending-cf7-admin-dashboard-table) of the plugin to include the modification in his next release, so I hope this will not be required in the future.
 
-As of CF7 v4.4.1 this change has yet to be included.  If you read this and CF7 has been updated but the filter has not been included, please link to the above support thread and voice your request for this filter.  The more people request this change the more likely the author will include it. 
+As of CF7 v4.4.1 this change has yet to be included.  If you read this and CF7 has been updated but the filter has not been included, please link to the above support thread and voice your request for this filter.  The more people request this change the more likely the author will include it.

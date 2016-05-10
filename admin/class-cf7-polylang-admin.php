@@ -39,7 +39,7 @@ class Cf7_Polylang_Admin {
 	 * @var      string    $version    The current version of this plugin.
 	 */
 	private $version;
-	
+
 	/**
 	 * The version of this plugin.
 	 *
@@ -92,7 +92,7 @@ class Cf7_Polylang_Admin {
 		//enqueue de polylang scripts needed for this to work
 		global $polylang;
 		$polylang->admin_enqueue_scripts();
-		
+
 		switch($action){
 			case 'edit':
 			case 'new':
@@ -102,7 +102,7 @@ class Cf7_Polylang_Admin {
 		}
 
 	}
-	
+
 	/**
 	 * Load the Polylang footer scripts.
 	 *
@@ -132,48 +132,48 @@ class Cf7_Polylang_Admin {
 		global $post_ID;
 		$post_ID='';
 		$action = 'none';
-		
+
 		if( 'wpcf7-new' == $_GET['page'] ) $action = 'new';
-		
+
 		if(isset($_GET['action'])) $action = $_GET['action'];
-		
+
 		if(isset( $_GET['post'] ) && false != $_GET['post']){
 			$action = 'edit';
 			$post_ID = $_GET['post']; //set the global post_ID
 		}
-		error_log("CF7 admin page action :".$action.", screen ".get_current_screen()->id);
+		//error_log("CF7 admin page action :".$action.", screen ".get_current_screen()->id);
 		return $action;
 	}
-	
+
 	/**
 	 * Force polylang to register the CF7 cpt.
 	 *
 	 * Called by the Polylang hook 'pll_get_post_types'
 	 *
-	 * @since    1.0.0 
+	 * @since    1.0.0
 	 * @param		array		$types  an array containing existing post types registered with polylang plugin
-	 * @return 	array		array of types 
+	 * @return 	array		array of types
 	 */
 	public function polylang_register_cf7_post_type($types) {
 		//CF7 cpt post type
 		$post_type = WPCF7_ContactForm::post_type;
-		
+
 		$types =  array_merge($types, array($post_type => $post_type));
-		
+
 		return $types;
 	}
-	
+
 	/**
 	 * Add extra column to CF7 admin table.
 	 *
 	 * Called by the WP hook 'manage_{$screen_id}_columns'
 	 *
-	 * @since    1.0.0 
+	 * @since    1.0.0
 	 * @param		array		$columns  an array containing existing columns titles
 	 * @return 	array		array of columns with the extra columns added
 	 */
 	public function add_cf7_admin_columns($columns){
-		error_log("CF7 Admin page: adding column");
+		//error_log("CF7 Admin page: adding column");
 		global $polylang;
 		//call the polylang function that normally does this with std WP hooks
 		//File: polylang/admin/admin-filters-columns.php
@@ -190,7 +190,7 @@ class Cf7_Polylang_Admin {
 	 *   return apply_filters( "manage_cf7_custom_column", $column_name, $item->id() );
 	 * }
 	 *
-	 * @since    1.0.0 
+	 * @since    1.0.0
 	 * @param		string	$column  string tag for the extra column
 	 * @param		string	$post_id  the post ID for the current row
 	 * @return 	string	string value of column cell for the row with give post ID
@@ -211,14 +211,14 @@ class Cf7_Polylang_Admin {
 	 *
 	 * Hooks the 'admin_footer' WP action and inject html/jquery code that adds the metabox
 	 * to the sidebar once the page is loaded in the client browser
-	 * 
-	 * @since    1.0.0 
+	 *
+	 * @since    1.0.0
 	 */
 	public function polylang_metabox_edit_form(){
 		if( !($action = $this->is_cf7_admin_page()) ){
 			return;
 		}
-		
+
 		switch($action){
 			case 'edit':
 			case 'new':
@@ -226,18 +226,18 @@ class Cf7_Polylang_Admin {
 				include( plugin_dir_path( __FILE__ ) . 'partials/cf7-polylang-edit-metabox.php');
 				break;
 			case 'none': //assume admin table page
-					error_log("cf7 adding dropdown select");
+					//error_log("cf7 adding dropdown select");
 				?>
 					<script id="select-locales-html" type="text/html">
 						<select id="select-locales">
 							<?php
 							$locales = $language_names = array();
-							
+
 							if( function_exists('pll_languages_list') ){
 								$locales =  pll_languages_list(array('fields'=>'locale'));
 								$language_names = pll_languages_list(array('fields'=>'name'));
-				
-								error_log('CF7 Polylang languages '.print_r($language_names,true));
+
+								//error_log('CF7 Polylang languages '.print_r($language_names,true));
 							}
 							$default_locale = 'en_GB';
 							if(function_exists('pll_default_language')){
@@ -267,9 +267,9 @@ class Cf7_Polylang_Admin {
 								$('table.wp-list-table td.language_'+lang).each(function(){
 									$(this).append('<span class="dashicons dashicons-warning"><span class="polylang-help">To enable PolyLang quicklings follow these <a target"_blank" href="https://github.com/aurovrata/cf7-polylang/wiki#cf7-code-modification">instructions</a></span></span>')
 								});
-								
+
 					<?php } ?>
-								
+
 							} );
 						} )( jQuery );
 					</script>
@@ -279,14 +279,14 @@ class Cf7_Polylang_Admin {
 				break;
 		}
 	}
-	
+
 	/*
 	 * Set the form edit page link.
 	 *
 	 * The CF7 plugin does not use WP code std, instead creates its own edit form page, hence the edit links
-	 * created by Polylang for cpt are wrong and need to be reset.  Hooks WP filter 'get_edit_post_link' 
+	 * created by Polylang for cpt are wrong and need to be reset.  Hooks WP filter 'get_edit_post_link'
 	 *
-	 * @since    1.0.0 
+	 * @since    1.0.0
 	 * @param		string	$link  edit page link
 	 * @param		string	$post_ID  the post ID of the form to edit
 	 * @param		string	$context  the context
@@ -305,9 +305,9 @@ class Cf7_Polylang_Admin {
 	 * Set the new translation form page link.
 	 *
 	 * Polylang new translation links are assuming std WP coding which CF7 plugin does not follow.
-	 * Hooks Polylang filter 'pll_get_new_post_translation_link' 
+	 * Hooks Polylang filter 'pll_get_new_post_translation_link'
 	 *
-	 * @since    1.0.0 
+	 * @since    1.0.0
 	 * @param		string	$link  to new form page
 	 * @param		string	$language  trasnlated to language
 	 * @param		string	$from_post_id  the form post ID being translated
@@ -319,22 +319,22 @@ class Cf7_Polylang_Admin {
 		if(WPCF7_ContactForm::post_type != $post_type){
 			return $link;
 		}
-		
+
 		$link = admin_url('admin.php?page=wpcf7-new&from_post='.$from_post_id.'&locale='.$language->locale.'&new_lang='.$language->slug);
 		return $link;
 	}
-	
+
 	/**
 	 * Download cf7 trasnlations fro WP api.
 	 *
 	 * Calls the WP translations_api() funtion to download existing translations for CF7
 	 *
-	 * @since    1.0.0 
+	 * @since    1.0.0
 	 */
 	public function get_cf7_translations(){
 		//what locales are already installed
 		$local_locales = $this->scan_local_locales();
-		error_log("CF7 POLYLANG: found local locales, ".print_r($local_locales,true));
+		//error_log("CF7 POLYLANG: found local locales, ".print_r($local_locales,true));
 		//what are the needed locales
 		$languages = array();
 		if( function_exists('pll_languages_list') ){
@@ -343,14 +343,14 @@ class Cf7_Polylang_Admin {
 			//we need to show an error message
 			error_log("CF7 POLYLANG: Unable to load polylang locales, missing function 'pll_languages_list'");
 		}
-		error_log("CF7 POLYLANG: found polylang locales, ".print_r($languages,true));
+		//error_log("CF7 POLYLANG: found polylang locales, ".print_r($languages,true));
 		//which locales do we need to download
 		$languages = array_diff($languages, $local_locales);
-		
+
 		if(empty($languages)){
 			return; //nothing to be loaded
 		}
-		error_log("CF7 POLYLANG: need to download locales, ".print_r($languages,true));
+		//error_log("CF7 POLYLANG: need to download locales, ".print_r($languages,true));
 		//get available locales for CF7
 		require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
 		$cf7_locales = array();
@@ -376,13 +376,13 @@ class Cf7_Polylang_Admin {
 				$zipPath = CF7_POLYLANG_PATH  . 'languages/CF7/';// Local Zip File Path
 				//get the file stream, not using cURL as may not support https
 				file_put_contents($zipFile, fopen($cf7_locales[$locale], 'r'));
-				
+
 				/* Open the Zip file */
 				$zip = new ZipArchive;
 				$extractPath = CF7_POLYLANG_PATH . 'languages/CF7/';
 				if($zip->open($zipFile) != "true"){
 				 error_log( "CF7 POLYLANG: Error, unable to open the Zip File ". $zipFile);
-				} 
+				}
 				/* Extract Zip File */
 				$zip->extractTo($extractPath);
 				$zip->close();
@@ -391,7 +391,7 @@ class Cf7_Polylang_Admin {
 				//copy the .mo file to the CF7 language folder
 				if(! copy( CF7_POLYLANG_PATH . 'languages/CF7/contact-form-7-'.$locale.'.mo',
 						 WP_PLUGIN_DIR . '/contact-form-7/languages/contact-form-7-'.$locale.'.mo') ){
-					error_log("CF7 POLYLANG: Unable to copy CF7 translation for locale ".$zipFile." o CF7 plugin folder.");
+					error_log("CF7 POLYLANG: Unable to copy CF7 translation for locale ".$zipFile." to CF7 plugin folder.");
 				}else{
 					error_log("CF7 POLYLANG: Found and installed CF7 translation for locale ".$zipFile);
 				}
@@ -406,7 +406,7 @@ class Cf7_Polylang_Admin {
 	 *
 	 * Returns an array of locales that are already installed.
 	 *
-	 * @since    1.0.0 
+	 * @since    1.0.0
 	 * @return		array	an array of locales
 	 */
 	protected function scan_local_locales(){
@@ -423,14 +423,14 @@ class Cf7_Polylang_Admin {
 		}
 		return $local_locales;
 	}
-	
+
 	/**
 	 * Called when new language locale added in Polylang.
 	 *
 	 * Polylang tracks languages in use with a custom taxonomy 'language'. This function
 	 * is triggered on the action hook 'created_term'.
 	 *
-	 * @since    1.0.0 
+	 * @since    1.0.0
 	 * @param		int	$term_id  the new term ID
 	 * @param		int	$tt_id  term_taxonomy_id
 	 * @param		string	$taxonomy  the taxonomy to which the new term was added
