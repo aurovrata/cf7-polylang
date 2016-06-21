@@ -4,7 +4,7 @@
  * The admin-specific functionality of cf7 custom post table.
  *
  * @link       http://syllogic.in
- * @since      1.0.0
+ * @since      1.1.0
  *
  * @package    Cf7_Polylang
  * @subpackage Cf7_Polylang/admin
@@ -26,20 +26,24 @@
     /**
   	 * A CF7 list table object.
   	 *
-  	 * @since    1.0.0
+  	 * @since    1.1.0
   	 * @access   private
   	 * @var      Cf7_WP_Post_Table    $singleton   cf7 admin list table object.
   	 */
   	private static $singleton;
+
     /**
   	 * A flag to monitor if hooks are in place.
   	 *
-  	 * @since    1.0.0
+  	 * @since    1.1.0
   	 * @access   private
   	 * @var      boolean    $hooks_set   true if hooks are set.
   	 */
   	private $hooks_set;
-
+    /**
+    * Protected constructor,
+    * accessible through the set_table static fuction
+    */
     protected function __construct(){
       $this->hooks_set= false;
     }
