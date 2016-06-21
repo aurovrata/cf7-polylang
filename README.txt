@@ -3,8 +3,8 @@ Contributors: aurovrata
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Z83ZQ2ARSZPC8
 Tags: polylang, contact form 7, multisite, contact form 7 extension, contact form 7 module, multilingual contact form 7
 Requires at least: 3.0.1
-Tested up to: 4.5.2
-Stable tag: 1.1
+Tested up to: 4.5.3
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,6 +12,8 @@ This plugin allows multilingual contact form 7 management using the polylang plu
 
 == Description ==
 This plugin allows multilingual contact form 7 management using the polylang plugin.  Both Polylang and Contact Form 7 need to be installed prior to installing this plugin.  Works with miltisite installations too.
+
+Please follow the [Installation](https://wordpress.org/plugins/cf7-polylang/installation/) instructions carefully, especially the part about saving your Polylang settings after you have activated this plugin.
 
 
 == Installation ==
@@ -42,12 +44,14 @@ If you have checked the above linked page and are able to find your language, th
 This is because the translation in your language have not be completed.  You can help the community by completing the translation [online](https://translate.wordpress.org/projects/wp-plugins/contact-form-7).  You will need to sign up for an account if you haven't got one already and login.  You can also complete the translation on your computer by following the above procedure to download the current status of your language translation.  Insread of the 'Machine Obect .mo' format, select the 'Portable Object .po' format.  Extract the file from the zip archive your download and edit the file using the [PoEdit(or)](https://poedit.net/).  You can then save your translation in the 'Machine Object format' and follow the remaining instructions above to make sure your new translation file is picked up by the plugin.
 
 == Screenshots ==
-1. By default the PolyLang quick links don't work due to a bug in the CF7 plugin.  You can fix the bug in your own copy of CF7 by following these [instructions](#cf7change).
+1. If you don't see the polylang links in your contact table list, head to the Polylang settings and save the existing post content to the default language. (Step 6 in the installation instructions)
 2. Contact form table list with Polylang language columns.
 3. Creating a new translation form, with polylang language metabox options.
 4. There is a bug in the integration which fails to pick the fact that language options have been saved.  So even after click the 'Save' button you will see the familiar alert window popup, you can safely ignore the message.
 
 == Changelog ==
+= 1.1.1 =
+* fixed a bug that prevented deletion of translation when forms are deleted/trashed
 
 = 1.1 =
 * Changed the way the contact form table list is displayed
