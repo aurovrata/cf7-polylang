@@ -38,8 +38,9 @@ class Cf7_Polylang_Activator {
     if(!is_plugin_active( 'polylang/polylang.php' )){
       exit('This plugin requires the Polylang plugin to be installed first');
     }
-    if( function_exists('pll_languages_list') && empty(pll_languages_list()) ){
-      exit('You need to set up your <a href="'.admin_url('options-general.php?page=mlang').'" target="_parent">languages</a> in Polylang first.');
+    if( function_exists('pll_languages_list') && empty( pll_languages_list() ) ){
+      $msg = 'You need to set up your <a href="'.admin_url('options-general.php?page=mlang').'" target="_parent">languages</a> in Polylang first.';
+      exit($msg);
     }
 	}
 

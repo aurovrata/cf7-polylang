@@ -3,8 +3,8 @@ Contributors: aurovrata
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Z83ZQ2ARSZPC8
 Tags: polylang, contact form 7, multisite, contact form 7 extension, contact form 7 module, multilingual contact form 7
 Requires at least: 3.0.1
-Tested up to: 4.4.1
-Stable tag: 1.0
+Tested up to: 4.5.2
+Stable tag: 1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -48,27 +48,9 @@ This is because the translation in your language have not be completed.  You can
 4. There is a bug in the integration which fails to pick the fact that language options have been saved.  So even after click the 'Save' button you will see the familiar alert window popup, you can safely ignore the message.
 
 == Changelog ==
+= 1.1 =
+* Changed the way the contact form table list is displayed
+* better saving of translations
 
 = 1.0 =
 * first version
-
-
-== CF7 Code Modification ==
-
-As of this writing, Contact Form 7 plugin does not provide any hook mechanism to add additional columsn to the form table list.  This is due to the fact that the form plugin was coded at a time when Wordpress offered very little such flexibility.  To enable the language coulmns in the CF7 table list, a small change needs to be done in the code,  the file `admin/includes/class-contact-forms-list-table.php` in the plugin folder has the following function on line 88,
-
-`function column_default( $item, $column_name ) {
-  return '';
-}
-`
-
-this need to be changed to,
-
-`function column_default( $item, $column_name ) {
-  return apply_filters( "manage_cf7_custom_column", $column_name, $item->id() );
-}
-`
-
-if you want the language columns to be filled in.  I have [requested the author](https://wordpress.org/support/topic/request-for-new-filter-for-extending-cf7-admin-dashboard-table) of the plugin to include the modification in his next release, so I hope this will not be required in the future.
-
-As of CF7 v4.4.1 this change has yet to be included.  If you read this and CF7 has been updated but the filter has not been included, please link to the above support thread and voice your request for this filter.  The more people request this change the more likely the author will include it.
