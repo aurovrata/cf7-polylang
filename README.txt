@@ -25,7 +25,6 @@ Please follow the [Installation](https://wordpress.org/plugins/cf7-polylang/inst
 5. Select the Settings tab and open the section 'Custom Post Types and Taxonomy', ensure that Contact Form checkbox is selected, and save your settings.
 6. If you already have Contact Forms created, Polylang settings page should notify you that there are some content that needs to be assigned to the default language.  Click on the link, this will assign all your current contact forms to the default language you have selected in your Polylang settings.
 7. Now open the Contact Form table list and you should see the polylang language columns added to your form table.  You can edit forms and change their language assignment, as well as associate translated forms.
-8. The form table list does not display the language content properly, this is due to a restriction in the CF7 code.  There is a small change that can be done to the code to enable this, and you can follow my instructions in the section **CF7 Code Modification** below if you wish.  It should not stop you from using the plugin, you will just be missing the table language columns content and links.
 
 == Frequently Asked Questions ==
 
