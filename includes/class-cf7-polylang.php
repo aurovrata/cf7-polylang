@@ -112,6 +112,7 @@ class Cf7_Polylang {
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-cf7-polylang-admin.php';
+    require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/cf7-post-admin-table.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
@@ -153,7 +154,7 @@ class Cf7_Polylang {
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles',20,1 );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts',20,1 );
-		
+
 		/**** polylang hook  *****/
 		//register the cf7 cpt with polylang
 		$this->loader->add_action( 'pll_get_post_types', $plugin_admin, 'polylang_register_cf7_post_type',10,1);
@@ -161,21 +162,40 @@ class Cf7_Polylang {
 		$this->loader->add_filter('pll_get_new_post_translation_link', $plugin_admin, 'cf7_new_translation_link',10,3);
 		//Polylang new language locale added
 		$this->loader->add_action( 'created_term', $plugin_admin, 'new_plylang_locale_added', 10, 3 );
-		
-		/**** cf7 hooks  *****/
-		$this->loader->add_filter( 'manage_cf7_custom_column', $plugin_admin, 'polylang_cf7_column_value',10,2);
-		
+
 		/****   WP hooks  *****/
 		//WP hook 'manage_{$screen_id}_columns' to add new column to table list
-		$this->loader->add_filter( 'manage_toplevel_page_wpcf7_columns', $plugin_admin, 'add_cf7_admin_columns',30,1);
+		//$this->loader->add_filter( 'manage_toplevel_page_wpcf7_columns', $plugin_admin, 'add_cf7_admin_columns',30,1);
 		//add some footer script for polylang to run on the client site
 		$this->loader->add_action( 'admin_print_footer_scripts', $plugin_admin, 'add_polylang_footer_scripts',10,1);
-		//inject some code inot the cf7 form edit page to add the polylang langauge metabox
+		//inject some code into the cf7 form edit page to add the polylang langauge metabox
 		$this->loader->add_action( 'admin_footer', $plugin_admin, 'polylang_metabox_edit_form',10,1);
 		//edit the link to edit form page
 		$this->loader->add_filter( 'get_edit_post_link', $plugin_admin, 'set_edit_form_link',10,3);
 		//load the CF7 translations
 		$this->loader->add_action( 'plugins_loaded',  $plugin_admin, 'get_cf7_translations',20);
+    //warn the user to save polylang screen_settings
+    $this->loader->add_action( 'admin_notices',$plugin_admin, 'display_polylang_settings_warning');
+
+    /**** CF7 Hooks *****/
+    $this->loader->add_action( 'wpcf7_save_contact_form', $plugin_admin, 'save_polylang_translations');
+    /**** Cf7_WP_Post_Table hooks *****/
+    //reset the cf7 admin table
+    $cf7_admin = Cf7_WP_Post_Table::set_table();
+    if(!$cf7_admin->hooks()){
+
+      $this->loader->add_action( 'admin_enqueue_scripts', $cf7_admin , 'enqueue_styles');
+      //add_action( 'admin_enqueue_scripts', array($this, 'enqueue_scripts') );
+      //modify the CF7 post type
+      $this->loader->add_action('init', $cf7_admin, 'modify_cf7_post_type' ,20);
+      //cf7 sub-menu
+      $this->loader->add_action('admin_menu',  $cf7_admin, 'add_cf7_sub_menu' );
+      $this->loader->add_filter( 'custom_menu_order', $cf7_admin, 'change_cf7_submenu_order' );
+      //modify the cf7 list table columns
+      $this->loader->add_filter('manage_wpcf7_contact_form_posts_columns' , $cf7_admin, 'modify_cf7_list_columns' );
+      $this->loader->add_action('manage_wpcf7_contact_form_posts_custom_column', $cf7_admin, 'populate_custom_column' ,10,2);
+      $this->loader->add_filter('post_row_actions',$cf7_admin, 'modify_cf7_list_row_actions' , 10, 2);
+    }
 	}
 
 	/**
