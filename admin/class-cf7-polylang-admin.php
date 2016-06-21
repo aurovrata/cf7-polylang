@@ -211,7 +211,20 @@ class Cf7_Polylang_Admin {
     $GLOBALS['post_type'] = $post->post_type;
     $polylang->filters_post->save_post($post_id, $post, $is_update);
   }
+  /**
+  * called when a post is saved or updated
+  * saves languages and translations
+  *
+  * @since 1.1.1
+  *
+  * @param object $cf7_form CF7 form object
+  * @param bool $is_update whether it is an update or not
+  */
+  public function delete_translations($post_id){
+    global $polylang;
 
+    $polylang->filters_post->delete_post($post_id);
+  }
 	/**
 	 * Force polylang to register the CF7 cpt.
 	 *

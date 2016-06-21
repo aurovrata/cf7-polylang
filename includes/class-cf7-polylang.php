@@ -166,6 +166,7 @@ class Cf7_Polylang {
 		/****   WP hooks  *****/
 		//WP hook 'manage_{$screen_id}_columns' to add new column to table list
 		//$this->loader->add_filter( 'manage_toplevel_page_wpcf7_columns', $plugin_admin, 'add_cf7_admin_columns',30,1);
+    $this->loader->add_action('trash_wpcf7_contact_form', $plugin_admin, 'delete_translations');
 		//add some footer script for polylang to run on the client site
 		$this->loader->add_action( 'admin_print_footer_scripts', $plugin_admin, 'add_polylang_footer_scripts',10,1);
 		//inject some code into the cf7 form edit page to add the polylang langauge metabox

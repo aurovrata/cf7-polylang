@@ -31,7 +31,6 @@
   	 * @var      Cf7_WP_Post_Table    $singleton   cf7 admin list table object.
   	 */
   	private static $singleton;
-
     /**
   	 * A flag to monitor if hooks are in place.
   	 *
@@ -40,10 +39,7 @@
   	 * @var      boolean    $hooks_set   true if hooks are set.
   	 */
   	private $hooks_set;
-    /**
-    * Protected constructor,
-    * accessible through the set_table static fuction
-    */
+
     protected function __construct(){
       $this->hooks_set= false;
     }
@@ -65,7 +61,7 @@
     /**
   	 * Register the stylesheets for the admin area.
   	 *
-  	 * @since    1.0.0
+  	 * @since    1.1.0
   	 */
   	public function enqueue_styles() {
   		//let's check if this is a cf7 admin page
@@ -228,17 +224,20 @@
   	 * Since this plugin replaces the default contact form list table
      * for the more std WP table, we need to modify the quick links to match the default ones.
      * This function is hooked on 'post_row_actions'
-  	 * @since    1.0.0
+  	 * @since    1.1.0
      * @param Array  $actions  quick link actions
      * @param WP_Post $post the current row's post object
      */
     public function modify_cf7_list_row_actions($actions, $post){
         //check for your post type
+        if('trash'==$post->post_status) return array();
+
         if ($post->post_type =="wpcf7_contact_form"){
           $form = WPCF7_ContactForm::get_instance($post->ID);
           $url = admin_url( 'admin.php?page=wpcf7&post=' . absint( $form->id() ) );
           $edit_link = add_query_arg( array( 'action' => 'edit' ), $url );
           $trash = $actions['trash'];
+
           $actions = array(
             'edit' => sprintf( '<a href="%1$s">%2$s</a>',
               esc_url( $edit_link ),
