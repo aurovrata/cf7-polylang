@@ -79,11 +79,12 @@ run_cf7_polylang();
 * @since 1.0.0
 * @var string $message to log if in debug mode
 */
-if (WP_DEBUG === true) {
-   $last_line='';
-   $last_file='';
- }
- if( !function_exists('debug_msg') ){
+
+if( !function_exists('debug_msg') ){
+  if (WP_DEBUG === true) {
+     $last_line='';
+     $last_file='';
+   }
    function debug_msg($message,$prefix='') {
        if (WP_DEBUG === true) {
          global $last_line,$last_file;

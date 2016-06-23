@@ -30,7 +30,12 @@ class Cf7_Polylang_Deactivator {
 	 * @since    1.0.0
 	 */
 	public static function deactivate() {
-
+    //remove the CF7 custom post for polylang post types.
+    $options = get_option('polylang',false);
+    if( $options && in_array(WPCF7_ContactForm::post_type, $options['post_types']) ){
+      $options['post_types'] = array_diff( $options['post_types'], array(WPCF7_ContactForm::post_type) );
+      update_option('polylang',$options);
+    }
 	}
 
 }
