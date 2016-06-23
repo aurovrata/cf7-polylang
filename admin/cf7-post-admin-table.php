@@ -70,6 +70,43 @@
   		}*/
   		//wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/cf7-polylang-admin.css', array('contact-form-7-admin'), $this->version, 'all' );
   	}
+
+    /**
+  	 * Loads footer script on admin table list page
+     * script to chagne the link to the 'Add New' button, hooked on 'admin_print_footer_scripts'
+  	 *
+  	 * @since    1.1.3
+  	 */
+  	public function change_add_new_button() {
+  		if( !$this->is_cf7_admin_page() ){
+  			return;
+  		}
+      $url = admin_url('admin.php?page=wpcf7-new');
+      ?>
+      <script type='text/javascript'>
+        (function( $ ) {
+          'use strict';
+          $(document).ready(function() {
+            $('h1 > a.page-title-action').attr('href','<?php echo $url; ?>');
+          });
+        })( jQuery );
+      </script>
+      <?php
+
+  	}
+    /**
+    *  Checks if this is the admin table list page
+    *
+    * @since 1.1.3
+    */
+    public function is_cf7_admin_page(){
+      if(!isset($_GET['post_type']) || false === strpos($_GET['post_type'],WPCF7_ContactForm::post_type) ){
+  			return false;
+  		}else{
+        $screen = get_current_screen();
+        return ( 'edit' == $screen->base && '' == $screen->action );
+      }
+    }
     /**
     * Modify the regsitered cf7 post tppe
     * THis function enables public capability and amind UI visibility for the cf7 post type. Hooked late on `init`

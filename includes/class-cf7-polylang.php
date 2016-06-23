@@ -177,6 +177,8 @@ class Cf7_Polylang {
 		$this->loader->add_action( 'plugins_loaded',  $plugin_admin, 'get_cf7_translations',20);
     //warn the user to save polylang screen_settings
     $this->loader->add_action( 'admin_notices',$plugin_admin, 'display_polylang_settings_warning');
+    //modify the edit page 'add new' button link and add language select
+    $this->loader->add_action('admin_print_footer_scripts',$plugin_admin, 'add_language_select_to_table_page',20);
 
     /**** CF7 Hooks *****/
     $this->loader->add_action( 'wpcf7_save_contact_form', $plugin_admin, 'save_polylang_translations');
@@ -196,6 +198,8 @@ class Cf7_Polylang {
       $this->loader->add_filter('manage_wpcf7_contact_form_posts_columns' , $cf7_admin, 'modify_cf7_list_columns' );
       $this->loader->add_action('manage_wpcf7_contact_form_posts_custom_column', $cf7_admin, 'populate_custom_column' ,10,2);
       $this->loader->add_filter('post_row_actions',$cf7_admin, 'modify_cf7_list_row_actions' , 10, 2);
+      //change the 'Add New' button link.
+      $this->loader->add_action('admin_print_footer_scripts',$cf7_admin, 'change_add_new_button');
     }
 	}
 

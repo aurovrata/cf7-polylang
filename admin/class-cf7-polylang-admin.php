@@ -85,68 +85,53 @@ class Cf7_Polylang_Admin {
 	public function enqueue_scripts() {
 
 		//let's check if this is a cf7 admin page
-		if( !($action = $this->is_cf7_admin_page()) ){
-			return;
-		}
-		//enqueue de polylang scripts needed for this to work
-		global $polylang;
-		$polylang->admin_enqueue_scripts();
-
-		switch($action){
-			case 'edit':
-			case 'new':
-				//lets force loading of polylang script
-				wp_enqueue_script( 'pll_post', POLYLANG_URL .'/js/post.min.js', array( 'jquery', 'wp-ajax-response', 'post', 'jquery-ui-autocomplete' ), POLYLANG_VERSION, true );
-			break;
+		if( $this->is_cf7_admin_page() || $this->is_cf7_edit_page() ){
+		    //enqueue de polylang scripts needed for this to work
+		  global $polylang;
+		  $polylang->admin_enqueue_scripts();
+      wp_enqueue_script( 'pll_post', POLYLANG_URL .'/js/post.min.js', array( 'jquery', 'wp-ajax-response', 'post', 'jquery-ui-autocomplete' ), POLYLANG_VERSION, true );
 		}
 
 	}
 
+
 	/**
-	 * Load the Polylang footer scripts.
+	 * check if this is a cf7 edit page.
 	 *
-	 * Required by Polylang to enable polylang edit and setting links, and hooked on 'admin_print_footer_scripts'
-	 *
-	 * @since    1.0.0
+	 * @since    1.1.3
+	 * @return    bool    true is this is the edit page
 	 */
-	public function add_polylang_footer_scripts() {
-		if( !$this->is_cf7_admin_page() ){
-			return;
-		}
-		global $polylang;
-		//file: polylang/admin/admin-base.php
-		$polylang->admin_print_footer_scripts();
-	}
-	/**
-	 * check if this is a cf7 admin page.
-	 *
-	 * @since    1.0.0
-	 * @return    string    Type of action, none for table list, edit for edit form page, new for new form page. Returns false if not a CF7 admin page
-	 */
-	public function is_cf7_admin_page(){
-		//check if cf7 page
-		if(!isset($_GET['page']) || false === strpos($_GET['page'],'wpcf7') ){
-			return false;
-		}
-		global $post_ID;
-		$post_ID='';
-		$action = 'none';
-
-		if( 'wpcf7-new' == $_GET['page'] ) $action = 'new';
-
-		if(isset($_GET['action'])) $action = $_GET['action'];
-
-		if(isset( $_GET['post'] ) && false != $_GET['post']){
-			$action = 'edit';
-			$post_ID = $_GET['post']; //set the global post_ID
-		}
-		//debug_msg("CF7 admin page action :".$action.", screen ".get_current_screen()->id);
-		return $action;
+	public function is_cf7_edit_page(){
+    if(!isset($_GET['page']) || false === strpos($_GET['page'],'wpcf7') ){
+      return false;
+    }else{
+      if(isset($_GET['post']) ){
+        global $post_ID; //need to set the global post ID to make sure it is available for polylang.
+        $post_ID = $_GET['post'];
+      }
+      $screen = get_current_screen(); //use screen option after intial basic check else it may throw fatal error
+      //debug_msg($screen);
+      return ( 'contact_page_wpcf7-new' == $screen->base || 'toplevel_page_wpcf7' == $screen->base );
+    }
 	}
   /**
-  *
-  *
-  *
+	 * check if this is the cf7 admin page.
+	 *
+	 * @since    1.0.0
+	 * @return    bool    true is this is the admin page
+	 */
+	public function is_cf7_admin_page(){
+    if(!isset($_GET['post_type']) || false === strpos($_GET['post_type'],WPCF7_ContactForm::post_type) ){
+      return false;
+    }else{
+      $screen = get_current_screen(); //use screen option after intial basic check else it may throw fatal error
+      return ( 'edit' == $screen->base && '' == $screen->action );
+    }
+	}
+  /**
+  * Display a warning when the pluign is installed
+  * Warning to save the settings in Polylang, hooks 'admin_notices'
+  * @since 1.1.0
   */
   public function display_polylang_settings_warning(){
     $options = get_option('polylang',false);
@@ -252,19 +237,78 @@ class Cf7_Polylang_Admin {
 	 * @since    1.0.0
 	 */
 	public function polylang_metabox_edit_form(){
-		if( !($action = $this->is_cf7_admin_page()) ){
+		if( !$this->is_cf7_edit_page() ){
 			return;
 		}
+		// get polylang metabox
+		include( plugin_dir_path( __FILE__ ) . 'partials/cf7-polylang-edit-metabox.php');
 
-		switch($action){
-			case 'edit':
-			case 'new':
-				// get polylang metabox
-				include( plugin_dir_path( __FILE__ ) . 'partials/cf7-polylang-edit-metabox.php');
-				break;
-		}
 	}
+  /**
+  * Change the 'Add New' button and introduce the langauge select
+  * Hooks on 'admin '
+  * @since 1.1.3
+  */
+  public function add_language_select_to_table_page(){
+    //check that we are on the right page
+    if( !$this->is_cf7_admin_page() ) return;
+    $locales = $language_names = array();
 
+    if( function_exists('pll_languages_list') ){
+      $locales =  pll_languages_list(array('fields'=>'locale'));
+      $language_names = pll_languages_list(array('fields'=>'name'));
+
+      //error_log('CF7 Polylang languages '.print_r($language_names,true));
+    }
+    $default_locale = 'en_GB';
+    if(function_exists('pll_default_language')){
+      $default_locale = pll_default_language('locale');
+    }
+    ?>
+    <script id="select-locales-html" type="text/html">
+      <select id="select-locales">
+        <?php
+
+        foreach($locales as $idx => $locale){
+          $selected = $locale == $default_locale ? 'selected' : '';
+          echo '<option '.$selected.' value="'.$locale.'">'.$language_names[$idx].'</option>';
+        }?>
+      </select>
+    </script>
+    <script type="text/javascript">
+      ( function( $ ) {
+        $(document).ready( function(){
+          var language_selector = $('#select-locales-html').html();
+          var originalURL = $('h1 > a.page-title-action').attr('href');
+          var locale = "<?php echo $default_locale; ?>";
+          var lang = locale.substring(0,2);
+          $('h1 > a.page-title-action').attr('href',originalURL+'&locale='+locale+'&new_lang='+lang);
+          $('h1 > a.page-title-action').parent().append(language_selector);
+          $('#select-locales').on('change', function() {
+            locale = $(this).val();
+            lang = locale.substring(0,2);
+            $('h1 > a.page-title-action').attr('href',originalURL+'&locale='+locale+'&new_lang='+lang);
+          });
+        } );
+      } )( jQuery );
+    </script>
+    <?php
+  }
+  /**
+	 * Load the Polylang footer scripts.
+	 *
+	 * Required by Polylang to enable polylang edit and setting links, and hooked on 'admin_print_footer_scripts'
+	 * check if this is a cf7 edit page.
+	 *
+	 * @since    1.0.0
+   */
+  public function add_polylang_footer_scripts() {
+		if( $this->is_cf7_admin_page()  || $this->is_cf7_edit_page() ){
+  		global $polylang;
+  		//file: polylang/admin/admin-base.php
+  		$polylang->admin_print_footer_scripts();
+    }
+  }
 	/**
 	 * Set the form edit page link.
 	 *
