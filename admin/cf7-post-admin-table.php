@@ -99,7 +99,7 @@
     *
     * @since 1.1.3
     */
-    public function is_cf7_admin_page(){
+    public static function is_cf7_admin_page(){
       if(!isset($_GET['post_type']) || false === strpos($_GET['post_type'],WPCF7_ContactForm::post_type) ){
   			return false;
   		}else{
@@ -107,6 +107,24 @@
         return ( 'edit' == $screen->base && '' == $screen->action );
       }
     }
+    /**
+  	 * check if this is a cf7 edit page.
+  	 *
+  	 * @since    1.1.3
+  	 * @return    bool    true is this is the edit page
+  	 */
+  	public static function is_cf7_edit_page(){
+      if(!isset($_GET['page']) || false === strpos($_GET['page'],'wpcf7') ){
+        return false;
+      }else{
+        if(isset($_GET['post']) ){
+          global $post_ID; //need to set the global post ID to make sure it is available for polylang.
+          $post_ID = $_GET['post'];
+        }
+        $screen = get_current_screen(); //use screen option after intial basic check else it may throw fatal error
+        return ( 'contact_page_wpcf7-new' == $screen->base || 'toplevel_page_wpcf7' == $screen->base );
+      }
+  	}
     /**
     * Modify the regsitered cf7 post tppe
     * THis function enables public capability and amind UI visibility for the cf7 post type. Hooked late on `init`
@@ -118,7 +136,6 @@
           global $wp_post_types;
           $wp_post_types[WPCF7_ContactForm::post_type]->public = true;
           $wp_post_types[WPCF7_ContactForm::post_type]->show_ui = true;
-          //debug_msg("CF7 2 POST: ".print_r($wp_post_types[WPCF7_ContactForm::post_type],true));
       }
     }
 
@@ -145,11 +162,8 @@
     */
     public function change_cf7_submenu_order( $menu_ord ) {
         global $submenu;
-        //debug_msg("SUBMENU: ".print_r($submenu,true));
-        //debug_msg("MENU ORDER: ".print_r($menu_ord,true));
         // Enable the next line to see all menu orders
         //echo '<pre>'.print_r($submenu,true).'</pre>';
-        //debug_msg("SYBMENU: ".print_r($submenu['wpcf7'],true));
         $arr = array();
         foreach($submenu['wpcf7'] as $menu){
           switch($menu[2]){
@@ -165,7 +179,6 @@
               break;
             }
           }
-        //debug_msg("SYBMENU: ".print_r($arr,true));
         $submenu['wpcf7'] = $arr;
         return $menu_ord;
     }
@@ -292,9 +305,24 @@
                 //reinsert thrash link
                 //$actions['trash']=$trash;
           }
-          //debug_msg("CF7 2 POST: post row actions, ".print_r($actions,true));
         }
         return $actions;
     }
+    /**
+     * Redirect to new table list on form delete
+     * hooks on 'wp_redirect'
+     * @since 1.1.3
+     * @var string $location a fully formed url
+     * @var int $status the html redirect status code
+     */
+     public function filter_cf7_redirect($location, $status){
+       if( self::is_cf7_admin_page() || self::is_cf7_edit_page() ){
+         if( 'delete' == wpcf7_current_action()){
+           return admin_url('edit.php?post_type=wpcf7_contact_form');
+         }
+       }
+       return $location;
+     }
   }
+
 }

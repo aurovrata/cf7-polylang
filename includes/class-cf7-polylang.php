@@ -69,7 +69,7 @@ class Cf7_Polylang {
 	public function __construct() {
 
 		$this->plugin_name = 'cf7-polylang';
-		$this->version = '1.1.2';
+		$this->version = '1.1.3';
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -179,11 +179,14 @@ class Cf7_Polylang {
     $this->loader->add_action( 'admin_notices',$plugin_admin, 'display_polylang_settings_warning');
     //modify the edit page 'add new' button link and add language select
     $this->loader->add_action('admin_print_footer_scripts',$plugin_admin, 'add_language_select_to_table_page',20);
+    //catch cf7 delete redirection
+    $this->loader->add_filter('wp_redirect',$plugin_admin, 'filter_cf7_redirect',10,2);
 
     /**** CF7 Hooks *****/
     $this->loader->add_action( 'wpcf7_save_contact_form', $plugin_admin, 'save_polylang_translations');
     /**** Cf7_WP_Post_Table hooks *****/
     //reset the cf7 admin table
+    
     $cf7_admin = Cf7_WP_Post_Table::set_table();
     if(!$cf7_admin->hooks()){
 
@@ -200,6 +203,8 @@ class Cf7_Polylang {
       $this->loader->add_filter('post_row_actions',$cf7_admin, 'modify_cf7_list_row_actions' , 10, 2);
       //change the 'Add New' button link.
       $this->loader->add_action('admin_print_footer_scripts',$cf7_admin, 'change_add_new_button');
+      //catch cf7 delete redirection
+      $this->loader->add_filter('wp_redirect',$cf7_admin, 'filter_cf7_redirect',10,2);
     }
 	}
 

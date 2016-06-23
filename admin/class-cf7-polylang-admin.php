@@ -70,11 +70,9 @@ class Cf7_Polylang_Admin {
 	 */
 	public function enqueue_styles() {
 		//let's check if this is a cf7 admin page
-		if( !($action = $this->is_cf7_admin_page()) ){
-			return;
-		}
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/cf7-polylang-admin.css', array('contact-form-7-admin'), $this->version, 'all' );
-
+		if( Cf7_WP_Post_Table::is_cf7_admin_page() || Cf7_WP_Post_Table::is_cf7_edit_page() ){
+		    wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/cf7-polylang-admin.css', array('contact-form-7-admin'), $this->version, 'all' );
+    }
 	}
 
 	/**
@@ -85,7 +83,7 @@ class Cf7_Polylang_Admin {
 	public function enqueue_scripts() {
 
 		//let's check if this is a cf7 admin page
-		if( $this->is_cf7_admin_page() || $this->is_cf7_edit_page() ){
+		if( Cf7_WP_Post_Table::is_cf7_admin_page() || Cf7_WP_Post_Table::is_cf7_edit_page() ){
 		    //enqueue de polylang scripts needed for this to work
 		  global $polylang;
 		  $polylang->admin_enqueue_scripts();
@@ -94,40 +92,6 @@ class Cf7_Polylang_Admin {
 
 	}
 
-
-	/**
-	 * check if this is a cf7 edit page.
-	 *
-	 * @since    1.1.3
-	 * @return    bool    true is this is the edit page
-	 */
-	public function is_cf7_edit_page(){
-    if(!isset($_GET['page']) || false === strpos($_GET['page'],'wpcf7') ){
-      return false;
-    }else{
-      if(isset($_GET['post']) ){
-        global $post_ID; //need to set the global post ID to make sure it is available for polylang.
-        $post_ID = $_GET['post'];
-      }
-      $screen = get_current_screen(); //use screen option after intial basic check else it may throw fatal error
-      //debug_msg($screen);
-      return ( 'contact_page_wpcf7-new' == $screen->base || 'toplevel_page_wpcf7' == $screen->base );
-    }
-	}
-  /**
-	 * check if this is the cf7 admin page.
-	 *
-	 * @since    1.0.0
-	 * @return    bool    true is this is the admin page
-	 */
-	public function is_cf7_admin_page(){
-    if(!isset($_GET['post_type']) || false === strpos($_GET['post_type'],WPCF7_ContactForm::post_type) ){
-      return false;
-    }else{
-      $screen = get_current_screen(); //use screen option after intial basic check else it may throw fatal error
-      return ( 'edit' == $screen->base && '' == $screen->action );
-    }
-	}
   /**
   * Display a warning when the pluign is installed
   * Warning to save the settings in Polylang, hooks 'admin_notices'
@@ -237,12 +201,10 @@ class Cf7_Polylang_Admin {
 	 * @since    1.0.0
 	 */
 	public function polylang_metabox_edit_form(){
-		if( !$this->is_cf7_edit_page() ){
-			return;
-		}
-		// get polylang metabox
-		include( plugin_dir_path( __FILE__ ) . 'partials/cf7-polylang-edit-metabox.php');
-
+		if( Cf7_WP_Post_Table::is_cf7_edit_page() ) {
+  		// get polylang metabox
+  		include( plugin_dir_path( __FILE__ ) . 'partials/cf7-polylang-edit-metabox.php');
+    }
 	}
   /**
   * Change the 'Add New' button and introduce the langauge select
@@ -251,7 +213,7 @@ class Cf7_Polylang_Admin {
   */
   public function add_language_select_to_table_page(){
     //check that we are on the right page
-    if( !$this->is_cf7_admin_page() ) return;
+    if( ! Cf7_WP_Post_Table::is_cf7_admin_page() ) return;
     $locales = $language_names = array();
 
     if( function_exists('pll_languages_list') ){
@@ -303,7 +265,7 @@ class Cf7_Polylang_Admin {
 	 * @since    1.0.0
    */
   public function add_polylang_footer_scripts() {
-		if( $this->is_cf7_admin_page()  || $this->is_cf7_edit_page() ){
+		if( Cf7_WP_Post_Table::is_cf7_admin_page()  || Cf7_WP_Post_Table::is_cf7_edit_page() ){
   		global $polylang;
   		//file: polylang/admin/admin-base.php
   		$polylang->admin_print_footer_scripts();
@@ -473,4 +435,22 @@ class Cf7_Polylang_Admin {
 		//let's reset the textdomain
 		$this->load_plugin_textdomain();
 	}
+  /**
+   * Redirect to new table list on form delete
+   * hooks on 'wp_redirect'
+   * @since 1.1.3
+   * @var string $location a fully formed url
+   * @var int $status the html redirect status code
+   */
+   public function filter_cf7_redirect($location, $status){
+     if( Cf7_WP_Post_Table::is_cf7_admin_page() || Cf7_WP_Post_Table::is_cf7_edit_page() ){
+       if( 'delete' == wpcf7_current_action()){
+         global $post_ID, $polylang;
+         debug_msg("deleting ".$post_ID);
+         $polylang->filters_post->delete_post($post_ID);
+         return $location;
+       }
+     }
+     return $location;
+   }
 }
