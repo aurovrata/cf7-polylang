@@ -326,7 +326,6 @@ class Cf7_Polylang_Admin {
 	public function get_cf7_translations(){
 		//what locales are already installed
 		$local_locales = $this->scan_local_locales();
-		//debug_msg("CF7 POLYLANG: found local locales, ".print_r($local_locales,true));
 		//what are the needed locales
 		$languages = array();
 		if( function_exists('pll_languages_list') ){
@@ -335,14 +334,12 @@ class Cf7_Polylang_Admin {
 			//we need to show an error message
 			debug_msg("CF7 POLYLANG: Unable to load polylang locales, missing function 'pll_languages_list'");
 		}
-		//debug_msg("CF7 POLYLANG: found polylang locales, ".print_r($languages,true));
 		//which locales do we need to download
 		$languages = array_diff($languages, $local_locales);
 
 		if(empty($languages)){
 			return; //nothing to be loaded
 		}
-		//debug_msg("CF7 POLYLANG: need to download locales, ".print_r($languages,true));
 		//get available locales for CF7
 		require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
 		$cf7_locales = array();
@@ -357,10 +354,8 @@ class Cf7_Polylang_Admin {
 		}else{
 			foreach($api['translations'] as $translation){
 				$cf7_locales[$translation['language']] = $translation['package'];
-				//debug_msg( "CF7 POLYLANG: found locale ". print_r($translation,true));
 			}
 		}
-		//debug_msg("CF7 Locales: \n".print_r($api,true));
 		//load the text domain for the locales found in Polylang.
 		foreach($languages as $locale){
 			if(isset($cf7_locales[$locale])){
