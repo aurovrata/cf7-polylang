@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: polylang, contact form 7, multisite, contact form 7 extension, contact form 7 module, multilingual contact form 7
 Requires at least: 3.0.1
 Tested up to: 4.5.3
-Stable tag: 1.1.3
+Stable tag: 1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,10 +50,12 @@ This is because the translation in your language have not be completed.  You can
 
 == Changelog ==
 
-= 1.1.3 =
+= 1.2 =
 * fixed a bug that prevented translation links to be loaded in the cf7 edit page
 * reintroduced the select language in the cf7 admin page
 * fixed the 'Add New' button in the cf7 admin page
+* fixed the delete button redirect
+* fixed the delete of polylang translation links when a form is deleted
 
 = 1.1.2 =
 * remove translations column from table list when deactivating

@@ -20,7 +20,7 @@
  * @subpackage Cf7_Polylang/admin
  * @author     Aurovrata V. <vrata@syllogic.in>
  */
- if(!class_exists('Cf7_WP_Post_Table')){
+if(!class_exists('Cf7_WP_Post_Table')){
 
   class Cf7_WP_Post_Table {
     /**
@@ -318,6 +318,9 @@
      public function filter_cf7_redirect($location, $status){
        if( self::is_cf7_admin_page() || self::is_cf7_edit_page() ){
          if( 'delete' == wpcf7_current_action()){
+           global $post_ID;
+           do_action('wpcf7_post_delete',$post_ID);
+
            return admin_url('edit.php?post_type=wpcf7_contact_form');
          }
        }

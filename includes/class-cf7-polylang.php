@@ -69,7 +69,7 @@ class Cf7_Polylang {
 	public function __construct() {
 
 		$this->plugin_name = 'cf7-polylang';
-		$this->version = '1.1.3';
+		$this->version = '1.2.0';
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -101,6 +101,7 @@ class Cf7_Polylang {
 		 * core plugin.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-cf7-polylang-loader.php';
+    require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/wordpress-gurus-debug-api.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
@@ -180,13 +181,13 @@ class Cf7_Polylang {
     //modify the edit page 'add new' button link and add language select
     $this->loader->add_action('admin_print_footer_scripts',$plugin_admin, 'add_language_select_to_table_page',20);
     //catch cf7 delete redirection
-    $this->loader->add_filter('wp_redirect',$plugin_admin, 'filter_cf7_redirect',10,2);
-
+    $this->loader->add_filter('wpcf7_post_delete',$plugin_admin, 'delete_post');
+    $this->loader->add_action( 'before_delete_post', $plugin_admin, 'delete_post');
     /**** CF7 Hooks *****/
     $this->loader->add_action( 'wpcf7_save_contact_form', $plugin_admin, 'save_polylang_translations');
     /**** Cf7_WP_Post_Table hooks *****/
     //reset the cf7 admin table
-    
+
     $cf7_admin = Cf7_WP_Post_Table::set_table();
     if(!$cf7_admin->hooks()){
 
@@ -196,7 +197,7 @@ class Cf7_Polylang {
       $this->loader->add_action('init', $cf7_admin, 'modify_cf7_post_type' ,20);
       //cf7 sub-menu
       $this->loader->add_action('admin_menu',  $cf7_admin, 'add_cf7_sub_menu' );
-      $this->loader->add_filter( 'custom_menu_order', $cf7_admin, 'change_cf7_submenu_order' );
+      $this->loader->add_filter('custom_menu_order', $cf7_admin, 'change_cf7_submenu_order' );
       //modify the cf7 list table columns
       $this->loader->add_filter('manage_wpcf7_contact_form_posts_columns' , $cf7_admin, 'modify_cf7_list_columns' );
       $this->loader->add_action('manage_wpcf7_contact_form_posts_custom_column', $cf7_admin, 'populate_custom_column' ,10,2);

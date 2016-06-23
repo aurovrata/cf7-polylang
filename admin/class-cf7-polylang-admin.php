@@ -437,20 +437,15 @@ class Cf7_Polylang_Admin {
 	}
   /**
    * Redirect to new table list on form delete
-   * hooks on 'wp_redirect'
+   * hooks on 'wpcf7_post_delete'
    * @since 1.1.3
    * @var string $location a fully formed url
    * @var int $status the html redirect status code
    */
-   public function filter_cf7_redirect($location, $status){
-     if( Cf7_WP_Post_Table::is_cf7_admin_page() || Cf7_WP_Post_Table::is_cf7_edit_page() ){
-       if( 'delete' == wpcf7_current_action()){
-         global $post_ID, $polylang;
-         debug_msg("deleting ".$post_ID);
-         $polylang->filters_post->delete_post($post_ID);
-         return $location;
-       }
-     }
-     return $location;
-   }
+  public function delete_post($post_id){
+    $post_type = get_post_type($post_id);
+    if( WPCF7_ContactForm::post_type != $post_type ) return;
+    global $polylang;
+    $polylang->filters_post->delete_post($post_id);
+  }
 }

@@ -16,7 +16,7 @@
  * Plugin Name:       Contact Form 7 Polylang extension
  * Plugin URI:        http://wordpress.syllogic.in
  * Description:       This plugin extends <a target="_blank" href="https://wordpress.org/plugins/contact-form-7/">Contact Form 7</a> plugin to manage multiple language forms using the <a target="_blank" href="https://wordpress.org/plugins/polylang/">PolyLang</a> plugin. It Requires both plugins to be active first.
- * Version:           1.1.1
+ * Version:           1.2.0
  * Author:            Aurovrata V.
  * Author URI:        http://syllogic.in
  * License:           GPL-2.0+
@@ -73,40 +73,3 @@ function run_cf7_polylang() {
 
 }
 run_cf7_polylang();
-
-/**
-* Error logging and notices
-* @since 1.0.0
-* @var string $message to log if in debug mode
-*/
-
-if( !function_exists('debug_msg') ){
-  if (WP_DEBUG === true) {
-     $last_line='';
-     $last_file='';
-   }
-   function debug_msg($message,$prefix='') {
-       if (WP_DEBUG === true) {
-         global $last_line,$last_file;
-           $backtrace = debug_backtrace();
-           $file = $backtrace[0]['file'];
-           $files = explode('/',$file);
-           $dirs = explode('/',plugin_dir_path( __FILE__ ));
-           $files = array_diff($files,$dirs);
-           $file = implode('/',$files);
-           $line = $backtrace[0]['line'];
-           if($file != $last_file && $line != $last_line){
-             error_log("CF7_2_POST: [".$line."]./".$file);
-             $last_file=$file;
-             $last_line=$line;
-           }else{
-             //error_log("CF7_2_POST: ");
-           }
-           if (is_array($message) || is_object($message)) {
-               error_log("          + ".$prefix.print_r($message, true));
-           } else {
-               error_log("          + ".$prefix.$message);
-           }
-       }
-   }
- }
