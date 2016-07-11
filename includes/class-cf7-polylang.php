@@ -183,6 +183,8 @@ class Cf7_Polylang {
     //catch cf7 delete redirection
     $this->loader->add_filter('wpcf7_post_delete',$plugin_admin, 'delete_post');
     $this->loader->add_action( 'before_delete_post', $plugin_admin, 'delete_post');
+    //make sure our dependent plugins exists.
+    $this->loader->add_action( 'admin_init', $plugin_admin, 'check_plugin_dependency');
     /**** CF7 Hooks *****/
     $this->loader->add_action( 'wpcf7_save_contact_form', $plugin_admin, 'save_polylang_translations');
     /**** Cf7_WP_Post_Table hooks *****/
@@ -207,7 +209,10 @@ class Cf7_Polylang {
       //catch cf7 delete redirection
       $this->loader->add_filter('wp_redirect',$cf7_admin, 'filter_cf7_redirect',10,2);
     }
-	}
+    //check to see if the CF7 plugin gets deactivated
+    //add_action( 'deactivated_plugin', array(&$this,'deactivate_cf7_polylang'), 10, 2 );
+  }
+
 
 	/**
 	 * Register all of the hooks related to the public-facing functionality

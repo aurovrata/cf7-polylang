@@ -62,7 +62,22 @@ class Cf7_Polylang_Admin {
 		$this->version = $version;
 		$this->is_lang_column_set=false;
 	}
+  /**
+  * Deactivate this plugin if CF7 plugin is deactivated
+  * Hooks on action 'admin_init'
+  * @since 1.2.1
+  */
+  //public function deactivate_cf7_polylang( $plugin, $network_deactivating ) {
+  public function check_plugin_dependency() {
+    //if either the polylang for the cf7 plugin is not active anymore, deactive this extension
+    if(is_plugin_active("cf7-polylang/cf7-polylang.php") &&
+        (!is_plugin_active("contact-form-7/wp-contact-form-7.php") || !is_plugin_active("polylang/polylang.php") ) ){
+        deactivate_plugins( "cf7-polylang/cf7-polylang.php" );
+        wp_die( '<strong>CF7 Polylang Module Extension</strong> requires both <strong>CfF7 & Polylang</strong> and has been deactivated!' );
+        debug_msg("Deactivating CF7 Polylang Module Enxtension");
+    }
 
+  }
 	/**
 	 * Register the stylesheets for the admin area.
 	 *
@@ -118,8 +133,8 @@ class Cf7_Polylang_Admin {
   * @param object $cf7_form CF7 form object
   */
   public function save_polylang_translations($cf7_form){
-    add_action('wpcf7_after_create', array($this, 'save_cf7_translations'));
-    add_action('wpcf7_after_update', array($this, 'update_cf7_translations'));
+    add_action('wpcf7_after_create', array(&$this, 'save_cf7_translations'));
+    add_action('wpcf7_after_update', array(&$this, 'update_cf7_translations'));
   }
   /**
   * called when a cf7 post is saved
