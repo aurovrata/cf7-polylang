@@ -164,6 +164,7 @@ if(!class_exists('Cf7_WP_Post_Table')){
         global $submenu;
         // Enable the next line to see all menu orders
         //echo '<pre>'.print_r($submenu,true).'</pre>';
+        if( is_network_admin() ) return;
         $arr = array();
         foreach($submenu['wpcf7'] as $menu){
           switch($menu[2]){
