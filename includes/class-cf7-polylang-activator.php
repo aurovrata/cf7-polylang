@@ -35,7 +35,7 @@ class Cf7_Polylang_Activator {
     if(!is_plugin_active( 'contact-form-7/wp-contact-form-7.php' )){
       exit('This plugin requires the Contact Form 7 plugin to be installed first');
     }
-    if(!is_plugin_active( 'polylang/polylang.php' )){
+    if(!defined ("POLYLANG_VERSION") ){
       exit('This plugin requires the Polylang plugin to be installed first');
     }
     $languages= pll_languages_list();
