@@ -16,7 +16,7 @@ This plugin allows multilingual contact form 7 management using the polylang plu
 Please follow the [Installation](https://wordpress.org/plugins/cf7-polylang/installation/) instructions carefully, especially the part about saving your Polylang settings after you have activated this plugin.
 
 = Thanks to =
-Gérard Mathiuet
+Gérard Mathiuet for providing a fix for PolylangPro.
 
 == Installation ==
 
@@ -27,6 +27,8 @@ Gérard Mathiuet
 5. Select the Settings tab and open the section 'Custom Post Types and Taxonomy', ensure that Contact Form checkbox is selected, and save your settings.
 6. If you already have Contact Forms created, Polylang settings page should notify you that there are some content that needs to be assigned to the default language.  Click on the link, this will assign all your current contact forms to the default language you have selected in your Polylang settings.
 7. Now open the Contact Form table list and you should see the polylang language columns added to your form table.  You can edit forms and change their language assignment, as well as associate translated forms.
+
+NOTE: There is a small issue with the CF7 plugin. When you edit and save a form you may get a pop-up alert saying the form isn't saved and you may loose your changes, even after saving it.  I haven't managed to figure out how to get rid of this.  The CF7 plugin uses a custom edit page and somehow the browser javascripts are not notified of the updated saves, but rest assured your form is saved on the server. PS: if anyone knows how to fix this, please submit a thread in the support section.  
 
 == Frequently Asked Questions ==
 
