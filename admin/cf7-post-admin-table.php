@@ -222,16 +222,20 @@ if(!class_exists('Cf7_WP_Post_Table')){
         		$output = sprintf( '<strong>%s</strong>', $output );
 
         		if ( function_exists('wpcf7_validate_configuration') && wpcf7_validate_configuration()
-          		&& current_user_can( 'wpcf7_edit_contact_form', $form->id() )
-          		&& $config_errors = $form->get_config_errors() ) {
-          			$error_notice = sprintf(_n(
-          					'%s configuration error found',
-          					'%s configuration errors found',
-          					count( $config_errors ), 'contact-form-7' ),
-          				number_format_i18n( count( $config_errors ) ) );
-          			$output .= sprintf(
-          				'<div class="config-error">%s</div>',
-          				$error_notice );
+          		&& current_user_can( 'wpcf7_edit_contact_form', $form->id() ) ) {
+                $config_validator = new WPCF7_ConfigValidator( $form );
+
+          			if ( $count_errors = $config_validator->count_errors() ) {
+          				$error_notice = sprintf(
+          					_n(
+          						'%s configuration error found',
+          						'%s configuration errors found',
+          						$count_errors, 'contact-form-7' ),
+          					number_format_i18n( $count_errors ) );
+          				$output .= sprintf(
+          					'<div class="config-error">%s</div>',
+          					$error_notice );
+          			}
           	}
 
             echo $output;
