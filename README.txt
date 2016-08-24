@@ -52,6 +52,9 @@ This is because the translation in your language have not be completed.  You can
 
 == Changelog ==
 
+= 1.2.3 =
+* Fixes admin table bug due to CF7 plugin v4.5 update
+
 = 1.2.2 =
 * Enable usage for PolylangPro.  (Contributed by Gérard Mathiuet)
 
