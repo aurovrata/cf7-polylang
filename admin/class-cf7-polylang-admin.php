@@ -348,12 +348,13 @@ class Cf7_Polylang_Admin {
 			//we need to show an error message
 			debug_msg("CF7 POLYLANG: Unable to load polylang locales, missing function 'pll_languages_list'");
 		}
-		//which locales do we need to download
-		$languages = array_diff($languages, $local_locales);
+		//which locales do we need to download, remove default locale en_US
+		$languages = array_diff($languages, $local_locales, array('en_US'));
 
 		if(empty($languages)){
 			return; //nothing to be loaded
 		}
+
 		//get available locales for CF7
 		require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
 		$cf7_locales = array();
