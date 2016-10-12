@@ -15,6 +15,15 @@ This plugin allows multilingual contact form 7 management using the polylang plu
 
 Please follow the [Installation](https://wordpress.org/plugins/cf7-polylang/installation/) instructions carefully, especially the part about saving your Polylang settings after you have activated this plugin.
 
+= Checkout our other CF7 plugin extensions =
+
+* [CF7 Polylang Module](https://wordpress.org/plugins/cf7-polylang/) - this plugin allows you to create forms in different languages for a multi-language website.  The plugin requires the [Polylang](https://wordpress.org/plugins/polylang/) plugin to be installed in order to manage translations.
+
+* [CF7 Multi-slide Module](https://wordpress.org/plugins/cf7-multislide/) - this plugin allows you to build a multi-step form using a slider.  Each slide has cf7 form which are linked together and submitted as a single form.
+
+* [Post My CF7 Form](https://wordpress.org/plugins/post-my-contact-form-7/) - this plugin allows you to save you cf7 form to a custom post, map your fields to meta fields or taxonomy.  It also allows you to pre-fill fields before your form  is displayed.
+
+
 = Thanks to =
 Gérard Mathiuet for providing a fix for PolylangPro.
 
@@ -39,7 +48,7 @@ If you found that you installed the plugin correctly and are able to manage your
 = Contact Form 7 is translated in my language, but does not load =
 
 If you have checked the above linked page and are able to find your language, then you can download your language translation pack manually.  It is possible that there is mismatch between the local code used by Polylang and that assigned to your language pack.
- Open the translation page for your specific language (click on the language row in this [table](https://translate.wordpress.org/projects/wp-plugins/contact-form-7)).  This will open the locale specific page that you have selected, then click on the 'Stable' link in the table.  You should now see a page with a table that show the different translations, scroll to the bottom of the page and selected the Export format from the 2nd dropdown to 'Machine Object .mo', then click the Export link.  This will download a zip flie.  Extract the content of this file in the `plugins/contact-form-7/language/CF7/` folder.  Rename file name so that the local of the file matches the local of your language as defined by Polylang.  When you create a new form in your language you will find the polylang locale code in the url attributes of your browser address bar.  So if your locale is tk_TK, and you have dowloaded and extracted a file called contact-form-7-tk.mo, rename it to contact-form-7-tk_TK.mo.  This will ensure the correct file is picked.
+ Open the translation page for your specific language (click on the language row in this [table](https://translate.wordpress.org/projects/wp-plugins/contact-form-7)).  This will open the locale specific page that you have selected, then click on the 'Stable' link in the table.  You should now see a page with a table that show the different translations, scroll to the bottom of the page and selected the Export format from the 2nd dropdown to 'Machine Object .mo', then click the Export link.  This will download a zip flie.  Extract the content of this file in the `plugins/contact-form-7/language/CF7/` folder.  Rename file name so that the locale of the file matches the locale of your language as defined by Polylang.  When you create a new form in your language you will find the polylang locale code in the url attributes of your browser address bar.  So if your locale is tk_TK, and you have dowloaded and extracted a file called contact-form-7-tk.mo, rename it to contact-form-7-tk_TK.mo.  This will ensure the correct file is picked.
 
 =  My forms are only partially translated =
 
@@ -52,9 +61,12 @@ This is because the translation in your language have not be completed.  You can
 4. There is a bug in the integration which fails to pick the fact that language options have been saved.  So even after click the 'Save' button you will see the familiar alert window popup, you can safely ignore the message.
 
 == Changelog ==
+= 1.2.5 =
+* Added french translation
+
 = 1.2.4 =
-Updated FAQ!
-Removed en_US default locale verification.
+* Updated FAQ!
+* Removed en_US default locale verification.
 
 = 1.2.3 =
 * Fixes admin table bug due to CF7 plugin v4.5 update
