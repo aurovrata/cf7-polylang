@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: polylang, contact form 7, multisite, contact form 7 extension, contact form 7 module, multilingual contact form 7
 Requires at least: 3.0.1
 Tested up to: 4.6
-Stable tag: 1.2.4
+Stable tag: 1.2.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -63,6 +63,7 @@ This is because the translation in your language have not be completed.  You can
 == Changelog ==
 = 1.2.5 =
 * Added french translation
+* Moved cf7 language files to wp-content/languages folder
 
 = 1.2.4 =
 * Updated FAQ!
