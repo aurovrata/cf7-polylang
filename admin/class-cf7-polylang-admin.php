@@ -70,12 +70,16 @@ class Cf7_Polylang_Admin {
   //public function deactivate_cf7_polylang( $plugin, $network_deactivating ) {
   public function check_plugin_dependency() {
     //if either the polylang for the cf7 plugin is not active anymore, deactive this extension
-    if(is_plugin_active("cf7-polylang/cf7-polylang.php") && (!defined ("POLYLANG_VERSION")) ){
+    if( !is_plugin_active("contact-form-7/wp-contact-form-7.php") || !defined ("POLYLANG_VERSION") ){
         deactivate_plugins( "cf7-polylang/cf7-polylang.php" );
-        wp_die( '<strong>CF7 Polylang Module Extension</strong> requires both <strong>CfF7 & Polylang</strong> and has been deactivated!' );
         debug_msg("Deactivating CF7 Polylang Module Enxtension");
-    }
+        
+        $button = '<a href="'.network_admin_url('plugins.php').'">Return to Plugins</a></a>';
+        wp_die( '<p><strong>CF7 Polylang Module Extension</strong> requires both <strong>CfF7 & Polylang</strong> and has been deactivated!</p>'.$button );
 
+        return false;
+    }
+    return true;
   }
 	/**
 	 * Register the stylesheets for the admin area.
@@ -199,7 +203,10 @@ class Cf7_Polylang_Admin {
 	 */
 	public function polylang_register_cf7_post_type($types) {
 		//CF7 cpt post type
-		$post_type = WPCF7_ContactForm::post_type;
+    include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+    $this->check_plugin_dependency();
+
+    $post_type = WPCF7_ContactForm::post_type;
 
 		$types =  array_merge($types, array($post_type => $post_type));
 
@@ -338,6 +345,11 @@ class Cf7_Polylang_Admin {
 	 * @since    1.0.0
 	 */
 	public function get_cf7_translations(){
+    include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+    if(! $this->check_plugin_dependency()){
+      return;
+    };
+
 		//what locales are already installed
 		$local_locales = $this->scan_local_locales();
 		//what are the needed locales

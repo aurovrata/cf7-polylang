@@ -64,6 +64,7 @@ This is because the translation in your language have not be completed.  You can
 = 1.2.5 =
 * Added french translation
 * Moved cf7 language files to wp-content/languages folder
+* cleaner exist in case either cf7 or polylang plugin is deactivated
 
 = 1.2.4 =
 * Updated FAQ!
