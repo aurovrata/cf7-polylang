@@ -61,6 +61,9 @@ This is because the translation in your language have not be completed.  You can
 4. There is a bug in the integration which fails to pick the fact that language options have been saved.  So even after click the 'Save' button you will see the familiar alert window popup, you can safely ignore the message.
 
 == Changelog ==
+= 1.2.6 = 
+* improvement to folder management (contributed by Peter J. Herrel)
+
 = 1.2.5 =
 * Added french translation
 * Moved cf7 language files to wp-content/languages folder
