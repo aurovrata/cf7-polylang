@@ -387,13 +387,13 @@ class Cf7_Polylang_Admin {
 		foreach($languages as $locale){
 			if(isset($cf7_locales[$locale])){
 				$zipFile = $locale.'.zip';
-				$zipPath = ABSPATH . 'wp-content/languages/plugins/';// Local Zip File Path
+				$zipPath = WP_LANG_DIR . '/plugins/';// Local Zip File Path
 				//get the file stream, not using cURL as may not support https
 				file_put_contents($zipFile, fopen($cf7_locales[$locale], 'r'));
 
 				/* Open the Zip file */
 				$zip = new ZipArchive;
-				$extractPath = ABSPATH . 'wp-content/languages/plugins/';
+				$extractPath = WP_LANG_DIR . '/plugins/';
 				if($zip->open($zipFile) != "true"){
 				 debug_msg( "CF7 POLYLANG: Error, unable to open the Zip File ". $zipFile);
 				}
@@ -403,8 +403,8 @@ class Cf7_Polylang_Admin {
 				//delete zip file
 				unlink($zipFile);
 				//copy the .mo file to the CF7 language folder
-				if(! copy( ABSPATH . 'wp-content/languages/plugins/contact-form-7-'.$locale.'.mo',
-						 ABSPATH . 'wp-content/languages/plugins/contact-form-7/contact-form-7-'.$locale.'.mo') ){
+				if(! copy( WP_LANG_DIR . '/plugins/contact-form-7-'.$locale.'.mo',
+						 WP_LANG_DIR . '/plugins/contact-form-7/contact-form-7-'.$locale.'.mo') ){
 					debug_msg("CF7 POLYLANG: Unable to copy CF7 translation for locale ".$zipFile." to CF7 plugin folder.");
 				}else{
 					debug_msg("CF7 POLYLANG: Found and installed CF7 translation for locale ".$zipFile);
@@ -424,10 +424,10 @@ class Cf7_Polylang_Admin {
 	 * @return		array	an array of locales
 	 */
 	protected function scan_local_locales(){
-    if(!is_dir(ABSPATH . 'wp-content/languages/plugins/contact-form-7/')){
-      mkdir(ABSPATH . 'wp-content/languages/plugins/contact-form-7/');
+    if(!is_dir(WP_LANG_DIR . '/plugins/contact-form-7/')){
+      wp_mkdir_p(WP_LANG_DIR . '/plugins/contact-form-7/');
     }
-		$translations = scandir(ABSPATH . 'wp-content/languages/plugins/contact-form-7/');
+		$translations = scandir(WP_LANG_DIR . '/plugins/contact-form-7/');
 		$local_locales = array();
 		foreach($translations as $translation_file){
 			$parts = pathinfo($translation_file);
