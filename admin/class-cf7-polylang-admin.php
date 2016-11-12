@@ -458,7 +458,8 @@ class Cf7_Polylang_Admin {
 			return;
 		}
 		//let's reset the textdomain
-		$this->load_plugin_textdomain();
+		$i18n = new Cf7_Polylang_i18n();
+		$i18n->load_plugin_textdomain();
 	}
   /**
    * Redirect to new table list on form delete
