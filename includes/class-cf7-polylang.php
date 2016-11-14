@@ -69,7 +69,7 @@ class Cf7_Polylang {
 	public function __construct() {
 
 		$this->plugin_name = 'cf7-polylang';
-		$this->version = '1.2.6';
+		$this->version = '1.2.7';
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -162,7 +162,7 @@ class Cf7_Polylang {
 		//modify the link to new translation form page
 		$this->loader->add_filter('pll_get_new_post_translation_link', $plugin_admin, 'cf7_new_translation_link',10,3);
 		//Polylang new language locale added
-		$this->loader->add_action( 'created_term', $plugin_admin, 'new_plylang_locale_added', 10, 3 );
+		$this->loader->add_action( 'created_term', $plugin_admin, 'new_polylang_locale_added', 10, 3 );
 
 		/****   WP hooks  *****/
 		//WP hook 'manage_{$screen_id}_columns' to add new column to table list

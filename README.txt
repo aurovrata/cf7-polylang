@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: polylang, contact form 7, multisite, contact form 7 extension, contact form 7 module, multilingual contact form 7
 Requires at least: 3.0.1
 Tested up to: 4.6
-Stable tag: 1.2.6
+Stable tag: 1.2.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,6 +26,7 @@ Please follow the [Installation](https://wordpress.org/plugins/cf7-polylang/inst
 
 = Thanks to =
 Gérard Mathiuet for providing a fix for PolylangPro.
+Peter J. Herrel for improving the language folder management.
 
 == Installation ==
 
@@ -61,7 +62,10 @@ This is because the translation in your language have not be completed.  You can
 4. There is a bug in the integration which fails to pick the fact that language options have been saved.  So even after click the 'Save' button you will see the familiar alert window popup, you can safely ignore the message.
 
 == Changelog ==
-= 1.2.6 = 
+= 1.2.7 =
+* bug fix on new polylang locale being added.
+
+= 1.2.6 =
 * improvement to folder management (contributed by Peter J. Herrel)
 
 = 1.2.5 =

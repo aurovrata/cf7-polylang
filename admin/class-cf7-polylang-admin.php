@@ -73,7 +73,7 @@ class Cf7_Polylang_Admin {
     if( !is_plugin_active("contact-form-7/wp-contact-form-7.php") || !defined ("POLYLANG_VERSION") ){
         deactivate_plugins( "cf7-polylang/cf7-polylang.php" );
         debug_msg("Deactivating CF7 Polylang Module Enxtension");
-        
+
         $button = '<a href="'.network_admin_url('plugins.php').'">Return to Plugins</a></a>';
         wp_die( '<p><strong>CF7 Polylang Module Extension</strong> requires both <strong>CfF7 & Polylang</strong> and has been deactivated!</p>'.$button );
 
@@ -452,13 +452,13 @@ class Cf7_Polylang_Admin {
 	 * @param		int	$tt_id  term_taxonomy_id
 	 * @param		string	$taxonomy  the taxonomy to which the new term was added
 	 */
-	public function new_plylang_locale_added( $term_id, $tt_id, $taxonomy ){
+	public function new_polylang_locale_added( $term_id, $tt_id, $taxonomy ){
 		//check if this is the polylang language taxonomy
 		if('language' != $taxonomy){
 			return;
 		}
-		//let's reset the textdomain
-		$this->load_plugin_textdomain();
+		//let's get the new locale cf7 translation
+		$this->get_cf7_translations();
 	}
   /**
    * Redirect to new table list on form delete
