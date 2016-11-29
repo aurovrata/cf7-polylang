@@ -3,8 +3,8 @@ Contributors: aurovrata
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Z83ZQ2ARSZPC8
 Tags: polylang, contact form 7, multisite, contact form 7 extension, contact form 7 module, multilingual contact form 7
 Requires at least: 3.0.1
-Tested up to: 4.6
-Stable tag: 1.2.7
+Tested up to: 4.6.1
+Stable tag: 1.2.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,6 +14,10 @@ This plugin allows multilingual contact form 7 management using the polylang plu
 This plugin allows multilingual contact form 7 management using the polylang plugin.  Both Polylang and Contact Form 7 need to be installed prior to installing this plugin.  Works with miltisite installations too.
 
 Please follow the [Installation](https://wordpress.org/plugins/cf7-polylang/installation/) instructions carefully, especially the part about saving your Polylang settings after you have activated this plugin.
+
+English subtitled video on youtube, [Spanish](https://www.youtube.com/embed/0IJsPGSpYog?cc_load_policy=1&amp;rel=0&amp;showinfo=0&amp;hl=es) & [French](https://www.youtube.com/embed/0IJsPGSpYog?cc_load_policy=1&amp;rel=0&amp;showinfo=0&amp;hl=fr) subtitles available in the caption settings.
+
+[youtube https://www.youtube.com/embed/0IJsPGSpYog?cc_load_policy=1&amp;rel=0&amp;showinfo=0]
 
 = Checkout our other CF7 plugin extensions =
 
@@ -62,6 +66,9 @@ This is because the translation in your language have not be completed.  You can
 4. There is a bug in the integration which fails to pick the fact that language options have been saved.  So even after click the 'Save' button you will see the familiar alert window popup, you can safely ignore the message.
 
 == Changelog ==
+= 1.2.8 =
+* bug fix on font-end enable user login pages reported by @Zelester
+
 = 1.2.7 =
 * bug fix on new polylang locale being added.
 

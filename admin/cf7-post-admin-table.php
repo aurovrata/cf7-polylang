@@ -163,8 +163,12 @@ if(!class_exists('Cf7_WP_Post_Table')){
     public function change_cf7_submenu_order( $menu_ord ) {
         global $submenu;
         // Enable the next line to see all menu orders
-        //echo '<pre>'.print_r($submenu,true).'</pre>';
-        if( is_network_admin() ) return;
+        if(!isset($submenu['wpcf7']) ){
+          return $menu_ord;
+        }
+        if( is_network_admin() ){
+          return $menu_ord;
+        }
         $arr = array();
         foreach($submenu['wpcf7'] as $menu){
           switch($menu[2]){
