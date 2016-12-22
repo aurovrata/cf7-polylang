@@ -17,7 +17,7 @@ Please follow the [Installation](https://wordpress.org/plugins/cf7-polylang/inst
 
 English subtitled video on youtube, [Spanish](https://www.youtube.com/embed/0IJsPGSpYog?cc_load_policy=1&amp;rel=0&amp;showinfo=0&amp;hl=es) & [French](https://www.youtube.com/embed/0IJsPGSpYog?cc_load_policy=1&amp;rel=0&amp;showinfo=0&amp;hl=fr) subtitles available in the caption settings.
 
-[youtube https://www.youtube.com/embed/0IJsPGSpYog?cc_load_policy=1&amp;rel=0&amp;showinfo=0]
+[youtube https://www.youtube.com/watch?v=0IJsPGSpYog&t=83s?cc_load_policy=1&rel=0&showinfo=0]
 
 = Checkout our other CF7 plugin extensions =
 
@@ -25,7 +25,7 @@ English subtitled video on youtube, [Spanish](https://www.youtube.com/embed/0IJs
 
 * [CF7 Multi-slide Module](https://wordpress.org/plugins/cf7-multislide/) - this plugin allows you to build a multi-step form using a slider.  Each slide has cf7 form which are linked together and submitted as a single form.
 
-* [Post My CF7 Form](https://wordpress.org/plugins/post-my-contact-form-7/) - this plugin allows you to save you cf7 form to a custom post, map your fields to meta fields or taxonomy.  It also allows you to pre-fill fields before your form  is displayed.
+* [Post My CF7 Form](https://wordpress.org/plugins/post-my-contact-form-7/) - this plugin allows you to save you cf7 form submissions to a custom post, map your fields to meta fields or taxonomy.  It also allows you to pre-fill fields before your form  is displayed.
 
 
 = Thanks to =
@@ -58,6 +58,31 @@ If you have checked the above linked page and are able to find your language, th
 =  My forms are only partially translated =
 
 This is because the translation in your language have not be completed.  You can help the community by completing the translation [online](https://translate.wordpress.org/projects/wp-plugins/contact-form-7).  You will need to sign up for an account if you haven't got one already and login.  You can also complete the translation on your computer by following the above procedure to download the current status of your language translation.  Insread of the 'Machine Obect .mo' format, select the 'Portable Object .po' format.  Extract the file from the zip archive your download and edit the file using the [PoEdit(or)](https://poedit.net/).  You can then save your translation in the 'Machine Object format' and follow the remaining instructions above to make sure your new translation file is picked up by the plugin.
+
+= I want to display my forms in templates using do_shortcode() =
+
+In order to ensure the correct translation is shown in your template page, you need to make sure you get the translated id `$trans_form_id` in your `do_shortcode` funciton call,
+
+`
+do_shortcode([contact_form_7 id="{$trans_form_id}"]);
+`
+You have Polylang setup using a default language and a set of additional languages. When Polylang translates a custom post (such as the wpcf7 post), it keeps track of all translations using the post ID, by pairing the primary langauge post ID with its corresponding translated post IDs which is what the CF7 Polylang Extension does for you.
+
+So you need to search your translation using the primary language post ID, to do this you need to make use of the [Polylang functions](https://polylang.wordpress.com/documentation/documentation-for-developers/functions-reference/),
+
+`
+$form_id = 252; //assuming this is your default language form ID
+$default_lang = pll_default_language('slug');
+$current_lang = pll_current_language('slug); //the current language your page is being viewed as
+if($current_lang != $default_lang){
+  $form_id = pll_get_post($form_id, $current_lang);
+  if(empty($form_id)){ //if a translation does not exists
+    $form_id = 252; //show the default form
+  }
+}
+//display your form
+echo do_shortcode('[contact-form-7 id=”'.$form_id.'″]');
+`
 
 == Screenshots ==
 1. If you don't see the polylang links in your contact table list, head to the Polylang settings and save the existing post content to the default language. (Step 6 in the installation instructions)
