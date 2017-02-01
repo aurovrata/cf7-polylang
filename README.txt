@@ -3,8 +3,8 @@ Contributors: aurovrata
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Z83ZQ2ARSZPC8
 Tags: polylang, contact form 7, multisite, contact form 7 extension, contact form 7 module, multilingual contact form 7
 Requires at least: 3.0.1
-Tested up to: 4.6.1
-Stable tag: 1.2.8
+Tested up to: 4.7.1
+Stable tag: 1.2.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -91,8 +91,11 @@ echo do_shortcode('[contact-form-7 id=”'.$form_id.'″]');
 4. There is a bug in the integration which fails to pick the fact that language options have been saved.  So even after click the 'Save' button you will see the familiar alert window popup, you can safely ignore the message.
 
 == Changelog ==
+
+= 1.2.9 =
+* bug fix due to POLYLANG_URL constant missing in new version of polylang
 = 1.2.8 =
-* bug fix on font-end enable user login pages reported by @Zelester
+* bug fix on front-end enable user login pages reported by @Zelester
 
 = 1.2.7 =
 * bug fix on new polylang locale being added.

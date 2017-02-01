@@ -88,6 +88,7 @@ if(!class_exists('Cf7_WP_Post_Table')){
           'use strict';
           $(document).ready(function() {
             $('h1 > a.page-title-action').attr('href','<?php echo $url; ?>');
+            $('h1 ~ a.page-title-action').attr('href','<?php echo $url; ?>');
           });
         })( jQuery );
       </script>

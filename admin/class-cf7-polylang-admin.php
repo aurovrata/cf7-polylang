@@ -105,7 +105,11 @@ class Cf7_Polylang_Admin {
 		    //enqueue de polylang scripts needed for this to work
 		  global $polylang;
 		  $polylang->admin_enqueue_scripts();
-      wp_enqueue_script( 'pll_post', POLYLANG_URL .'/js/post.min.js', array( 'jquery', 'wp-ajax-response', 'post', 'jquery-ui-autocomplete' ), POLYLANG_VERSION, true );
+      if( file_exists(ABSPATH .'wp-cotent/plugins/polylang/js/post.min.js') ){
+        wp_enqueue_script( 'pll_post', content_url('/plugins/polylang/js/post.min.js'), array( 'jquery', 'wp-ajax-response', 'post', 'jquery-ui-autocomplete' ), POLYLANG_VERSION, true );
+      }else{
+        wp_enqueue_script( 'pll_post', content_url('/plugins/polylang-pro/js/post.min.js'), array( 'jquery', 'wp-ajax-response', 'post', 'jquery-ui-autocomplete' ), POLYLANG_VERSION, true );
+      }
 		}
 
 	}

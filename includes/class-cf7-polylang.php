@@ -69,7 +69,7 @@ class Cf7_Polylang {
 	public function __construct() {
 
 		$this->plugin_name = 'cf7-polylang';
-		$this->version = '1.2.8';
+		$this->version = '1.2.9';
 
 		$this->load_dependencies();
 		$this->set_locale();
