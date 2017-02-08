@@ -105,7 +105,7 @@ class Cf7_Polylang_Admin {
 		    //enqueue de polylang scripts needed for this to work
 		  global $polylang;
 		  $polylang->admin_enqueue_scripts();
-      if( file_exists(ABSPATH .'wp-cotent/plugins/polylang/js/post.min.js') ){
+      if( file_exists(ABSPATH .'wp-content/plugins/polylang/js/post.min.js') ){
         wp_enqueue_script( 'pll_post', content_url('/plugins/polylang/js/post.min.js'), array( 'jquery', 'wp-ajax-response', 'post', 'jquery-ui-autocomplete' ), POLYLANG_VERSION, true );
       }else{
         wp_enqueue_script( 'pll_post', content_url('/plugins/polylang-pro/js/post.min.js'), array( 'jquery', 'wp-ajax-response', 'post', 'jquery-ui-autocomplete' ), POLYLANG_VERSION, true );
@@ -174,12 +174,13 @@ class Cf7_Polylang_Admin {
   * @param object $cf7_form CF7 form object
   * @param bool $is_update whether it is an update or not
   */
-  public function save_translations($cf7_form,$is_update){
+  public function save_translations($cf7_form, $is_update){
     global $polylang;
 
     $post_id = $cf7_form->id();
     $post = get_post( $post_id);
     $GLOBALS['post_type'] = $post->post_type;
+    //let's use polylang's hooked functionality that triggers when posts are saved
     $polylang->filters_post->save_post($post_id, $post, $is_update);
   }
   /**
