@@ -263,19 +263,35 @@ class Cf7_Polylang_Admin {
         }?>
       </select>
     </script>
+    <style>
+      #select-locales.wp47{
+        position:relative;
+        top: -4px;
+      }
+    </style>
     <script type="text/javascript">
       ( function( $ ) {
         $(document).ready( function(){
+          var addNewButton = $('h1 > a.page-title-action');
+          var isWP47 = false;
+          if(0 == addNewButton.length){ //wp 4.7+
+            addNewButton = $('h1 + a.page-title-action');
+            isWP47 = true;
+          }
           var language_selector = $('#select-locales-html').html();
-          var originalURL = $('h1 > a.page-title-action').attr('href');
+          var originalURL = addNewButton.attr('href');
           var locale = "<?php echo $default_locale; ?>";
           var lang = locale.substring(0,2);
-          $('h1 > a.page-title-action').attr('href',originalURL+'&locale='+locale+'&new_lang='+lang);
-          $('h1 > a.page-title-action').parent().append(language_selector);
+          addNewButton.attr('href',originalURL+'&locale='+locale+'&new_lang='+lang);
+          if(isWP47){
+            addNewButton.after($(language_selector).addClass('wp47'));
+          }else{
+            addNewButton.parent().append(language_selector);
+          }
           $('#select-locales').on('change', function() {
             locale = $(this).val();
             lang = locale.substring(0,2);
-            $('h1 > a.page-title-action').attr('href',originalURL+'&locale='+locale+'&new_lang='+lang);
+            addNewButton.attr('href',originalURL+'&locale='+locale+'&new_lang='+lang);
           });
         } );
       } )( jQuery );
