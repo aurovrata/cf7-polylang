@@ -373,6 +373,10 @@ class Cf7_Polylang_Admin {
 
 		//what locales are already installed
 		$local_locales = $this->scan_local_locales();
+    // foreach($local_locales as $locale){
+    //   //register locale for cf7 domain
+    //   load_textdomain( 'contact-form-7', WP_LANG_DIR . '/plugins/contact-form-7-'.$locale.'.mo' );
+    // }
 		//what are the needed locales
 		$languages = array();
 		if( function_exists('pll_languages_list') ){
@@ -429,6 +433,8 @@ class Cf7_Polylang_Admin {
 					debug_msg("CF7 POLYLANG: Unable to copy CF7 translation for locale ".$zipFile." to CF7 plugin folder.");
 				}else{
 					debug_msg("CF7 POLYLANG: Found and installed CF7 translation for locale ".$zipFile);
+          //register locale for cf7 domain
+          // load_textdomain( 'contact-form-7', WP_LANG_DIR . '/plugins/contact-form-7-'.$locale.'.mo' );
 				}
 			}else{
 				//we need to report the missing translation
