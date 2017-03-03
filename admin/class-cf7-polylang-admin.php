@@ -140,6 +140,8 @@ class Cf7_Polylang_Admin {
   * @param object $cf7_form CF7 form object
   */
   public function save_polylang_translations($cf7_form){
+    global $post_ID;
+    $post_ID = (int) $_POST['post_ID'];
     add_action('wpcf7_after_create', array(&$this, 'save_cf7_translations'));
     add_action('wpcf7_after_update', array(&$this, 'update_cf7_translations'));
   }
@@ -181,6 +183,7 @@ class Cf7_Polylang_Admin {
     $post = get_post( $post_id);
     $GLOBALS['post_type'] = $post->post_type;
     //let's use polylang's hooked functionality that triggers when posts are saved
+    $_POST['post_ID'] = $post_id;
     $polylang->filters_post->save_post($post_id, $post, $is_update);
   }
   /**
@@ -229,6 +232,8 @@ class Cf7_Polylang_Admin {
 	public function polylang_metabox_edit_form(){
 		if( Cf7_WP_Post_Table::is_cf7_edit_page() ) {
   		// get polylang metabox
+      global $post_ID;
+
   		include( plugin_dir_path( __FILE__ ) . 'partials/cf7-polylang-edit-metabox.php');
     }
 	}

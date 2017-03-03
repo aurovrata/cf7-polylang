@@ -66,10 +66,10 @@ class Cf7_Polylang {
 	 *
 	 * @since    1.0.0
 	 */
-	public function __construct() {
+	public function __construct($version) {
 
 		$this->plugin_name = 'cf7-polylang';
-		$this->version = '1.3.0';
+		$this->version = $version;
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -207,6 +207,8 @@ class Cf7_Polylang {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+
+    $this->loader->add_filter( 'cf7_form_shortcode_form_id', $plugin_public, 'translate_form_id', 10,2 );
 
 	}
 

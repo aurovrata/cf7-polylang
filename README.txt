@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: polylang, contact form 7, multisite, contact form 7 extension, contact form 7 module, multilingual contact form 7
 Requires at least: 4.4
 Tested up to: 4.7.2
-Stable tag: 1.3.0
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,6 +12,14 @@ This plugin allows multilingual contact form 7 management using the polylang plu
 
 == Description ==
 This plugin allows multilingual contact form 7 management using the polylang plugin.  Both Polylang and Contact Form 7 need to be installed prior to installing this plugin.  Works with miltisite installations too.
+
+* Now you can use a single CF7 form shortcode for all your translations.
+
+= Make your CF7 Form more portable =
+
+ this plugin introduces form keys (which you can modify in the CF7 admin table).  Keys are unique for each form, allowing you identify a form my its key rather than an ID.  Why is this priceless?  IDs changes from one server to the next because they are the custom post ID attributed by the WordPress installation, and therefore you develop your form in a local machine only to find out that the IDs are different when you move your form to your production server.  To overcome this problem, we suggest you use a form key along with this plugin's contact form shortcode, `[cf7-2-post key="contact-us"]`.  Don't worry your old contact form 7 shortcodes will still work too, behind the scenes we simply map the key to the ID and call the regular contact form 7 shortcode.
+
+ Similarly you can use any translated form shortcode, and the plugin will make sure the right language is loaded.
 
 Please follow the [Installation](https://wordpress.org/plugins/cf7-polylang/installation/) instructions carefully, especially the part about saving your Polylang settings after you have activated this plugin.
 
@@ -27,6 +35,7 @@ English subtitled video on youtube, [Spanish](https://www.youtube.com/embed/0IJs
 
 * [Post My CF7 Form](https://wordpress.org/plugins/post-my-contact-form-7/) - this plugin allows you to save you cf7 form submissions to a custom post, map your fields to meta fields or taxonomy.  It also allows you to pre-fill fields before your form  is displayed.
 
+* [CF7 Google Map](https://wordpress.org/plugins/cf7-google-map/) - allows google maps to be inserted into a Contact Form 7.  Unlike other plugins, this one allows map settings to be done at the form level, enabling diverse maps to be configured for each forms.
 
 = Thanks to =
 Gérard Mathiuet for providing a fix for PolylangPro.
@@ -91,6 +100,10 @@ echo do_shortcode('[contact-form-7 id=”'.$form_id.'″]');
 4. There is a bug in the integration which fails to pick the fact that language options have been saved.  So even after click the 'Save' button you will see the familiar alert window popup, you can safely ignore the message.
 
 == Changelog ==
+
+= 1.4.0 =
+* introduced cf7 key to make forms more portable across translations
+* bug fix on polylang translation saves due to non-std cf7 code
 
 = 1.3.0 =
 * bug fix - The language select was not showing in wp4.7 cf7 post list table page

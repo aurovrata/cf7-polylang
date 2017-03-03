@@ -61,18 +61,6 @@ class Cf7_Polylang_Public {
 	 */
 	public function enqueue_styles() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Cf7_Polylang_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Cf7_Polylang_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/cf7-polylang-public.css', array(), $this->version, 'all' );
 
 	}
@@ -84,20 +72,24 @@ class Cf7_Polylang_Public {
 	 */
 	public function enqueue_scripts() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Cf7_Polylang_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Cf7_Polylang_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/cf7-polylang-public.js', array( 'jquery' ), $this->version, false );
 
 	}
-
+  /**
+   * Get the translated form id
+   * Hooked on 'cf7_form_shortcode_form_id'
+   * @since 1.0.0
+   * @param      String    $id     id to translate.
+   * @param      Array     $atts     form attributes.
+   * @return     String     translated id.
+  **/
+  public function translate_form_id($id, $atts){
+    $default_lang = pll_default_language('slug');
+    $current_lang = pll_current_language('slug');
+    $form_id = pll_get_post($id, $current_lang);
+    if(empty($form_id)){ //if a translation does not exists
+      $form_id = $id;
+    }
+    return $form_id;
+  }
 }
