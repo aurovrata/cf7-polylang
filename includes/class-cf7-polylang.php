@@ -188,28 +188,7 @@ class Cf7_Polylang {
     $this->loader->add_action( 'admin_init', $plugin_admin, 'check_plugin_dependency');
     /**** CF7 Hooks *****/
     $this->loader->add_action( 'wpcf7_save_contact_form', $plugin_admin, 'save_polylang_translations');
-    /**** Cf7_WP_Post_Table hooks *****/
-    //reset the cf7 admin table
 
-    /*$cf7_admin = Cf7_WP_Post_Table::set_table();
-    if(!$cf7_admin->hooks()){
-
-      $this->loader->add_action( 'admin_enqueue_scripts', $cf7_admin , 'enqueue_styles');
-      //add_action( 'admin_enqueue_scripts', array($this, 'enqueue_scripts') );
-      //modify the CF7 post type
-      $this->loader->add_action('init', $cf7_admin, 'modify_cf7_post_type' ,20);
-      //cf7 sub-menu
-      $this->loader->add_action('admin_menu',  $cf7_admin, 'add_cf7_sub_menu' );
-      $this->loader->add_filter('custom_menu_order', $cf7_admin, 'change_cf7_submenu_order' );
-      //modify the cf7 list table columns
-      $this->loader->add_filter('manage_wpcf7_contact_form_posts_columns' , $cf7_admin, 'modify_cf7_list_columns' );
-      $this->loader->add_action('manage_wpcf7_contact_form_posts_custom_column', $cf7_admin, 'populate_custom_column' ,10,2);
-      $this->loader->add_filter('post_row_actions',$cf7_admin, 'modify_cf7_list_row_actions' , 10, 2);
-      //change the 'Add New' button link.
-      $this->loader->add_action('admin_print_footer_scripts',$cf7_admin, 'change_add_new_button');
-      //catch cf7 delete redirection
-      $this->loader->add_filter('wp_redirect',$cf7_admin, 'filter_cf7_redirect',10,2);
-    }*/
     //check to see if the CF7 plugin gets deactivated
     //add_action( 'deactivated_plugin', array(&$this,'deactivate_cf7_polylang'), 10, 2 );
   }
