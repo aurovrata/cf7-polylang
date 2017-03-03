@@ -113,7 +113,8 @@ class Cf7_Polylang {
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-cf7-polylang-admin.php';
-    require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/cf7-post-admin-table.php';
+    //contact post table list
+    require_once plugin_dir_path( dirname( __FILE__ ) ) . 'assets/cf7-admin-table/admin/cf7-post-admin-table.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
@@ -190,7 +191,7 @@ class Cf7_Polylang {
     /**** Cf7_WP_Post_Table hooks *****/
     //reset the cf7 admin table
 
-    $cf7_admin = Cf7_WP_Post_Table::set_table();
+    /*$cf7_admin = Cf7_WP_Post_Table::set_table();
     if(!$cf7_admin->hooks()){
 
       $this->loader->add_action( 'admin_enqueue_scripts', $cf7_admin , 'enqueue_styles');
@@ -208,7 +209,7 @@ class Cf7_Polylang {
       $this->loader->add_action('admin_print_footer_scripts',$cf7_admin, 'change_add_new_button');
       //catch cf7 delete redirection
       $this->loader->add_filter('wp_redirect',$cf7_admin, 'filter_cf7_redirect',10,2);
-    }
+    }*/
     //check to see if the CF7 plugin gets deactivated
     //add_action( 'deactivated_plugin', array(&$this,'deactivate_cf7_polylang'), 10, 2 );
   }
