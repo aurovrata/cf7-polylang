@@ -239,7 +239,7 @@ class Cf7_Polylang_Admin {
 	}
   /**
   * Change the 'Add New' button and introduce the langauge select
-  * Hooks on 'admin '
+  * Hooks on 'admin_print_footer_scripts'
   * @since 1.1.3
   */
   public function add_language_select_to_table_page(){

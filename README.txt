@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: polylang, contact form 7, multisite, contact form 7 extension, contact form 7 module, multilingual contact form 7
 Requires at least: 4.4
 Tested up to: 4.7.2
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -101,6 +101,8 @@ echo do_shortcode('[contact-form-7 id=”'.$form_id.'″]');
 
 == Changelog ==
 
+= 1.4.1 =
+* small bug fix which prevented the new cf7 post table page from showing up
 = 1.4.0 =
 * introduced cf7 key to make forms more portable across translations
 * bug fix on polylang translation saves due to non-std cf7 code

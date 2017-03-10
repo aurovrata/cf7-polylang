@@ -189,7 +189,6 @@ if(!class_exists('Cf7_WP_Post_Table')){
     *
     */
     public function add_cf7_sub_menu(){
-
       $hook = add_submenu_page(
         'wpcf7',
         __( 'Edit Contact Form', 'contact-form-7' ),
