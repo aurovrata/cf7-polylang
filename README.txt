@@ -95,7 +95,7 @@ echo do_shortcode('[contact-form-7 id=”'.$form_id.'″]');
 
 == Screenshots ==
 1. If you don't see the polylang links in your contact table list, head to the Polylang settings and save the existing post content to the default language. (Step 6 in the installation instructions)
-2. Contact form table list with Polylang language columns.
+2. Contact form table list with Polylang language columns, a dropdown of available languages next to the 'Add New' button allows you to create new forms in any language, note also the portable cf7 shortcodes.
 3. Creating a new translation form, with polylang language metabox options.
 4. There is a bug in the integration which fails to pick the fact that language options have been saved.  So even after click the 'Save' button you will see the familiar alert window popup, you can safely ignore the message.
 
