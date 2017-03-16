@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: polylang, contact form 7, multisite, contact form 7 extension, contact form 7 module, multilingual contact form 7
 Requires at least: 4.4
 Tested up to: 4.7.2
-Stable tag: 1.4.1
+Stable tag: 1.4.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,8 +46,8 @@ Peter J. Herrel for improving the language folder management.
 1. Download and install the [PolyLang](https://wordpress.org/plugins/polylang/) plugin, and [Contact Form 7](https://wordpress.org/plugins/contact-form-7/) plugins.  Activate both plugins.
 2. Download and install the Contact Form 7 Polylang module plugin and activate it.
 3. Activate the plugin through the 'Plugins' menu in WordPress
-4. Once activated, open the Polylang settings page, Settings->Languages in your admin dashboard.
-5. Select the Settings tab and open the section 'Custom Post Types and Taxonomy', ensure that Contact Form checkbox is selected, and save your settings.
+4. Once activated, open the Polylang settings page, Languages->Settings in your admin dashboard.
+5. Open the Settings link in the section 'Custom post types and Taxonomies', ensure that Contact Form checkbox is selected, and save your settings.
 6. If you already have Contact Forms created, Polylang settings page should notify you that there are some content that needs to be assigned to the default language.  Click on the link, this will assign all your current contact forms to the default language you have selected in your Polylang settings.
 7. Now open the Contact Form table list and you should see the polylang language columns added to your form table.  You can edit forms and change their language assignment, as well as associate translated forms.
 
@@ -101,6 +101,9 @@ echo do_shortcode('[contact-form-7 id=”'.$form_id.'″]');
 
 == Changelog ==
 
+= 1.4.2 =
+* fix minor bug which stopped ajax listing of non-translated forms
+* changed links to Polylang settings page.
 = 1.4.1 =
 * small bug fix which prevented the new cf7 post table page from showing up
 = 1.4.0 =

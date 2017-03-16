@@ -22,8 +22,9 @@ $post_type = WPCF7_ContactForm::post_type;
       <span class="toggle-indicator" aria-hidden="true"></span>
     </button>
     <h2 class="hndle ui-sortable-handle"><span>Languages</span></h2>
+    <input type="hidden" id="post_type" name="post_type" value="wpcf7_contact_form" />
     <div class="inside">
-      
+
 <?php
 $polylang->filters_post->post_language();
 //file:polylang/admin/admin-filters-post.php

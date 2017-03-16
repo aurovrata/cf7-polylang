@@ -40,7 +40,7 @@ class Cf7_Polylang_Activator {
     }
     $languages= pll_languages_list();
     if( function_exists('pll_languages_list') && empty( $languages ) ){
-      $msg = 'You need to set up your <a href="'.admin_url('options-general.php?page=mlang').'" target="_parent">languages</a> in Polylang first.';
+      $msg = 'You need to set up your <a href="'.admin_url('admin.php?page=mlang_settings').'" target="_parent">languages</a> in Polylang first.';
       exit($msg);
     }
 	}
