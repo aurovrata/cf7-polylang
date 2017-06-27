@@ -164,6 +164,8 @@ class Cf7_Polylang {
 		$this->loader->add_filter('pll_get_new_post_translation_link', $plugin_admin, 'cf7_new_translation_link',10,3);
 		//Polylang new language locale added
 		$this->loader->add_action( 'created_term', $plugin_admin, 'new_polylang_locale_added', 10, 3 );
+    //stop meta field synch for cf7 posts
+    $this->loader->add_filter('pll_copy_post_metas', $plugin_admin,'polylang_meta_fields_sync', 10,3);
 
 		/****   WP hooks  *****/
 		//WP hook 'manage_{$screen_id}_columns' to add new column to table list

@@ -3,8 +3,8 @@ Contributors: aurovrata
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Z83ZQ2ARSZPC8
 Tags: polylang, contact form 7, multisite, contact form 7 extension, contact form 7 module, multilingual contact form 7
 Requires at least: 4.4
-Tested up to: 4.7.2
-Stable tag: 1.4.2
+Tested up to: 4.7.5
+Stable tag: 1.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -101,6 +101,8 @@ echo do_shortcode('[contact-form-7 id=”'.$form_id.'″]');
 
 == Changelog ==
 
+= 1.4.3 =
+* disable cf7 form post meta field synchronisation by polylang
 = 1.4.2 =
 * fix minor bug which stopped ajax listing of non-translated forms
 * changed links to Polylang settings page.

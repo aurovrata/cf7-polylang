@@ -141,7 +141,7 @@ class Cf7_Polylang_Admin {
   */
   public function save_polylang_translations($cf7_form){
     global $post_ID;
-    $post_ID = (int) $_POST['post_ID'];
+    $post_ID =  $cf7_form->id();
     add_action('wpcf7_after_create', array(&$this, 'save_cf7_translations'));
     add_action('wpcf7_after_update', array(&$this, 'update_cf7_translations'));
   }
@@ -504,5 +504,19 @@ class Cf7_Polylang_Admin {
     if( WPCF7_ContactForm::post_type != $post_type ) return;
     global $polylang;
     $polylang->filters_post->delete_post($post_id);
+  }
+  /**
+   * Stop polylang synchronising form meta fields.
+   *
+   * @since 1.4.3
+   * @param      array     $keys    meta fields to be synched .
+   * @param      boolean     $sync    if synchorinsation is enabled .
+   * @param      string     $post_id    post id from which to copy meta fields .
+   * @return     array    filtered meta fields to be synched.
+  **/
+  public function polylang_meta_fields_sync($keys, $sync, $post_id){
+    if(!$sync) return $keys;
+    if('wpcf7_contact_form' != get_post_type($post_id)) return $keys;
+    else return array(); //don't sync any cf7 meta fields
   }
 }
