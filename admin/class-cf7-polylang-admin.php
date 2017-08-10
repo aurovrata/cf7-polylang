@@ -111,6 +111,9 @@ class Cf7_Polylang_Admin {
         wp_enqueue_script( 'pll_post', content_url('/plugins/polylang-pro/js/post.min.js'), array( 'jquery', 'wp-ajax-response', 'post', 'jquery-ui-autocomplete' ), POLYLANG_VERSION, true );
       }
 		}
+		if(Cf7_WP_Post_Table::is_cf7_edit_page()){
+			wp_enqueue_script( $this->plugin_name, plugin_dir_url(  __FILE__ ) . 'js/cf7-polylang-admin.js', array('jquery'), $this->version, true);
+		}
 
 	}
 

@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: polylang, contact form 7, multisite, contact form 7 extension, contact form 7 module, multilingual contact form 7
 Requires at least: 4.4
 Tested up to: 4.7.5
-Stable tag: 1.4.4
+Stable tag: 1.4.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -97,9 +97,10 @@ echo do_shortcode('[contact-form-7 id=”'.$form_id.'″]');
 1. If you don't see the polylang links in your contact table list, head to the Polylang settings and save the existing post content to the default language. (Step 6 in the installation instructions)
 2. Contact form table list with Polylang language columns, a dropdown of available languages next to the 'Add New' button allows you to create new forms in any language, note also the portable cf7 shortcodes.
 3. Creating a new translation form, with polylang language metabox options.
-4. There is a bug in the integration which fails to pick the fact that language options have been saved.  So even after click the 'Save' button you will see the familiar alert window popup, you can safely ignore the message.
 
 == Changelog ==
+=1.4.5=
+* bug fix: beforeunload saveAlert
 =1.4.4=
 * bug fix wp_reset_postdata called regardless of query success.
 = 1.4.3 =
