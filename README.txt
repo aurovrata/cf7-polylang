@@ -14,6 +14,7 @@ This plugin allows multilingual contact form 7 management using the polylang plu
 This plugin allows multilingual contact form 7 management using the polylang plugin.  Both Polylang and Contact Form 7 need to be installed prior to installing this plugin.  Works with miltisite installations too.
 
 * Now you can use a single CF7 form shortcode for all your translations.
+* **WARNING**: ensure you follow the installation instructions along with the PolyLang settings adjustments.
 
 = Make your CF7 Form more portable =
 
@@ -97,6 +98,7 @@ echo do_shortcode('[contact-form-7 id=”'.$form_id.'″]');
 1. If you don't see the polylang links in your contact table list, head to the Polylang settings and save the existing post content to the default language. (Step 6 in the installation instructions)
 2. Contact form table list with Polylang language columns, a dropdown of available languages next to the 'Add New' button allows you to create new forms in any language, note also the portable cf7 shortcodes.
 3. Creating a new translation form, with polylang language metabox options.
+4. Ensure you enable translations for Contact Forms in your Polyland settings.
 
 == Changelog ==
 =1.4.5=
