@@ -127,7 +127,8 @@ class Cf7_Polylang_Admin {
     if( $options && in_array(WPCF7_ContactForm::post_type, $options['post_types']) ){
       return;
     }
-    $link = '<a href="'.admin_url('options-general.php?page=mlang&tab=settings').'">'.__('settings','cf7_polylang').'</a>';
+		//
+    $link = '<a href="'.admin_url('admin.php?page=mlang_settings').'">'.__('settings','cf7_polylang').'</a>';
     ?>
     <div class="notice notice-warning is-dismissible">
         <p><?php _e( 'Warning: save contact forms translation in Polylang '.$link, 'cf7_polylang' ); ?></p>
@@ -339,6 +340,9 @@ class Cf7_Polylang_Admin {
 		if(WPCF7_ContactForm::post_type != $post_type){
 			return $link;
 		}
+		if(is_plugin_active( 'cf7-grid-layout/cf7-grid-layout.php' )){
+			return $link; //using std WP post.php edit page
+		}
 		$link = admin_url('admin.php?page=wpcf7&post='.$post_ID.'&action=edit');
 		return $link;
 	}
@@ -360,6 +364,9 @@ class Cf7_Polylang_Admin {
 		$post_type = get_post_type($from_post_id);
 		if(WPCF7_ContactForm::post_type != $post_type){
 			return $link;
+		}
+		if(is_plugin_active( 'cf7-grid-layout/cf7-grid-layout.php' )){
+			return $link; //using std WP post.php edit page
 		}
 
 		$link = admin_url('admin.php?page=wpcf7-new&from_post='.$from_post_id.'&locale='.$language->locale.'&new_lang='.$language->slug);
