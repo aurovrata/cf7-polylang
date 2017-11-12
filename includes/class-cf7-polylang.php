@@ -182,7 +182,7 @@ class Cf7_Polylang {
     //warn the user to save polylang screen_settings
     $this->loader->add_action( 'admin_notices',$plugin_admin, 'display_polylang_settings_warning');
     //modify the edit page 'add new' button link and add language select
-    $this->loader->add_action('admin_print_footer_scripts-edit.php',$plugin_admin, 'add_language_select_to_table_page',20);
+    $this->loader->add_action('admin_print_footer_scripts-edit.php',$plugin_admin, 'add_language_select_to_table_page',50);
     //catch cf7 delete redirection
     $this->loader->add_filter('wpcf7_post_delete',$plugin_admin, 'delete_post');
     $this->loader->add_action( 'before_delete_post', $plugin_admin, 'delete_post');

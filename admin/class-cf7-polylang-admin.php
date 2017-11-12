@@ -288,9 +288,9 @@ class Cf7_Polylang_Admin {
             isWP47 = true;
           }
           var language_selector = $('#select-locales-html').html();
-          var originalURL = addNewButton.attr('href');
           var locale = "<?php echo $default_locale; ?>";
           var lang = locale.substring(0,2);
+					var originalURL ='<?= admin_url("/admin.php?page=wpcf7-new")?>';
           addNewButton.attr('href',originalURL+'&locale='+locale+'&new_lang='+lang);
           if(isWP47){
             addNewButton.after($(language_selector).addClass('wp47'));
