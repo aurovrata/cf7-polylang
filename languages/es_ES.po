@@ -2,16 +2,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CF7 Polylang Extension v2.0\n"
 "POT-Creation-Date: 2018-02-23 12:16+0530\n"
-"PO-Revision-Date: 2018-02-23 12:35+0530\n"
+"PO-Revision-Date: 2018-02-23 12:46+0530\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.0.6\n"
 "X-Poedit-Basepath: ..\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Last-Translator: \n"
-"Language: fr_FR\n"
+"Language: es_ES\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: public\n"
 "X-Poedit-SearchPath-2: includes\n"
@@ -22,11 +22,11 @@ msgstr ""
 
 #: admin/class-cf7-polylang-admin.php:138
 msgid "settings"
-msgstr "configurations"
+msgstr "configuraciones"
 
 #: admin/class-cf7-polylang-admin.php:141
 msgid "Warning: save contact forms translation in Polylang "
-msgstr ""
+msgstr "Cuidado: guardar la traducción de formularios de contacto en la configuraciones de Polylang"
 
 # This is coming from Contact Form 7 plugin
 # msgid "Your Name"
@@ -34,7 +34,7 @@ msgstr ""
 #: admin/partials/cf7-default-form.php:58
 #: admin/partials/cf7-default-form.php:59
 msgid "enter your full name"
-msgstr "saisissez votre nom complet"
+msgstr "ingrese su nombre completo"
 
 # This is coming from Contact Form 7 plugin
 # msgid "Your Email"
@@ -42,7 +42,7 @@ msgstr "saisissez votre nom complet"
 #: admin/partials/cf7-default-form.php:60
 #: admin/partials/cf7-default-form.php:61
 msgid "enter a valid email"
-msgstr "saisissez un couriel valide"
+msgstr "ingrese un correo electrónico válido"
 
 # This is coming from Contact Form 7 plugin
 # msgid "Send"
@@ -54,7 +54,7 @@ msgstr "saisissez un couriel valide"
 #: admin/partials/cf7-default-form.php:63
 #: admin/partials/cf7-default-form.php:64
 msgid "the topic of your message"
-msgstr "le sujet de votre message"
+msgstr "el tema de tu mensaje"
 
 # This is coming from Contact Form 7 plugin
 # msgid "Your Message"
@@ -62,35 +62,4 @@ msgstr "le sujet de votre message"
 #: admin/partials/cf7-default-form.php:65
 #: admin/partials/cf7-default-form.php:66
 msgid "enter a brief message"
-msgstr "saisissez un message bref"
-
-#. Plugin Name of the plugin/theme
-msgid "Contact Form 7 Polylang extension"
-msgstr "Extension Polylang pour le plugin Contact Form 7"
-
-#. Plugin URI of the plugin/theme
-msgid "http://wordpress.syllogic.in"
-msgstr "http://wordpress.syllogic.in"
-
-#. Description of the plugin/theme
-msgid ""
-"This plugin extends <a target=\"_blank\" href=\"https://wordpress.org/"
-"plugins/contact-form-7/\">Contact Form 7</a> plugin to manage multiple "
-"language forms using the <a target=\"_blank\" href=\"https://wordpress.org/"
-"plugins/polylang/\">PolyLang</a> plugin. It Requires both plugins to be "
-"active first."
-msgstr ""
-"Ce plugin permet l’utilisation du plugin multilingue <a target=\"_blank\" "
-"href=\"https://wordpress.org/plugins/polylang/\">PolyLang</a> pour gerer "
-"les traductions des formulaires du plugin <a target=\"_blank\" href="
-"\"https://wordpress.org/plugins/contact-form-7/\">Contact Form 7</a>.  Ces "
-"deux plugins doivent être activés avant celui-ci. A partir de la version 2.0 de ce plugin,"
-"il est aussi necessaire d'installé le CF7 Smart Grid-layout Extension"
-
-#. Author of the plugin/theme
-msgid "Aurovrata V."
-msgstr "Aurovrata V."
-
-#. Author URI of the plugin/theme
-msgid "http://syllogic.in"
-msgstr "http://syllogic.in"
+msgstr "ingrese un breve mensaje"

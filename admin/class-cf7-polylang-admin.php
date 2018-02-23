@@ -63,19 +63,21 @@ class Cf7_Polylang_Admin {
 		$this->is_lang_column_set=false;
 	}
   /**
-  * Deactivate this plugin if CF7 plugin is deactivated
+  * Deactivate this plugin if CF7 plugin is deactivated or CF7 Smart Grid.
   * Hooks on action 'admin_init'
-  * @since 1.2.1
+  * @since 2.0
   */
   //public function deactivate_cf7_polylang( $plugin, $network_deactivating ) {
   public function check_plugin_dependency() {
     //if either the polylang for the cf7 plugin is not active anymore, deactive this extension
-    if( !is_plugin_active("contact-form-7/wp-contact-form-7.php") || !defined ("POLYLANG_VERSION") ){
+    if( !is_plugin_active("contact-form-7/wp-contact-form-7.php") ||
+		  !is_plugin_active('cf7-grid-layout/cf7-grid-layout.php') ||
+			!defined ("POLYLANG_VERSION") ){
         deactivate_plugins( "cf7-polylang/cf7-polylang.php" );
         debug_msg("Deactivating CF7 Polylang Module Enxtension");
 
         $button = '<a href="'.network_admin_url('plugins.php').'">Return to Plugins</a></a>';
-        wp_die( '<p><strong>CF7 Polylang Module Extension</strong> requires both <strong>CfF7 & Polylang</strong> and has been deactivated!</p>'.$button );
+        wp_die( '<p><strong>CF7 Polylang Module Extension</strong> requires <strong>Contact Form 7, CF& Smart Grid-layout Extension & Polylang</strong> plugins, and has therefore been deactivated!</p>'.$button );
 
         return false;
     }
@@ -123,10 +125,15 @@ class Cf7_Polylang_Admin {
   * @since 1.1.0
   */
   public function display_polylang_settings_warning(){
+		if(defined ("POLYLANG_VERSION") && version_compare(POLYLANG_VERSION, '2.3','>=')){
+			return ; //taken care programmatically.
+		}
+		//debug_msg(POLYLANG_VERSION);
     $options = get_option('polylang',false);
     if( $options && in_array(WPCF7_ContactForm::post_type, $options['post_types']) ){
       return;
     }
+    //check the version
 		//
     $link = '<a href="'.admin_url('admin.php?page=mlang_settings').'">'.__('settings','cf7_polylang').'</a>';
     ?>
@@ -221,7 +228,6 @@ class Cf7_Polylang_Admin {
     $post_type = WPCF7_ContactForm::post_type;
 
 		$types =  array_merge($types, array($post_type => $post_type));
-
 		return $types;
 	}
 
@@ -290,7 +296,7 @@ class Cf7_Polylang_Admin {
           var language_selector = $('#select-locales-html').html();
           var locale = "<?php echo $default_locale; ?>";
           var lang = locale.substring(0,2);
-					var originalURL ='<?= admin_url("/admin.php?page=wpcf7-new")?>';
+					var originalURL ='<?= admin_url("/post-new.php?post_type=wpcf7_contact_form")?>';
           addNewButton.attr('href',originalURL+'&locale='+locale+'&new_lang='+lang);
           if(isWP47){
             addNewButton.after($(language_selector).addClass('wp47'));
@@ -307,6 +313,19 @@ class Cf7_Polylang_Admin {
     </script>
     <?php
   }
+	/**
+	* Smart grid default form.
+	* Hooked to 'wpcf7_default_template'
+	* @since 2.0.0
+	* @param string $template  the html string for the form tempalte
+	* @param string $prop  the template property required.
+	* @return string default form.
+	*/
+	public function default_cf7_form($template, $prop){
+		if($prop !== 'form') return $template;
+    include( plugin_dir_path( __FILE__ ) . '/partials/cf7-default-form.php');
+    return $template;
+	}
   /**
 	 * Load the Polylang footer scripts.
 	 *

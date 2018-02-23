@@ -35,6 +35,9 @@ class Cf7_Polylang_Activator {
     if(!is_plugin_active( 'contact-form-7/wp-contact-form-7.php' )){
       exit('This plugin requires the Contact Form 7 plugin to be installed first');
     }
+    if(!is_plugin_active( 'cf7-grid-layout/cf7-grid-layout.php' )){
+      exit('This plugin requires the <a href="https://wordpress.org/plugins/cf7-grid-layout/">CF7 Smart Grid-layout Extension</a> plugin to be installed first');
+    }
     if(!defined ("POLYLANG_VERSION") ){
       exit('This plugin requires the Polylang plugin to be installed first');
     }

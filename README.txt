@@ -1,9 +1,11 @@
 === Contact Form 7 Polylang Module ===
 Contributors: aurovrata
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Z83ZQ2ARSZPC8
-Tags: polylang, contact form 7, multisite, contact form 7 extension, contact form 7 module, multilingual contact form 7
-Requires at least: 4.4
-Tested up to: 4.9
+Tags: polylang, contact form 7, multisite, contact form 7 extension, contact form 7 module, multilingual contact form 7, multilingual form, cf7 smart grid extension
+Requires at least: 4.7
+Requires PHP: 5.6
+Tested up to: 4.9.3
+PHP
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -11,14 +13,15 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 This plugin allows multilingual contact form 7 management using the polylang plugin.
 
 == Description ==
-This plugin allows multilingual contact form 7 management using the polylang plugin.  Both Polylang and Contact Form 7 need to be installed prior to installing this plugin.  Works with miltisite installations too.
+**NOTE** v2 is now an extension of the [CF7 Smart Grid-layout](https://wordpress.org/plugins/cf7-grid-layout/) plugin.  You need to install it to use this plugin.  Why is this? You cna read this [thread](https://wordpress.org/support/topic/why-i-wrote-this-plugin-2/).
+This plugin allows multilingual contact form 7 management using the polylang plugin. As of version 2.0 of this plugin, it is now developed as an extension of the [CF7 Smart Grid-layout](https://wordpress.org/plugins/cf7-grid-layout/) plugin.  All 3 plugins, Polylang, CF7 Smart Grid-layout and Contact Form 7 need to be installed prior to installing this plugin.  Works with multisite installations too.
 
 * Now you can use a single CF7 form shortcode for all your translations.
 * **WARNING**: ensure you follow the installation instructions along with the PolyLang settings adjustments.
 
 = Make your CF7 Form more portable =
 
- this plugin introduces form keys (which you can modify in the CF7 admin table).  Keys are unique for each form, allowing you identify a form my its key rather than an ID.  Why is this priceless?  IDs changes from one server to the next because they are the custom post ID attributed by the WordPress installation, and therefore you develop your form in a local machine only to find out that the IDs are different when you move your form to your production server.  To overcome this problem, we suggest you use a form key along with this plugin's contact form shortcode, `[cf7-2-post key="contact-us"]`.  Don't worry your old contact form 7 shortcodes will still work too, behind the scenes we simply map the key to the ID and call the regular contact form 7 shortcode.
+ this plugin introduces form keys (which you can modify in the CF7 admin table).  Keys are unique for each form, allowing you identify a form my its key rather than an ID.  Why is this priceless?  IDs changes from one server to the next because they are the custom post ID attributed by the WordPress installation, and therefore you develop your form in a local machine only to find out that the IDs are different when you move your form to your production server.  To overcome this problem, we suggest you use a form key along with this plugin's contact form shortcode, `[cf7-form key="contact-us"]`.  Don't worry your old contact form 7 shortcodes will still work too, behind the scenes we simply map the key to the ID and call the regular contact form 7 shortcode.
 
  Similarly you can use any translated form shortcode, and the plugin will make sure the right language is loaded.
 
@@ -46,15 +49,12 @@ Peter J. Herrel for improving the language folder management.
 
 == Installation ==
 
-1. Download and install the [PolyLang](https://wordpress.org/plugins/polylang/) plugin, and [Contact Form 7](https://wordpress.org/plugins/contact-form-7/) plugins.  Activate both plugins.
+1. Download and install the [PolyLang](https://wordpress.org/plugins/polylang/) plugin, the [ CF7 Smart Grid-Layout Extension](https://wordpress.org/plugins/cf7-grid-layout/) and [Contact Form 7](https://wordpress.org/plugins/contact-form-7/) plugins.  Activate all 3 plugins.
 2. Download and install the Contact Form 7 Polylang module plugin and activate it.
 3. Activate the plugin through the 'Plugins' menu in WordPress
 4. Once activated, open the Polylang settings page, Languages->Settings in your admin dashboard.
-5. Open the Settings link in the section 'Custom post types and Taxonomies', ensure that Contact Form checkbox is selected, and save your settings.
-6. If you already have Contact Forms created, Polylang settings page should notify you that there are some content that needs to be assigned to the default language.  Click on the link, this will assign all your current contact forms to the default language you have selected in your Polylang settings.
-7. Now open the Contact Form table list and you should see the polylang language columns added to your form table.  You can edit forms and change their language assignment, as well as associate translated forms.
-
-NOTE: There is a small issue with the CF7 plugin. When you edit and save a form you may get a pop-up alert saying the form isn't saved and you may loose your changes, even after saving it.  I haven't managed to figure out how to get rid of this.  The CF7 plugin uses a custom edit page and somehow the browser javascripts are not notified of the updated saves, but rest assured your form is saved on the server. PS: if anyone knows how to fix this, please submit a thread in the support section.
+5. If you already have Contact Forms created, Polylang settings page should notify you that there are some content that needs to be assigned to the default language.  Click on the link, this will assign all your current contact forms to the default language you have selected in your Polylang settings.
+6. Now open the Contact Form table list and you should see the polylang language columns added to your form table.  You can edit forms and change their language assignment, as well as associate translated forms.
 
 == Frequently Asked Questions ==
 
@@ -69,16 +69,16 @@ If you have checked the above linked page and are able to find your language, th
 
 =  My forms are only partially translated =
 
-This is because the translation in your language have not be completed.  You can help the community by completing the translation [online](https://translate.wordpress.org/projects/wp-plugins/contact-form-7).  You will need to sign up for an account if you haven't got one already and login.  You can also complete the translation on your computer by following the above procedure to download the current status of your language translation.  Insread of the 'Machine Obect .mo' format, select the 'Portable Object .po' format.  Extract the file from the zip archive your download and edit the file using the [PoEdit(or)](https://poedit.net/).  You can then save your translation in the 'Machine Object format' and follow the remaining instructions above to make sure your new translation file is picked up by the plugin.
+This is because the translation in your language have not be completed.  You can help the community by completing the translation [online](https://translate.wordpress.org/projects/wp-plugins/contact-form-7).  You will need to sign up for an account if you haven't got one already and login.  You can also complete the translation on your computer by following the above procedure to download the current status of your language translation.  Instead of the 'Machine Object .mo' format, select the 'Portable Object .po' format.  Extract the file from the zip archive your download and edit the file using the [PoEdit(or)](https://poedit.net/).  You can then save your translation in the 'Machine Object format' and follow the remaining instructions above to make sure your new translation file is picked up by the plugin.
 
 = I want to display my forms in templates using do_shortcode() =
 
-In order to ensure the correct translation is shown in your template page, you need to make sure you get the translated id `$trans_form_id` in your `do_shortcode` funciton call,
+In order to ensure the correct translation is shown in your template page, you need to make sure you get the translated id `$trans_form_id` in your `do_shortcode` function call,
 
 `
 do_shortcode([contact_form_7 id="{$trans_form_id}"]);
 `
-You have Polylang setup using a default language and a set of additional languages. When Polylang translates a custom post (such as the wpcf7 post), it keeps track of all translations using the post ID, by pairing the primary langauge post ID with its corresponding translated post IDs which is what the CF7 Polylang Extension does for you.
+You have Polylang setup using a default language and a set of additional languages. When Polylang translates a custom post (such as the wpcf7 post), it keeps track of all translations using the post ID, by pairing the primary language post ID with its corresponding translated post IDs which is what the CF7 Polylang Extension does for you.
 
 So you need to search your translation using the primary language post ID, to do this you need to make use of the [Polylang functions](https://polylang.wordpress.com/documentation/documentation-for-developers/functions-reference/),
 
@@ -103,6 +103,10 @@ echo do_shortcode('[contact-form-7 id=”'.$form_id.'″]');
 4. Ensure you enable translations for Contact Forms in your Polyland settings.
 
 == Changelog ==
+= 2.0.0 =
+* major update to plugin to integrate with WP std admin pages for cf7 offered by cf7 smart grid plugin.
+* code update to fix issue with polylang v2.3+ changes.
+
 =1.4.7=
 * new button language bug fix.
 =1.4.6=

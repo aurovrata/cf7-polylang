@@ -1,65 +1,68 @@
-# Copyright (C) 2016 Contact Form 7 Polylang extension
-# This file is distributed under the same license as the Contact Form 7 Polylang extension package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Contact Form 7 Polylang extension 1.2.4\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cf7-polylang\n"
-"POT-Creation-Date: 2016-09-22 22:05+0530\n"
+"Project-Id-Version: CF7 Polylang Extension v2.0\n"
+"POT-Creation-Date: 2018-02-23 12:16+0530\n"
+"PO-Revision-Date: 2018-02-23 12:30+0530\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2016-09-22 22:10+0530\n"
-"Language-Team: \n"
-"X-Generator: Poedit 1.8.9\n"
-"Last-Translator: \n"
+"X-Generator: Poedit 2.0.6\n"
+"X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Last-Translator: \n"
 "Language: en_GB\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: public\n"
+"X-Poedit-SearchPath-2: includes\n"
+"X-Poedit-SearchPath-3: admin\n"
+"X-Poedit-SearchPath-4: cf7-polylang.php\n"
+"X-Poedit-SearchPathExcluded-0: languages2\n"
+"X-Poedit-SearchPathExcluded-1: languages\n"
 
-#: admin/cf7-post-admin-table.php:151
-msgid "Edit Contact Form"
-msgstr "Edit Contact Form"
-
-#: admin/cf7-post-admin-table.php:152
-msgid "Contact Forms"
-msgstr "Contact Forms"
-
-#: admin/cf7-post-admin-table.php:194
-msgid "Title"
-msgstr "Title"
-
-#: admin/cf7-post-admin-table.php:195
-msgid "Shortcode"
-msgstr "Shortcode"
-
-#: admin/cf7-post-admin-table.php:196
-msgid "Author"
-msgstr "Author"
-
-#: admin/cf7-post-admin-table.php:197
-msgid "Date"
-msgstr "Date"
-
-#: admin/cf7-post-admin-table.php:218
-msgid "Edit &#8220;%s&#8221;"
-msgstr "Edit &#8220;%s&#8221;"
-
-#: admin/cf7-post-admin-table.php:230
-msgid "%s configuration error found"
-msgid_plural "%s configuration errors found"
-msgstr[0] "%s configuration error found"
-msgstr[1] "%s configuration errors found"
-
-#: admin/cf7-post-admin-table.php:299
-msgid "Edit"
-msgstr "Edit"
-
-#: admin/cf7-post-admin-table.php:309
-msgid "Duplicate"
-msgstr "Duplicate"
-
-#: admin/class-cf7-polylang-admin.php:119
+#: admin/class-cf7-polylang-admin.php:138
 msgid "settings"
 msgstr "settings"
+
+#: admin/class-cf7-polylang-admin.php:141
+msgid "Warning: save contact forms translation in Polylang "
+msgstr "Warning: save contact forms translation in Polylang "
+
+# This is coming from Contact Form 7 plugin
+# msgid "Your Name"
+# msgstr ""
+#: admin/partials/cf7-default-form.php:58
+#: admin/partials/cf7-default-form.php:59
+msgid "enter your full name"
+msgstr "enter your full name"
+
+# This is coming from Contact Form 7 plugin
+# msgid "Your Email"
+# msgstr ""
+#: admin/partials/cf7-default-form.php:60
+#: admin/partials/cf7-default-form.php:61
+msgid "enter a valid email"
+msgstr "enter a valid email"
+
+# This is coming from Contact Form 7 plugin
+# msgid "Send"
+# msgstr ""
+# This is coming from Contact Form 7 plugin
+# msgid "Subject"
+# msgstr ""
+#: admin/partials/cf7-default-form.php:62
+#: admin/partials/cf7-default-form.php:63
+#: admin/partials/cf7-default-form.php:64
+msgid "the topic of your message"
+msgstr "the topic of your message"
+
+# This is coming from Contact Form 7 plugin
+# msgid "Your Message"
+# msgstr ""
+#: admin/partials/cf7-default-form.php:65
+#: admin/partials/cf7-default-form.php:66
+msgid "enter a brief message"
+msgstr "enter a brief message"
 
 #. Plugin Name of the plugin/theme
 msgid "Contact Form 7 Polylang extension"
