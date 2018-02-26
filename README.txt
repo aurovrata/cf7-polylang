@@ -13,7 +13,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 This plugin allows multilingual contact form 7 management using the polylang plugin.
 
 == Description ==
-**NOTE** v2 is now an extension of the [CF7 Smart Grid-layout](https://wordpress.org/plugins/cf7-grid-layout/) plugin.  You need to install it to use this plugin.  Why is this? You cna read this [thread](https://wordpress.org/support/topic/why-i-wrote-this-plugin-2/).
+**NOTE** v2 is now an extension of the [CF7 Smart Grid-layout](https://wordpress.org/plugins/cf7-grid-layout/) plugin.  You need to install it to use this plugin.  Why is this? You can read this [thread](https://wordpress.org/support/topic/not-compatible-with-cf7-v5/#post-9973288), and this [post](https://wordpress.org/support/topic/why-i-wrote-this-plugin-2/). 
 This plugin allows multilingual contact form 7 management using the polylang plugin. As of version 2.0 of this plugin, it is now developed as an extension of the [CF7 Smart Grid-layout](https://wordpress.org/plugins/cf7-grid-layout/) plugin.  All 3 plugins, Polylang, CF7 Smart Grid-layout and Contact Form 7 need to be installed prior to installing this plugin.  Works with multisite installations too.
 
 * Now you can use a single CF7 form shortcode for all your translations.
