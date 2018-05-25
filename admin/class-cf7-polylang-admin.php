@@ -62,6 +62,42 @@ class Cf7_Polylang_Admin {
 		$this->version = $version;
 		$this->is_lang_column_set=false;
 	}
+	/**
+	*
+	*
+	*@since 2.1.0
+	*@param string $param text_description
+	*@return string text_description
+	*/
+	public function admin_notices(){
+		//check if we have any notices.
+		global $pagenow;
+
+
+		$notices = get_option('cf7-polylang-admin-notices', array());
+		if(empty($notices)) return;
+
+		if(!isset($notices[$pagenow])) return;
+
+		foreach($notices[$pagenow] as $key=>$notice){
+			switch(true){
+				case strpos($key, 'page=') !== false && $_GET['page'] === str_replace('page=','',$key):
+				case strpos($key, 'post_type=') !== false && $_GET['post_type'] === str_replace('post_type=','',$key):
+				case $key==='any':
+
+					if ( ! PAnD::is_admin_notice_active( $notice['nonce'] ) ) {
+						unset($notices[$pagenow]);
+						update_option('cf7-polylang-admin-notices', $notices);
+						continue;
+					}
+
+					?>
+					<div data-dismissible="<?=$notice['nonce']?>" class="updated notice <?=$notice['type']?> is-dismissible"><p><?=$notice['msg']?></p></div>
+					<?php
+					break;
+			}
+		}
+	}
   /**
   * Deactivate this plugin if CF7 plugin is deactivated or CF7 Smart Grid.
   * Hooks on action 'admin_init'
@@ -70,14 +106,12 @@ class Cf7_Polylang_Admin {
   //public function deactivate_cf7_polylang( $plugin, $network_deactivating ) {
   public function check_plugin_dependency() {
     //if either the polylang for the cf7 plugin is not active anymore, deactive this extension
-    if( !is_plugin_active("contact-form-7/wp-contact-form-7.php") ||
-		  !is_plugin_active('cf7-grid-layout/cf7-grid-layout.php') ||
-			!defined ("POLYLANG_VERSION") ){
+    if( !is_plugin_active("contact-form-7/wp-contact-form-7.php") || !defined ("POLYLANG_VERSION") ){
         deactivate_plugins( "cf7-polylang/cf7-polylang.php" );
         debug_msg("Deactivating CF7 Polylang Module Enxtension");
 
         $button = '<a href="'.network_admin_url('plugins.php').'">Return to Plugins</a></a>';
-        wp_die( '<p><strong>CF7 Polylang Module Extension</strong> requires <strong>Contact Form 7, CF& Smart Grid-layout Extension & Polylang</strong> plugins, and has therefore been deactivated!</p>'.$button );
+        wp_die( '<p><strong>CF7 Polylang Module Extension</strong> requires <strong>Contact Form 7 & Polylang</strong> plugins, and has therefore been deactivated!</p>'.$button );
 
         return false;
     }
@@ -90,9 +124,9 @@ class Cf7_Polylang_Admin {
 	 */
 	public function enqueue_styles() {
 		//let's check if this is a cf7 admin page
-		if( Cf7_WP_Post_Table::is_cf7_admin_page() || Cf7_WP_Post_Table::is_cf7_edit_page() ){
-		    wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/cf7-polylang-admin.css', array('contact-form-7-admin'), $this->version, 'all' );
-    }
+		// if( Cf7_WP_Post_Table::is_cf7_admin_page() || Cf7_WP_Post_Table::is_cf7_edit_page() ){
+		//     wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/cf7-polylang-admin.css', array('contact-form-7-admin'), $this->version, 'all' );
+    // }
 	}
 
 	/**
@@ -103,19 +137,19 @@ class Cf7_Polylang_Admin {
 	public function enqueue_scripts() {
 
 		//let's check if this is a cf7 admin page
-		if( Cf7_WP_Post_Table::is_cf7_admin_page() || Cf7_WP_Post_Table::is_cf7_edit_page() ){
-		    //enqueue de polylang scripts needed for this to work
-		  global $polylang;
-		  $polylang->admin_enqueue_scripts();
-      if( file_exists(ABSPATH .'wp-content/plugins/polylang/js/post.min.js') ){
-        wp_enqueue_script( 'pll_post', content_url('/plugins/polylang/js/post.min.js'), array( 'jquery', 'wp-ajax-response', 'post', 'jquery-ui-autocomplete' ), POLYLANG_VERSION, true );
-      }else{
-        wp_enqueue_script( 'pll_post', content_url('/plugins/polylang-pro/js/post.min.js'), array( 'jquery', 'wp-ajax-response', 'post', 'jquery-ui-autocomplete' ), POLYLANG_VERSION, true );
-      }
-		}
-		if(Cf7_WP_Post_Table::is_cf7_edit_page()){
-			wp_enqueue_script( $this->plugin_name, plugin_dir_url(  __FILE__ ) . 'js/cf7-polylang-admin.js', array('jquery'), $this->version, true);
-		}
+		// if( Cf7_WP_Post_Table::is_cf7_admin_page() || Cf7_WP_Post_Table::is_cf7_edit_page() ){
+		//     //enqueue de polylang scripts needed for this to work
+		//   global $polylang;
+		//   $polylang->admin_enqueue_scripts();
+    //   if( file_exists(ABSPATH .'wp-content/plugins/polylang/js/post.min.js') ){
+    //     wp_enqueue_script( 'pll_post', content_url('/plugins/polylang/js/post.min.js'), array( 'jquery', 'wp-ajax-response', 'post', 'jquery-ui-autocomplete' ), POLYLANG_VERSION, true );
+    //   }else{
+    //     wp_enqueue_script( 'pll_post', content_url('/plugins/polylang-pro/js/post.min.js'), array( 'jquery', 'wp-ajax-response', 'post', 'jquery-ui-autocomplete' ), POLYLANG_VERSION, true );
+    //   }
+		// }
+		// if(Cf7_WP_Post_Table::is_cf7_edit_page()){
+		// 	wp_enqueue_script( $this->plugin_name, plugin_dir_url(  __FILE__ ) . 'js/cf7-polylang-admin.js', array('jquery'), $this->version, true);
+		// }
 
 	}
 
@@ -230,22 +264,65 @@ class Cf7_Polylang_Admin {
 		$types =  array_merge($types, array($post_type => $post_type));
 		return $types;
 	}
-
 	/**
-	 * Add polylang metabox to form edit page.
-	 *
-	 * Hooks the 'admin_footer' WP action and inject html/jquery code that adds the metabox
-	 * to the sidebar once the page is loaded in the client browser
-	 *
-	 * @since    1.0.0
-	 */
-	public function polylang_metabox_edit_form(){
-		if( Cf7_WP_Post_Table::is_cf7_edit_page() ) {
-  		// get polylang metabox
-      global $post_ID;
+	*  add links to translated forms.
+	*
+	*@since 2.1.0
+	*@param string $param text_description
+	*@return string text_description
+	*/
+	public function add_default_cf7_plugin_table_script(){
+		global $pagenow;
+		//check that we are on the right page
+		if(empty($pagenow) || 'admin.php' !== $pagenow) return;
 
-  		include( plugin_dir_path( __FILE__ ) . 'partials/cf7-polylang-edit-metabox.php');
-    }
+		if(!isset($_GET['page']) || $_GET['page'] !== 'wpcf7' || isset($_GET['action'])) return;
+		if(!function_exists('pll_the_languages') || !function_exists('pll_get_post')){
+			debug_msg('No polylang functions found, unable to create script!');
+			return;
+		}
+		$lang = pll_languages_list();
+
+		if(empty($lang)) return; //languages not set.
+
+		$posts = get_posts(array('post_type'=>WPCF7_ContactForm::post_type, 'post_status'=>'any', 'posts_per_page'=>-1));
+
+		if(empty($posts)) return; //nothing to do here.
+
+		$translations = array();
+		foreach($posts as $form){
+			$translations[$form->ID] = array();
+			foreach($lang as $lg){
+				$translations[$form->ID][$lg] = pll_get_post($form->ID, $lg);
+			}
+		}
+		?>
+		<script type="text/javascript">
+      ( function( $ ) {
+        $(document).ready( function(){
+					var map = <?=wp_json_encode($translations)?>;
+					var root = '<?= admin_url('admin.php?page=wpcf7&action=edit&post=')?>';
+					$('#the-list tr').each(function(){
+						var $row = $(this);
+						var postID = parseInt( $('input[name="post[]"]', $row).val() );
+						if(postID>0){
+							var links = map[postID];
+							for(lang in links){
+								var id = links[lang];
+								var text='';
+								if(id>0 && id!==postID ){
+									text = '<span style="margin:0 5px">|</span><a href="'+root+id+'">'+lang+'</a>';
+								}else if(id!==postID){
+									text ='<span style="margin:0 5px">|</span>'+lang;
+								}
+								$('td.title strong', $row).append(text);
+							}
+						}
+					});
+        } );
+      } )( jQuery );
+    </script>
+    <?php
 	}
   /**
   * Change the 'Add New' button and introduce the langauge select
@@ -254,7 +331,8 @@ class Cf7_Polylang_Admin {
   */
   public function add_language_select_to_table_page(){
     //check that we are on the right page
-    if( ! Cf7_WP_Post_Table::is_cf7_admin_page() ) return;
+		if(!isset($_GET['post_type']) || $_GET['post_type'] !== WPCF7_ContactForm::post_type) return;
+
     $locales = $language_names = array();
 
     if( function_exists('pll_languages_list') ){
@@ -322,25 +400,14 @@ class Cf7_Polylang_Admin {
 	* @return string default form.
 	*/
 	public function default_cf7_form($template, $prop){
+
+		if(!is_plugin_active( 'cf7-grid-layout/cf7-grid-layout.php' )) return $template;
+
 		if($prop !== 'form') return $template;
     include( plugin_dir_path( __FILE__ ) . '/partials/cf7-default-form.php');
     return $template;
 	}
-  /**
-	 * Load the Polylang footer scripts.
-	 *
-	 * Required by Polylang to enable polylang edit and setting links, and hooked on 'admin_print_footer_scripts'
-	 * check if this is a cf7 edit page.
-	 *
-	 * @since    1.0.0
-   */
-  public function add_polylang_footer_scripts() {
-		if( Cf7_WP_Post_Table::is_cf7_admin_page()  || Cf7_WP_Post_Table::is_cf7_edit_page() ){
-  		global $polylang;
-  		//file: polylang/admin/admin-base.php
-  		$polylang->admin_print_footer_scripts();
-    }
-  }
+
 	/**
 	 * Set the form edit page link.
 	 *

@@ -114,6 +114,11 @@ class Cf7_Polylang {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-cf7-polylang-admin.php';
 
+    /**
+    * Persist admin notices:
+    */
+    require_once  plugin_dir_path( dirname( __FILE__ ) ) . '/assets/persist-admin-notices/persist-admin-notices-dismissal.php';
+
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
@@ -158,8 +163,8 @@ class Cf7_Polylang {
 		/**** polylang hook  *****/
 		//register the cf7 cpt with polylang
 		$this->loader->add_action( 'pll_get_post_types', $plugin_admin, 'polylang_register_cf7_post_type',10,1);
-		//modify the link to new translation form page if using custom cf7 pages
-		//------- $this->loader->add_filter('pll_get_new_post_translation_link', $plugin_admin, 'cf7_new_translation_link',10,3);
+		//modify the link to new translation form page as cf7 requires locale to be set.
+		//$this->loader->add_filter('pll_get_new_post_translation_link', $plugin_admin, 'cf7_new_translation_link',10,3);
 		//Polylang new language locale added
 		$this->loader->add_action( 'created_term', $plugin_admin, 'new_polylang_locale_added', 10, 3 );
     //stop meta field synch for cf7 posts
@@ -182,6 +187,8 @@ class Cf7_Polylang {
     $this->loader->add_action( 'admin_notices',$plugin_admin, 'display_polylang_settings_warning');
     //modify the edit page 'add new' button link and add language select
     $this->loader->add_action('admin_print_footer_scripts-edit.php',$plugin_admin, 'add_language_select_to_table_page',50);
+		//modify the edit page 'add new' button link and add language select
+    $this->loader->add_action('admin_print_footer_scripts',$plugin_admin, 'add_default_cf7_plugin_table_script',50);
     //catch cf7 delete redirection
     $this->loader->add_filter('wpcf7_post_delete',$plugin_admin, 'delete_post');
     $this->loader->add_action( 'before_delete_post', $plugin_admin, 'delete_post');
@@ -194,6 +201,11 @@ class Cf7_Polylang {
     //add_action( 'deactivated_plugin', array(&$this,'deactivate_cf7_polylang'), 10, 2 );
 		//set the default form for the smart grid plugin, and hook it just after that of the smart grid.
 		$this->loader->add_filter( 'wpcf7_default_template', $plugin_admin, 'default_cf7_form' , 6,2);
+    //persist admin notices plugin.
+    $this->loader->add_action( 'admin_init',  'PAnD', 'init' );
+    //admin notices display.
+    $this->loader->add_action( 'admin_notices', $plugin_admin, 'admin_notices' );
+
   }
 
 

@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: polylang, contact form 7, multisite, contact form 7 extension, contact form 7 module, multilingual contact form 7, multilingual form, cf7 smart grid extension
 Requires at least: 4.7
 Requires PHP: 5.6
-Tested up to: 4.9.4
+Tested up to: 4.9.6
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPLv2 or later
@@ -103,6 +103,8 @@ echo do_shortcode('[contact-form-7 id=”'.$form_id.'″]');
 4. Ensure you enable translations for Contact Forms in your Polyland settings.
 
 == Changelog ==
+= 2.1.0 =
+* allows plugin update without cf7 smart grid, but restricted functionality.
 = 2.0.1 =
 * removed empty front-end css/js from script queue.
 = 2.0.0 =
