@@ -615,4 +615,20 @@ class Cf7_Polylang_Admin {
     if('wpcf7_contact_form' != get_post_type($post_id)) return $keys;
     else return array(); //don't sync any cf7 meta fields
   }
+  /**
+  * Fix for special email tag [_site_url].
+  *
+  *@since 2.2.0
+  *@param string $output output to filter.
+  *@param string $name tag name.
+  *@param boolean $html display flag.
+  *@return string proper url.
+  */
+  public function cf7_tag_site_url($output, $name, $html ) {
+    if ( '_site_url' == $name ) {
+      $filter = $html ? 'display' : 'raw';
+      $output = site_url();
+    }
+    return $output;
+  }
 }

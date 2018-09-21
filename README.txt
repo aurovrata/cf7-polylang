@@ -46,6 +46,7 @@ English subtitled video on youtube, [Spanish](https://www.youtube.com/embed/0IJs
 = Thanks to =
 Gérard Mathiuet for providing a fix for PolylangPro.
 Peter J. Herrel for improving the language folder management.
+Didier (@swissspaceboy) for pointing out an [issue](https://wordpress.org/support/topic/mailtag-_site_url-is-not-returning-the-localized-homepage-url/) with the CF7 Special Mail tag `[_site_url]`.
 
 = Privacy Notices =
 
@@ -113,6 +114,8 @@ echo do_shortcode('[contact-form-7 id=”'.$form_id.'″]');
 4. Ensure you enable translations for Contact Forms in your Polyland settings.
 
 == Changelog ==
+= 2.2.0 =
+* fix for CF7 bug on special mail tag _site_url.
 = 2.1.1 =
 * fix notices.
 * improved translations

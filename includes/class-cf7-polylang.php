@@ -205,6 +205,8 @@ class Cf7_Polylang {
     $this->loader->add_action( 'admin_init',  'PAnD', 'init' );
     //admin notices display.
     $this->loader->add_action( 'admin_notices', $plugin_admin, 'admin_notices' );
+    /** @since 2.2.0 - fix for specila mail tag [_site_url] */
+    $this->loader->add_filter( 'wpcf7_special_mail_tags', $plugin_admin,  'cf7_tag_site_url', 20, 3 );
 
   }
 

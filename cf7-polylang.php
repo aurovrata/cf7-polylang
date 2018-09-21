@@ -30,7 +30,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 define( 'CF7_POLYLANG_PATH', plugin_dir_path( __FILE__ ) );
-define( 'CF7_POLYLANG_VERSION', '2.1.1' );
+define( 'CF7_POLYLANG_VERSION', '2.2.0' );
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-cf7-polylang-activator.php
