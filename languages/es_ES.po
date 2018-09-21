@@ -1,17 +1,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CF7 Polylang Extension v2.0\n"
-"POT-Creation-Date: 2018-02-23 12:16+0530\n"
-"PO-Revision-Date: 2018-02-23 12:46+0530\n"
+"POT-Creation-Date: 2018-09-21 22:33+0530\n"
+"PO-Revision-Date: 2018-09-21 22:52+0530\n"
+"Last-Translator: \n"
 "Language-Team: \n"
+"Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.1.1\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Last-Translator: \n"
-"Language: es_ES\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: public\n"
 "X-Poedit-SearchPath-2: includes\n"
@@ -20,29 +20,45 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: languages2\n"
 "X-Poedit-SearchPathExcluded-1: languages\n"
 
-#: admin/class-cf7-polylang-admin.php:138
+#: admin/class-cf7-polylang-admin.php:172
 msgid "settings"
 msgstr "configuraciones"
 
-#: admin/class-cf7-polylang-admin.php:141
+#: admin/class-cf7-polylang-admin.php:175
 msgid "Warning: save contact forms translation in Polylang "
-msgstr "Cuidado: guardar la traducción de formularios de contacto en la configuraciones de Polylang"
+msgstr ""
+"Cuidado: guardar la traducción de formularios de contacto en la "
+"configuraciones de Polylang"
+
+#: admin/partials/cf7-default-form.php:58
+msgid "Your Name"
+msgstr "Su Numbre"
 
 # This is coming from Contact Form 7 plugin
 # msgid "Your Name"
 # msgstr ""
-#: admin/partials/cf7-default-form.php:58
 #: admin/partials/cf7-default-form.php:59
 msgid "enter your full name"
 msgstr "ingrese su nombre completo"
 
+#: admin/partials/cf7-default-form.php:60
+msgid "Your Email"
+msgstr "Su Correo"
+
 # This is coming from Contact Form 7 plugin
 # msgid "Your Email"
 # msgstr ""
-#: admin/partials/cf7-default-form.php:60
 #: admin/partials/cf7-default-form.php:61
 msgid "enter a valid email"
 msgstr "ingrese un correo electrónico válido"
+
+#: admin/partials/cf7-default-form.php:62
+msgid "Send"
+msgstr "Enviar"
+
+#: admin/partials/cf7-default-form.php:63
+msgid "Subject"
+msgstr "Tema"
 
 # This is coming from Contact Form 7 plugin
 # msgid "Send"
@@ -50,16 +66,55 @@ msgstr "ingrese un correo electrónico válido"
 # This is coming from Contact Form 7 plugin
 # msgid "Subject"
 # msgstr ""
-#: admin/partials/cf7-default-form.php:62
-#: admin/partials/cf7-default-form.php:63
 #: admin/partials/cf7-default-form.php:64
 msgid "the topic of your message"
 msgstr "el tema de tu mensaje"
 
+#: admin/partials/cf7-default-form.php:65
+msgid "Your Message"
+msgstr "Su Mensage"
+
 # This is coming from Contact Form 7 plugin
 # msgid "Your Message"
 # msgstr ""
-#: admin/partials/cf7-default-form.php:65
 #: admin/partials/cf7-default-form.php:66
 msgid "enter a brief message"
 msgstr "ingrese un breve mensaje"
+
+#: includes/class-cf7-polylang-activator.php:42
+msgid "This plugin requires the Contact Form 7 plugin to be installed first"
+msgstr "El plugin Contact Form 7 tiene que ser instalado por primero."
+
+#: includes/class-cf7-polylang-activator.php:53
+msgid ""
+"Contact Form 7 Polylang extension <strong>WARNING</strong>: due to the "
+"evolution of Polylang plugin, and non-WP standard coded CF7 plugin, this "
+"plugin is now an extension of the <a href=\"https://wordpress.org/plugins/"
+"cf7-grid-layout/\">CF7 Smart Grid-layout</a> plugin.<br /> Please install it "
+"to get the full functionality of PolyLang in CF7 admin pages. If you choose "
+"not to install it, your existing forms will continue to work, but you will "
+"not be able to create <em>new translations</em>. More information on the "
+"plugin <a href=\"https://wordpress.org/plugins/cf7-polylang/\">page</a>."
+msgstr ""
+"Contact Form 7 Polylang extension <strong>ATTENCION</strong>: la evolucion "
+"del plugin Polylang, y la non-respeta de los estandares de codigo de WP  por "
+"le plugin CF7, este plugin ahora es extension del <a href=\"https://"
+"wordpress.org/plugins/cf7-grid-layout/\">CF7 Smart Grid-layout</a> plugin."
+"<br /> Porfavor, instalalo para disfrutar de la functionalidad de PolyLang "
+"en las paginas admin de CF7. Miientras, si no lo instalas, sus formularios "
+"segira functionando, pero no podras crear <em>nuevas tranductiones</em>. Mas "
+"informacion sobre el plugin en este <a href=\"https://wordpress.org/plugins/"
+"cf7-polylang/\">pagina</a>."
+
+#: includes/class-cf7-polylang-activator.php:60
+msgid "This plugin requires the Polylang plugin to be installed first"
+msgstr "El plugin Contact Form 7 tiene que ser instalado por primero."
+
+#: includes/class-cf7-polylang-activator.php:70
+#, php-format
+msgid ""
+"You need to set up your <a href=\"%s\" target=\"_parent\">languages</a> in "
+"Polylang first."
+msgstr ""
+"Tiene que apuntar tu <a href=\"%s\" target=\"_parent\">idiomas</a> en "
+"Polylang."

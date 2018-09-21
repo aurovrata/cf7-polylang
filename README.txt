@@ -47,6 +47,16 @@ English subtitled video on youtube, [Spanish](https://www.youtube.com/embed/0IJs
 Gérard Mathiuet for providing a fix for PolylangPro.
 Peter J. Herrel for improving the language folder management.
 
+= Privacy Notices =
+
+This plugin, in itself, does not:
+
+* track users by stealth;
+* write any user personal data to the database;
+* send any data to external servers;
+* use cookies.
+
+
 == Installation ==
 
 1. Download and install the [PolyLang](https://wordpress.org/plugins/polylang/) plugin, the [ CF7 Smart Grid-Layout Extension](https://wordpress.org/plugins/cf7-grid-layout/) and [Contact Form 7](https://wordpress.org/plugins/contact-form-7/) plugins.  Activate all 3 plugins.
@@ -103,6 +113,9 @@ echo do_shortcode('[contact-form-7 id=”'.$form_id.'″]');
 4. Ensure you enable translations for Contact Forms in your Polyland settings.
 
 == Changelog ==
+= 2.1.1 =
+* fix notices.
+* improved translations
 = 2.1.0 =
 * allows plugin update without cf7 smart grid, but restricted functionality.
 = 2.0.1 =
