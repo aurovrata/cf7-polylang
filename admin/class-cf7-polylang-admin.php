@@ -627,7 +627,27 @@ class Cf7_Polylang_Admin {
   public function cf7_tag_site_url($output, $name, $html ) {
     if ( '_site_url' == $name ) {
       $filter = $html ? 'display' : 'raw';
-      $output = site_url();
+      $output =  site_url();
+    }
+    return $output;
+  }
+	/**
+  * Introduction of email tag [_home_url].
+  *
+  *@since 2.3.0
+  *@param string $output output to filter.
+  *@param string $name tag name.
+  *@param boolean $html display flag.
+  *@return string proper url.
+  */
+  public function cf7_tag_home_url($output, $name, $html ) {
+    if ( '_home_url' == $name ) {
+      $filter = $html ? 'display' : 'raw';
+			if(function_exists('pll_home_url')) $output =  pll_home_url($_POST['_wpcf7_lang']);
+			else {
+				debuug_msg('WARNING: function pll_home_url() not found, unable to set home url mail tag, useing WP home_url() instead.');
+				$output = home_url();
+			}
     }
     return $output;
   }

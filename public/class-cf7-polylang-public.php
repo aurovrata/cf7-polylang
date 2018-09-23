@@ -71,4 +71,17 @@ class Cf7_Polylang_Public {
     }
     return $form_id;
   }
+  /**
+  * Setup the form language to be able to have access to the current language in the submission process.
+  *
+  *@since 2.3.0
+  *@param array $hidden hidden fields to filter.
+  *@return array an array of hidden fields and their value.
+  */
+  public function add_hidden_fields($hidden){
+    $hidden['_wpcf7_lang'] = '';
+    if(function_exists('pll_current_language')) $hidden['_wpcf7_lang'] = pll_current_language();
+    else debug_msg('WARNING: pll_current_language() not found, unable to set language for form');
+    return $hidden;
+  }
 }

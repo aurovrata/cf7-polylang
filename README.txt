@@ -69,20 +69,20 @@ This plugin, in itself, does not:
 
 == Frequently Asked Questions ==
 
-= My new forms are not translated in my language =
+= 1. My new forms are not translated in my language =
 
 If you found that you installed the plugin correctly and are able to manage your forms using the polylang language columns, then it is likely that the language your have selected does not have a translation for the Contact Form 7.  You can visit the following [translation project page](https://translate.wordpress.org/projects/wp-plugins/contact-form-7) to see the status of the translation CF7 for your language.
 
-= Contact Form 7 is translated in my language, but does not load =
+= 2. Contact Form 7 is translated in my language, but does not load =
 
 If you have checked the above linked page and are able to find your language, then you can download your language translation pack manually.  It is possible that there is mismatch between the local code used by Polylang and that assigned to your language pack.
  Open the translation page for your specific language (click on the language row in this [table](https://translate.wordpress.org/projects/wp-plugins/contact-form-7)).  This will open the locale specific page that you have selected, then click on the 'Stable' link in the table.  You should now see a page with a table that show the different translations, scroll to the bottom of the page and selected the Export format from the 2nd dropdown to 'Machine Object .mo', then click the Export link.  This will download a zip flie.  Extract the content of this file in the `plugins/contact-form-7/language/CF7/` folder.  Rename file name so that the locale of the file matches the locale of your language as defined by Polylang.  When you create a new form in your language you will find the polylang locale code in the url attributes of your browser address bar.  So if your locale is tk_TK, and you have dowloaded and extracted a file called contact-form-7-tk.mo, rename it to contact-form-7-tk_TK.mo.  This will ensure the correct file is picked.
 
-=  My forms are only partially translated =
+=  3. My forms are only partially translated =
 
 This is because the translation in your language have not be completed.  You can help the community by completing the translation [online](https://translate.wordpress.org/projects/wp-plugins/contact-form-7).  You will need to sign up for an account if you haven't got one already and login.  You can also complete the translation on your computer by following the above procedure to download the current status of your language translation.  Instead of the 'Machine Object .mo' format, select the 'Portable Object .po' format.  Extract the file from the zip archive your download and edit the file using the [PoEdit(or)](https://poedit.net/).  You can then save your translation in the 'Machine Object format' and follow the remaining instructions above to make sure your new translation file is picked up by the plugin.
 
-= I want to display my forms in templates using do_shortcode() =
+= 4. I want to display my forms in templates using do_shortcode() =
 
 In order to ensure the correct translation is shown in your template page, you need to make sure you get the translated id `$trans_form_id` in your `do_shortcode` function call,
 
@@ -106,7 +106,26 @@ if($current_lang != $default_lang){
 //display your form
 echo do_shortcode('[contact-form-7 id=”'.$form_id.'″]');
 `
+= 5. How do I get the current language when my form is submitted? =
 
+Polylang only filters links and provides the current language function `pll_current_language()` for the front-end requests.  Submissions are handled using admin hooks by the CF7 plugin and these do not have access to the pll functions.  To overcome this limitation, v2.3 of this plugin introduced the `_wpcf7_lang` hidden variable which is automatically submitted.  So you can find out the current language of the submission using the `$_POST['_wpcf7_lang']` value.
+
+= 6. How can I can show which language site the form submisison email notification is coming from? =
+
+The cf7 plugin provides a special mail tag `[_site_url]` which prints the site url.  However, this is not one of the filtered polylang links.  Therefore as of v2.3 this plugin now has the `[_home_url]` mail tag that you an use in your mail body and which will show the home url of site from which it was submitted from.
+
+Alternatively, you could also construct your own special mail tag, such as `[_lang]` using the follwoing code in your functions.php file,
+
+`
+add_filter( 'wpcf7_special_mail_tags','my_cf7_mail_tag', 10,3);
+function my_cf7_mail_tag($output, $name, $html ) {
+  if ( '_lang' == $name ) {
+    $filter = $html ? 'display' : 'raw';
+    $output = $_POST['_wpcf7_lang'];
+  }
+  return $output;
+}
+`
 == Screenshots ==
 1. If you don't see the polylang links in your contact table list, head to the Polylang settings and save the existing post content to the default language. (Step 6 in the installation instructions)
 2. Contact form table list with Polylang language columns, a dropdown of available languages next to the 'Add New' button allows you to create new forms in any language, note also the portable cf7 shortcodes.
@@ -114,6 +133,9 @@ echo do_shortcode('[contact-form-7 id=”'.$form_id.'″]');
 4. Ensure you enable translations for Contact Forms in your Polyland settings.
 
 == Changelog ==
+= 2.3.0 =
+* added hidden field _wpcf7_lang to front-end form.
+* instroduce special mail tag [_home_url].
 = 2.2.0 =
 * fix for CF7 bug on special mail tag _site_url.
 = 2.1.1 =
@@ -126,75 +148,3 @@ echo do_shortcode('[contact-form-7 id=”'.$form_id.'″]');
 = 2.0.0 =
 * major update to plugin to integrate with WP std admin pages for cf7 offered by cf7 smart grid plugin.
 * code update to fix issue with polylang v2.3+ changes.
-
-=1.4.7=
-* new button language bug fix.
-=1.4.6=
-* cf7-form shortcode bug fix
-=1.4.5=
-* bug fix: beforeunload saveAlert
-=1.4.4=
-* bug fix wp_reset_postdata called regardless of query success.
-= 1.4.3 =
-* disable cf7 form post meta field synchronisation by polylang
-= 1.4.2 =
-* fix minor bug which stopped ajax listing of non-translated forms
-* changed links to Polylang settings page.
-= 1.4.1 =
-* small bug fix which prevented the new cf7 post table page from showing up
-= 1.4.0 =
-* introduced cf7 key to make forms more portable across translations
-* bug fix on polylang translation saves due to non-std cf7 code
-
-= 1.3.0 =
-* bug fix - The language select was not showing in wp4.7 cf7 post list table page
-
-= 1.2.9 =
-* bug fix due to POLYLANG_URL constant missing in new version of polylang 2.1
-* bux fix due to polylang v2.1 using nonce fields in the translation metabox
-
-= 1.2.8 =
-* bug fix on front-end enable user login pages reported by @Zelester
-
-= 1.2.7 =
-* bug fix on new polylang locale being added.
-
-= 1.2.6 =
-* improvement to folder management (contributed by Peter J. Herrel)
-
-= 1.2.5 =
-* Added french translation
-* Moved cf7 language files to wp-content/languages folder
-* cleaner exist in case either cf7 or polylang plugin is deactivated
-
-= 1.2.4 =
-* Updated FAQ!
-* Removed en_US default locale verification.
-
-= 1.2.3 =
-* Fixes admin table bug due to CF7 plugin v4.5 update
-
-= 1.2.2 =
-* Enable usage for PolylangPro.  (Contributed by Gérard Mathiuet)
-
-= 1.2.1 =
-* Auto-deactivation of plugin if either Polylang or CF7 plugins are deactivated
-
-= 1.2 =
-* fixed a bug that prevented translation links to be loaded in the cf7 edit page
-* reintroduced the select language in the cf7 admin page
-* fixed the 'Add New' button in the cf7 admin page
-* fixed the delete button redirect
-* fixed the delete of polylang translation links when a form is deleted
-
-= 1.1.2 =
-* remove translations column from table list when deactivating
-= 1.1.1 =
-* fixed a bug that prevented deletion of translation when forms are deleted/trashed
-
-= 1.1 =
-* Changed the way the contact form table list is displayed
-* better saving of translations
-
-= 1.0 =
-* first version

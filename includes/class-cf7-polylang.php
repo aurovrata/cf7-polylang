@@ -207,6 +207,8 @@ class Cf7_Polylang {
     $this->loader->add_action( 'admin_notices', $plugin_admin, 'admin_notices' );
     /** @since 2.2.0 - fix for specila mail tag [_site_url] */
     $this->loader->add_filter( 'wpcf7_special_mail_tags', $plugin_admin,  'cf7_tag_site_url', 20, 3 );
+    /** @since 2.3.0 - add home_url mail tag. */
+    $this->loader->add_filter( 'wpcf7_special_mail_tags',  $plugin_admin, 'cf7_tag_home_url', 10, 3 );
 
   }
 
@@ -226,7 +228,9 @@ class Cf7_Polylang {
 		//$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
     $this->loader->add_filter( 'cf7_form_shortcode_form_id', $plugin_public, 'translate_form_id', 10,2 );
-
+    /* cf7 hooks */
+    /** @since 2.3.0 - add home_url mail tag. */
+    $this->loader->add_filter( 'wpcf7_form_hidden_fields',  $plugin_public, 'add_hidden_fields', 20 );
 	}
 
 	/**

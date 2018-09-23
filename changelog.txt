@@ -1,0 +1,71 @@
+=1.4.7=
+* new button language bug fix.
+=1.4.6=
+* cf7-form shortcode bug fix
+=1.4.5=
+* bug fix: beforeunload saveAlert
+=1.4.4=
+* bug fix wp_reset_postdata called regardless of query success.
+= 1.4.3 =
+* disable cf7 form post meta field synchronisation by polylang
+= 1.4.2 =
+* fix minor bug which stopped ajax listing of non-translated forms
+* changed links to Polylang settings page.
+= 1.4.1 =
+* small bug fix which prevented the new cf7 post table page from showing up
+= 1.4.0 =
+* introduced cf7 key to make forms more portable across translations
+* bug fix on polylang translation saves due to non-std cf7 code
+
+= 1.3.0 =
+* bug fix - The language select was not showing in wp4.7 cf7 post list table page
+
+= 1.2.9 =
+* bug fix due to POLYLANG_URL constant missing in new version of polylang 2.1
+* bux fix due to polylang v2.1 using nonce fields in the translation metabox
+
+= 1.2.8 =
+* bug fix on front-end enable user login pages reported by @Zelester
+
+= 1.2.7 =
+* bug fix on new polylang locale being added.
+
+= 1.2.6 =
+* improvement to folder management (contributed by Peter J. Herrel)
+
+= 1.2.5 =
+* Added french translation
+* Moved cf7 language files to wp-content/languages folder
+* cleaner exist in case either cf7 or polylang plugin is deactivated
+
+= 1.2.4 =
+* Updated FAQ!
+* Removed en_US default locale verification.
+
+= 1.2.3 =
+* Fixes admin table bug due to CF7 plugin v4.5 update
+
+= 1.2.2 =
+* Enable usage for PolylangPro.  (Contributed by Gérard Mathiuet)
+
+= 1.2.1 =
+* Auto-deactivation of plugin if either Polylang or CF7 plugins are deactivated
+
+= 1.2 =
+* fixed a bug that prevented translation links to be loaded in the cf7 edit page
+* reintroduced the select language in the cf7 admin page
+* fixed the 'Add New' button in the cf7 admin page
+* fixed the delete button redirect
+* fixed the delete of polylang translation links when a form is deleted
+
+= 1.1.2 =
+* remove translations column from table list when deactivating
+= 1.1.1 =
+* fixed a bug that prevented deletion of translation when forms are deleted/trashed
+
+= 1.1 =
+* Changed the way the contact form table list is displayed
+* better saving of translations
+
+= 1.0 =
+* first version
