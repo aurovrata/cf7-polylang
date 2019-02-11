@@ -16,7 +16,7 @@
  * Plugin Name:       Contact Form 7 Polylang extension
  * Plugin URI:        http://wordpress.syllogic.in
  * Description:       This plugin extends <a target="_blank" href="https://wordpress.org/plugins/contact-form-7/">Contact Form 7</a> plugin to manage multiple language forms using the <a target="_blank" href="https://wordpress.org/plugins/polylang/">PolyLang</a> plugin. It Requires both plugins to be active first.
- * Version:           2.3.0
+ * Version:           2.3.1
  * Author:            Aurovrata V.
  * Author URI:        http://syllogic.in
  * License:           GPL-2.0+
@@ -30,7 +30,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 define( 'CF7_POLYLANG_PATH', plugin_dir_path( __FILE__ ) );
-define( 'CF7_POLYLANG_VERSION', '2.3.0' );
+define( 'CF7_POLYLANG_VERSION', '2.3.1' );
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-cf7-polylang-activator.php

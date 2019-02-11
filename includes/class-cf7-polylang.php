@@ -163,42 +163,26 @@ class Cf7_Polylang {
 		/**** polylang hook  *****/
 		//register the cf7 cpt with polylang
 		$this->loader->add_action( 'pll_get_post_types', $plugin_admin, 'polylang_register_cf7_post_type',10,1);
-		//modify the link to new translation form page as cf7 requires locale to be set.
-		//$this->loader->add_filter('pll_get_new_post_translation_link', $plugin_admin, 'cf7_new_translation_link',10,3);
+
 		//Polylang new language locale added
 		$this->loader->add_action( 'created_term', $plugin_admin, 'new_polylang_locale_added', 10, 3 );
     //stop meta field synch for cf7 posts
     $this->loader->add_filter('pll_copy_post_metas', $plugin_admin,'polylang_meta_fields_sync', 10,3);
 
 		/****   WP hooks  *****/
-		//WP hook 'manage_{$screen_id}_columns' to add new column to table list
-		//$this->loader->add_filter( 'manage_toplevel_page_wpcf7_columns', $plugin_admin, 'add_cf7_admin_columns',30,1);
-		//delete cf7 form translations when a form is trashed.
-    $this->loader->add_action('trash_wpcf7_contact_form', $plugin_admin, 'delete_translations');
-		//add some footer script for polylang to run on the client site
-		//----$this->loader->add_action( 'admin_print_footer_scripts', $plugin_admin, 'add_polylang_footer_scripts',10,1);
-		//inject some code into the cf7 form edit page to add the polylang langauge metabox
-		//----$this->loader->add_action( 'admin_footer', $plugin_admin, 'polylang_metabox_edit_form',10,1);
-		//edit the link to edit form page
-		//----$this->loader->add_filter( 'get_edit_post_link', $plugin_admin, 'set_edit_form_link',10,3);
-		//load the CF7 translations
 		$this->loader->add_action( 'plugins_loaded',  $plugin_admin, 'get_cf7_translations',20);
     //warn the user to save polylang screen_settings
     $this->loader->add_action( 'admin_notices',$plugin_admin, 'display_polylang_settings_warning');
     //modify the edit page 'add new' button link and add language select
     $this->loader->add_action('admin_print_footer_scripts-edit.php',$plugin_admin, 'add_language_select_to_table_page',50);
 		//modify the edit page 'add new' button link and add language select
-    $this->loader->add_action('admin_print_footer_scripts',$plugin_admin, 'add_default_cf7_plugin_table_script',50);
+    // $this->loader->add_action('admin_print_footer_scripts',$plugin_admin, 'add_default_cf7_plugin_table_script',50);
     //catch cf7 delete redirection
-    $this->loader->add_filter('wpcf7_post_delete',$plugin_admin, 'delete_post');
-    $this->loader->add_action( 'before_delete_post', $plugin_admin, 'delete_post');
+    // $this->loader->add_filter('wpcf7_post_delete',$plugin_admin, 'delete_post');
+    // $this->loader->add_action( 'before_delete_post', $plugin_admin, 'delete_post');
     //make sure our dependent plugins exists.
     $this->loader->add_action( 'admin_init', $plugin_admin, 'check_plugin_dependency');
     /**** CF7 Hooks *****/
-    //$this->loader->add_action( 'wpcf7_save_contact_form', $plugin_admin, 'save_polylang_translations');
-
-    //check to see if the CF7 plugin gets deactivated
-    //add_action( 'deactivated_plugin', array(&$this,'deactivate_cf7_polylang'), 10, 2 );
 		//set the default form for the smart grid plugin, and hook it just after that of the smart grid.
 		$this->loader->add_filter( 'wpcf7_default_template', $plugin_admin, 'default_cf7_form' , 6,2);
     //persist admin notices plugin.

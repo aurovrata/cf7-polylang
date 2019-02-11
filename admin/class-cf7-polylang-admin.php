@@ -64,7 +64,7 @@ class Cf7_Polylang_Admin {
 	}
 	/**
 	*
-	*
+	* Hooked on 'admin_notices'
 	*@since 2.1.0
 	*@param string $param text_description
 	*@return string text_description
@@ -123,10 +123,6 @@ class Cf7_Polylang_Admin {
 	 * @since    1.0.0
 	 */
 	public function enqueue_styles() {
-		//let's check if this is a cf7 admin page
-		// if( Cf7_WP_Post_Table::is_cf7_admin_page() || Cf7_WP_Post_Table::is_cf7_edit_page() ){
-		//     wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/cf7-polylang-admin.css', array('contact-form-7-admin'), $this->version, 'all' );
-    // }
 	}
 
 	/**
@@ -135,22 +131,6 @@ class Cf7_Polylang_Admin {
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
-
-		//let's check if this is a cf7 admin page
-		// if( Cf7_WP_Post_Table::is_cf7_admin_page() || Cf7_WP_Post_Table::is_cf7_edit_page() ){
-		//     //enqueue de polylang scripts needed for this to work
-		//   global $polylang;
-		//   $polylang->admin_enqueue_scripts();
-    //   if( file_exists(ABSPATH .'wp-content/plugins/polylang/js/post.min.js') ){
-    //     wp_enqueue_script( 'pll_post', content_url('/plugins/polylang/js/post.min.js'), array( 'jquery', 'wp-ajax-response', 'post', 'jquery-ui-autocomplete' ), POLYLANG_VERSION, true );
-    //   }else{
-    //     wp_enqueue_script( 'pll_post', content_url('/plugins/polylang-pro/js/post.min.js'), array( 'jquery', 'wp-ajax-response', 'post', 'jquery-ui-autocomplete' ), POLYLANG_VERSION, true );
-    //   }
-		// }
-		// if(Cf7_WP_Post_Table::is_cf7_edit_page()){
-		// 	wp_enqueue_script( $this->plugin_name, plugin_dir_url(  __FILE__ ) . 'js/cf7-polylang-admin.js', array('jquery'), $this->version, true);
-		// }
-
 	}
 
   /**
@@ -176,75 +156,6 @@ class Cf7_Polylang_Admin {
     </div>
     <?php
   }
-  /**
-  * called when a cf7 post is saved
-  * saves languages and translations, hooks 'wpcf7_save_contact_form', and sets hooks for cf7 saving action.
-  *
-  * @since 1.1.0
-  *
-  * @param object $cf7_form CF7 form object
-  */
-  public function save_polylang_translations($cf7_form){
-    global $post_ID;
-    $post_ID =  $cf7_form->id();
-    add_action('wpcf7_after_create', array(&$this, 'save_cf7_translations'));
-    add_action('wpcf7_after_update', array(&$this, 'update_cf7_translations'));
-  }
-  /**
-  * called when a cf7 post is saved
-  * saves languages and translations
-  *
-  * @since 1.1.0
-  *
-  * @param object $cf7_form CF7 form object
-  */
-  public function save_cf7_translations($cf7_form){
-    $this->save_translations($cf7_form, false);
-  }
-  /**
-  * called when a cf7 post is updated
-  * saves languages and translations
-  *
-  * @since 1.1.0
-  *
-  * @param object $cf7_form CF7 form object
-  */
-  public function update_cf7_translations($cf7_form){
-    $this->save_translations($cf7_form, true);
-  }
-  /**
-  * called when a post is saved or updated
-  * saves languages and translations
-  *
-  * @since 1.1.0
-  *
-  * @param object $cf7_form CF7 form object
-  * @param bool $is_update whether it is an update or not
-  */
-  public function save_translations($cf7_form, $is_update){
-    global $polylang;
-
-    $post_id = $cf7_form->id();
-    $post = get_post( $post_id);
-    $GLOBALS['post_type'] = $post->post_type;
-    //let's use polylang's hooked functionality that triggers when posts are saved
-    $_POST['post_ID'] = $post_id;
-    $polylang->filters_post->save_post($post_id, $post, $is_update);
-  }
-  /**
-  * called when a post is saved or updated
-  * saves languages and translations
-  *
-  * @since 1.1.1
-  *
-  * @param object $cf7_form CF7 form object
-  * @param bool $is_update whether it is an update or not
-  */
-  public function delete_translations($post_id){
-    global $polylang;
-
-    $polylang->filters_post->delete_post($post_id);
-  }
 	/**
 	 * Force polylang to register the CF7 cpt.
 	 *
@@ -263,66 +174,6 @@ class Cf7_Polylang_Admin {
 
 		$types =  array_merge($types, array($post_type => $post_type));
 		return $types;
-	}
-	/**
-	*  add links to translated forms.
-	*
-	*@since 2.1.0
-	*@param string $param text_description
-	*@return string text_description
-	*/
-	public function add_default_cf7_plugin_table_script(){
-		global $pagenow;
-		//check that we are on the right page
-		if(empty($pagenow) || 'admin.php' !== $pagenow) return;
-
-		if(!isset($_GET['page']) || $_GET['page'] !== 'wpcf7' || isset($_GET['action'])) return;
-		if(!function_exists('pll_the_languages') || !function_exists('pll_get_post')){
-			debug_msg('No polylang functions found, unable to create script!');
-			return;
-		}
-		$lang = pll_languages_list();
-
-		if(empty($lang)) return; //languages not set.
-
-		$posts = get_posts(array('post_type'=>WPCF7_ContactForm::post_type, 'post_status'=>'any', 'posts_per_page'=>-1));
-
-		if(empty($posts)) return; //nothing to do here.
-
-		$translations = array();
-		foreach($posts as $form){
-			$translations[$form->ID] = array();
-			foreach($lang as $lg){
-				$translations[$form->ID][$lg] = pll_get_post($form->ID, $lg);
-			}
-		}
-		?>
-		<script type="text/javascript">
-      ( function( $ ) {
-        $(document).ready( function(){
-					var map = <?=wp_json_encode($translations)?>;
-					var root = '<?= admin_url('admin.php?page=wpcf7&action=edit&post=')?>';
-					$('#the-list tr').each(function(){
-						var $row = $(this);
-						var postID = parseInt( $('input[name="post[]"]', $row).val() );
-						if(postID>0){
-							var links = map[postID];
-							for(lang in links){
-								var id = links[lang];
-								var text='';
-								if(id>0 && id!==postID ){
-									text = '<span style="margin:0 5px">|</span><a href="'+root+id+'">'+lang+'</a>';
-								}else if(id!==postID){
-									text ='<span style="margin:0 5px">|</span>'+lang;
-								}
-								$('td.title strong', $row).append(text);
-							}
-						}
-					});
-        } );
-      } )( jQuery );
-    </script>
-    <?php
 	}
   /**
   * Change the 'Add New' button and introduce the langauge select
@@ -430,32 +281,6 @@ class Cf7_Polylang_Admin {
 			return $link; //using std WP post.php edit page
 		}
 		$link = admin_url('admin.php?page=wpcf7&post='.$post_ID.'&action=edit');
-		return $link;
-	}
-
-  /**
-	 * Set the new translation form page link.
-	 *
-	 * Polylang new translation links are assuming std WP coding which CF7 plugin does not follow.
-	 * Hooks Polylang filter 'pll_get_new_post_translation_link'
-	 *
-	 * @since    1.0.0
-	 * @param		string	$link  to new form page
-	 * @param		string	$language  trasnlated to language
-	 * @param		string	$from_post_id  the form post ID being translated
-	 * @return 	string	the url link to the admin edit page for cf7 form
-	 */
-	public function cf7_new_translation_link($link, $language, $from_post_id ){
-		//let's check we have the correct post type
-		$post_type = get_post_type($from_post_id);
-		if(WPCF7_ContactForm::post_type != $post_type){
-			return $link;
-		}
-		if(is_plugin_active( 'cf7-grid-layout/cf7-grid-layout.php' )){
-			return $link; //using std WP post.php edit page
-		}
-
-		$link = admin_url('admin.php?page=wpcf7-new&from_post='.$from_post_id.'&locale='.$language->locale.'&new_lang='.$language->slug);
 		return $link;
 	}
 
@@ -588,19 +413,6 @@ class Cf7_Polylang_Admin {
 		//let's get the new locale cf7 translation
 		$this->get_cf7_translations();
 	}
-  /**
-   * Redirect to new table list on form delete
-   * hooks on 'wpcf7_post_delete'
-   * @since 1.1.3
-   * @var string $location a fully formed url
-   * @var int $status the html redirect status code
-   */
-  public function delete_post($post_id){
-    $post_type = get_post_type($post_id);
-    if( WPCF7_ContactForm::post_type != $post_type ) return;
-    global $polylang;
-    $polylang->filters_post->delete_post($post_id);
-  }
   /**
    * Stop polylang synchronising form meta fields.
    *

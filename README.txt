@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: polylang, contact form 7, multisite, contact form 7 extension, contact form 7 module, multilingual contact form 7, multilingual form, cf7 smart grid extension
 Requires at least: 4.7
 Requires PHP: 5.6
-Tested up to: 4.9.6
+Tested up to: 5.0.3
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPLv2 or later
@@ -133,6 +133,8 @@ function my_cf7_mail_tag($output, $name, $html ) {
 4. Ensure you enable translations for Contact Forms in your Polyland settings.
 
 == Changelog ==
+= 2.3.1 =
+* clean up deprecated delete posts code.
 = 2.3.0 =
 * added hidden field _wpcf7_lang to front-end form.
 * instroduce special mail tag [_home_url].
