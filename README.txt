@@ -76,7 +76,7 @@ If you found that you installed the plugin correctly and are able to manage your
 = 2. Contact Form 7 is translated in my language, but does not load =
 
 If you have checked the above linked page and are able to find your language, then you can download your language translation pack manually.  It is possible that there is mismatch between the local code used by Polylang and that assigned to your language pack.
- Open the translation page for your specific language (click on the language row in this [table](https://translate.wordpress.org/projects/wp-plugins/contact-form-7)).  This will open the locale specific page that you have selected, then click on the 'Stable' link in the table.  You should now see a page with a table that show the different translations, scroll to the bottom of the page and selected the Export format from the 2nd dropdown to 'Machine Object .mo', then click the Export link.  This will download a zip flie.  Extract the content of this file in the `plugins/contact-form-7/language/CF7/` folder.  Rename file name so that the locale of the file matches the locale of your language as defined by Polylang.  When you create a new form in your language you will find the polylang locale code in the url attributes of your browser address bar.  So if your locale is tk_TK, and you have dowloaded and extracted a file called contact-form-7-tk.mo, rename it to contact-form-7-tk_TK.mo.  This will ensure the correct file is picked.
+ Open the translation page for your specific language (click on the language row in this [table](https://translate.wordpress.org/projects/wp-plugins/contact-form-7)).  This will open the locale specific page that you have selected, then click on the 'Stable' link in the table.  You should now see a page with a table that show the different translations, scroll to the bottom of the page and selected the Export format from the 2nd dropdown to 'Machine Object .mo', then click the Export link.  This will download a zip flie.  Extract the content of this file in the `wp-content/languages/plugins/contact-form-7/` folder (create it if it does not exists, this folder is never updated by plugin updates).  Rename file name so that the locale of the file matches the locale of your language as defined by Polylang.  When you create a new form in your language you will find the polylang locale code in the url attributes of your browser address bar.  So if your locale is tk_TK, and you have dowloaded and extracted a file called contact-form-7-tk.mo, rename it to contact-form-7-tk_TK.mo.  This will ensure the correct file is picked.
 
 =  3. My forms are only partially translated =
 
@@ -133,6 +133,8 @@ function my_cf7_mail_tag($output, $name, $html ) {
 4. Ensure you enable translations for Contact Forms in your Polyland settings.
 
 == Changelog ==
+= 2.3.2 =
+* fix continue warning.
 = 2.3.1 =
 * clean up deprecated delete posts code.
 = 2.3.0 =

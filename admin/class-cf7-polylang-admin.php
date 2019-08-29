@@ -89,7 +89,7 @@ class Cf7_Polylang_Admin {
 					if ( ! PAnD::is_admin_notice_active( $dismiss ) ) {
 						unset($notices[$pagenow]);
 						update_option('cf7-polylang-admin-notices', $notices);
-						continue;
+						continue 2; //continue foreach loop.
 					}
 					?>
 					<div data-dismissible="<?=$dismiss?>" class="updated notice <?=$notice['type']?> is-dismissible"><p><?=$notice['msg']?></p></div>
