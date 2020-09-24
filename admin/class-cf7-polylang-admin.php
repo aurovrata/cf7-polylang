@@ -81,8 +81,8 @@ class Cf7_Polylang_Admin {
 
 		foreach($notices[$pagenow] as $key=>$notice){
 			switch(true){
-				case strpos($key, 'page=') !== false && $_GET['page'] === str_replace('page=','',$key):
-				case strpos($key, 'post_type=') !== false && $_GET['post_type'] === str_replace('post_type=','',$key):
+				case strpos($key, 'page=') !== false && isset($_GET['page']) && $_GET['page'] === str_replace('page=','',$key):
+				case strpos($key, 'post_type=') !== false && isset($_GET['post_type']) && $_GET['post_type'] === str_replace('post_type=','',$key):
 				case $key==='any':
         case $key==='polylang':
 					$dismiss = $notice['nonce'].'-forever';
@@ -292,9 +292,13 @@ class Cf7_Polylang_Admin {
 	 * @since    1.0.0
 	 */
 	public function get_cf7_translations(){
+		if(!class_exists('ZipArchive')){
+			debug_msg( 'CF7 POLYLANG: Error, no ZipArchive class found, install php zip module');
+			return false;
+		}
     include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
     if(! $this->check_plugin_dependency()){
-      return;
+      return false;
     };
 
 		//what locales are already installed
@@ -315,7 +319,7 @@ class Cf7_Polylang_Admin {
 		$languages = array_diff($languages, $local_locales, array('en_US'));
 
 		if(empty($languages)){
-			return; //nothing to be loaded
+			return true; //nothing to be loaded
 		}
 
 		//get available locales for CF7
@@ -326,9 +330,9 @@ class Cf7_Polylang_Admin {
 			'version' => WPCF7_VERSION ) );
 		if ( is_wp_error( $api ) ) {
 			//display error
-			debug_msg("CF7 POLYLANG: Error loading CF7 translations, ".$api->get_error_message());
+			debug_msg("CF7 POLYLANG: Error loading CF7 translations, {$api->get_error_message()}");
 		}else if( empty( $api['translations'] ) ){
-			debug_msg("CF7 POLYLANG: CF7 translations are empty, please try again");
+			debug_msg('CF7 POLYLANG: CF7 translations are empty, please try again');
 		}else{
 			foreach($api['translations'] as $translation){
 				$cf7_locales[$translation['language']] = $translation['package'];
@@ -343,28 +347,26 @@ class Cf7_Polylang_Admin {
 				file_put_contents($zipFile, fopen($cf7_locales[$locale], 'r'));
 
 				/* Open the Zip file */
-				$zip = new ZipArchive;
+        $zip = new ZipArchive;
+
 				$extractPath = WP_LANG_DIR . '/plugins/';
-				if($zip->open($zipFile) != "true"){
-				 debug_msg( "CF7 POLYLANG: Error, unable to open the Zip File ". $zipFile);
-				}
-				/* Extract Zip File */
-				$zip->extractTo($extractPath);
-				$zip->close();
-				//delete zip file
-				unlink($zipFile);
-				//copy the .mo file to the CF7 language folder
-				if(! copy( WP_LANG_DIR . '/plugins/contact-form-7-'.$locale.'.mo',
-						 WP_LANG_DIR . '/plugins/contact-form-7/contact-form-7-'.$locale.'.mo') ){
-					debug_msg("CF7 POLYLANG: Unable to copy CF7 translation for locale ".$zipFile." to CF7 plugin folder.");
-				}else{
-					debug_msg("CF7 POLYLANG: Found and installed CF7 translation for locale ".$zipFile);
-          //register locale for cf7 domain
-          // load_textdomain( 'contact-form-7', WP_LANG_DIR . '/plugins/contact-form-7-'.$locale.'.mo' );
+				if( $zip->open($zipFile) != "true"){
+					debug_msg( "CF7 POLYLANG: Error, unable to open the Zip File $zipFile");
+        }else{
+					/* Extract Zip File */
+					$zip->extractTo($extractPath);
+					$zip->close();
+					//delete zip file
+					unlink($zipFile);
+					//copy the .mo file to the CF7 language folder
+					if(! copy( WP_LANG_DIR . '/plugins/contact-form-7-'.$locale.'.mo',
+							 WP_LANG_DIR . '/plugins/contact-form-7/contact-form-7-'.$locale.'.mo') ){
+						debug_msg("CF7 POLYLANG: Unable to copy CF7 translation for locale $zipFile to CF7 plugin folder.");
+					}
 				}
 			}else{
 				//we need to report the missing translation
-				debug_msg("CF7 POLYLANG: Missing CF7 translation file for locale ".$locale);
+				debug_msg("CF7 POLYLANG: Missing CF7 translation file for locale $locale");
 			}
 		}
 	}
