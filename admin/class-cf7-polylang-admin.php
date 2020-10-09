@@ -242,22 +242,6 @@ class Cf7_Polylang_Admin {
     </script>
     <?php
   }
-	/**
-	* Smart grid default form.
-	* Hooked to 'wpcf7_default_template'
-	* @since 2.0.0
-	* @param string $template  the html string for the form tempalte
-	* @param string $prop  the template property required.
-	* @return string default form.
-	*/
-	public function default_cf7_form($template, $prop){
-
-		if(!is_plugin_active( 'cf7-grid-layout/cf7-grid-layout.php' )) return $template;
-
-		if($prop !== 'form') return $template;
-    include( plugin_dir_path( __FILE__ ) . '/partials/cf7-default-form.php');
-    return $template;
-	}
 
 	/**
 	 * Set the form edit page link.
@@ -317,7 +301,8 @@ class Cf7_Polylang_Admin {
 		}
 		//which locales do we need to download, remove default locale en_US
 		$languages = array_diff($languages, $local_locales, array('en_US'));
-
+		debug_msg($languages, 'laguages ');
+		debug_msg($local_locales, 'locales ');
 		if(empty($languages)){
 			return true; //nothing to be loaded
 		}
@@ -334,6 +319,7 @@ class Cf7_Polylang_Admin {
 		}else if( empty( $api['translations'] ) ){
 			debug_msg('CF7 POLYLANG: CF7 translations are empty, please try again');
 		}else{
+			debug_msg($api['translations'], 'api ');
 			foreach($api['translations'] as $translation){
 				$cf7_locales[$translation['language']] = $translation['package'];
 			}
@@ -359,10 +345,9 @@ class Cf7_Polylang_Admin {
 					//delete zip file
 					unlink($zipFile);
 					//copy the .mo file to the CF7 language folder
-					if(! copy( WP_LANG_DIR . '/plugins/contact-form-7-'.$locale.'.mo',
-							 WP_LANG_DIR . '/plugins/contact-form-7/contact-form-7-'.$locale.'.mo') ){
-						debug_msg("CF7 POLYLANG: Unable to copy CF7 translation for locale $zipFile to CF7 plugin folder.");
-					}
+					if(! file_exists( $extractPath . 'contact-form-7-'.$locale.'.mo') ){
+						debug_msg("CF7 POLYLANG: Unable to retrieve tranlsation file contact-form-7-$locale.mo");
+					}else debug_msg("CF7 POLYLANG: Added translation file contact-form-7-$locale.mo");
 				}
 			}else{
 				//we need to report the missing translation
@@ -465,4 +450,30 @@ class Cf7_Polylang_Admin {
     }
     return $output;
   }
+	/**
+	* Filter cf7 template craetion arguments to ensure locales are picked up.
+	* Hooked to 'cf7sg_new_cf7_form_template_arguments'.
+	*@since 2.3.4
+	*@param array $args arument list for cf7 for template.
+	*@return string text_description
+	*/
+	public function new_form_template($args){
+		if(isset($_GET['locale'])){
+      $args['locale'] = $_GET['locale'];
+    }else if(isset($_GET['new_lang'])){
+      //check for polylang
+      $locale = $_GET['new_lang'];
+      if(function_exists('pll_languages_list')){
+        $langs = pll_languages_list();
+        $locales = pll_languages_list(array('fields'=>'locale'));
+        foreach($langs as $idx => $lang){
+          if($lang == $locale){
+            $locale = $locales[$idx];
+          }
+        }
+      }
+      $args['locale'] =$locale;
+    }else $args['locale'] = get_locale();
+		return $args;
+	}
 }

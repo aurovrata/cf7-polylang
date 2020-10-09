@@ -132,6 +132,8 @@ function my_cf7_mail_tag($output, $name, $html ) {
 4. Ensure you enable translations for Contact Forms in your Polyland settings.
 
 == Changelog ==
+= 2.3.4 =
+* fix broken translations of new form templates.
 = 2.3.3 =
 * fix ZipArchive class missing Fatal error for PHP 7.3 onwards.
 = 2.3.2 =

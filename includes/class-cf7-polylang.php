@@ -175,16 +175,9 @@ class Cf7_Polylang {
     $this->loader->add_action( 'admin_notices',$plugin_admin, 'display_polylang_settings_warning');
     //modify the edit page 'add new' button link and add language select
     $this->loader->add_action('admin_print_footer_scripts-edit.php',$plugin_admin, 'add_language_select_to_table_page',50);
-		//modify the edit page 'add new' button link and add language select
-    // $this->loader->add_action('admin_print_footer_scripts',$plugin_admin, 'add_default_cf7_plugin_table_script',50);
-    //catch cf7 delete redirection
-    // $this->loader->add_filter('wpcf7_post_delete',$plugin_admin, 'delete_post');
-    // $this->loader->add_action( 'before_delete_post', $plugin_admin, 'delete_post');
     //make sure our dependent plugins exists.
     $this->loader->add_action( 'admin_init', $plugin_admin, 'check_plugin_dependency');
     /**** CF7 Hooks *****/
-		//set the default form for the smart grid plugin, and hook it just after that of the smart grid.
-		$this->loader->add_filter( 'wpcf7_default_template', $plugin_admin, 'default_cf7_form' , 6,2);
     //persist admin notices plugin.
     $this->loader->add_action( 'admin_init',  'PAnD', 'init' );
     //admin notices display.
@@ -193,7 +186,8 @@ class Cf7_Polylang {
     $this->loader->add_filter( 'wpcf7_special_mail_tags', $plugin_admin,  'cf7_tag_site_url', 20, 3 );
     /** @since 2.3.0 - add home_url mail tag. */
     $this->loader->add_filter( 'wpcf7_special_mail_tags',  $plugin_admin, 'cf7_tag_home_url', 10, 3 );
-
+    /** @since 2.3.4 - fix translations in smart-grid */
+    $this->loader->add_filter('cf7sg_new_cf7_form_template_arguments', $plugin_admin, 'new_form_template');
   }
 
 
