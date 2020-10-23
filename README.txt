@@ -125,6 +125,19 @@ function my_cf7_mail_tag($output, $name, $html ) {
   return $output;
 }
 `
+
+= 7. How to load a plugin's translation resources? =
+If you have a plugin which has specific translation strings used in CF7 forms, you need to tell the CF7 Polylang plugin to load the resources for the required locale.  To do this use the following filter hook,
+
+`add_filter('cf7pll_load_plugin_translation_resource', 'add_translation_resource');
+function add_translation_resource($plugin_translation){
+  //the $plugin_translation is an array into which you need to add your plugin slug and version number.
+  $plugin_translation['my-plugin-slug']=$version.
+  return $plugin_translation;
+}`
+
+this filter should be used by plugin developers to ensure their plugin translation resources are loaded.
+ 
 == Screenshots ==
 1. If you don't see the polylang links in your contact table list, head to the Polylang settings and save the existing post content to the default language. (Step 6 in the installation instructions)
 2. Contact form table list with Polylang language columns, a dropdown of available languages next to the 'Add New' button allows you to create new forms in any language, note also the portable cf7 shortcodes.
@@ -132,6 +145,9 @@ function my_cf7_mail_tag($output, $name, $html ) {
 4. Ensure you enable translations for Contact Forms in your Polyland settings.
 
 == Changelog ==
+= 2.4.0 =
+* enable other plugins to add their translation files.
+* added 'cf7pll_load_plugin_translation_resource' filter.
 = 2.3.4 =
 * fix broken translations of new form templates.
 = 2.3.3 =

@@ -131,6 +131,15 @@ class Cf7_Polylang_Admin {
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
+		$screen = get_current_screen();
+		/** @since 2.4.0 load translation for requested locale on form edit page. */
+    if ( !empty($screen) and WPCF7_ContactForm::post_type==$screen->post_type and 'post'==$screen->base ){
+			$locale = get_user_locale();
+			if(function_exists('pll_current_language')){
+				$locale= pll_current_language('locale');
+			}
+			$this->load_l10n_domains($locale);
+		}
 	}
 
   /**
@@ -192,7 +201,7 @@ class Cf7_Polylang_Admin {
 
       //error_log('CF7 Polylang languages '.print_r($language_names,true));
     }
-    $default_locale = 'en_GB';
+    $default_locale = 'en_US';
     if(function_exists('pll_default_language')){
       $default_locale = pll_default_language('locale');
     }
@@ -284,74 +293,91 @@ class Cf7_Polylang_Admin {
     if(! $this->check_plugin_dependency()){
       return false;
     };
-
-		//what locales are already installed
-		$local_locales = $this->scan_local_locales();
-    // foreach($local_locales as $locale){
-    //   //register locale for cf7 domain
-    //   load_textdomain( 'contact-form-7', WP_LANG_DIR . '/plugins/contact-form-7-'.$locale.'.mo' );
-    // }
 		//what are the needed locales
-		$languages = array();
+		$pll_languages = array();
 		if( function_exists('pll_languages_list') ){
-			$languages = pll_languages_list(array('fields'=>'locale'));
+			$pll_languages = pll_languages_list(array('fields'=>'locale'));
 		}else{
-			//we need to show an error message
 			debug_msg("CF7 POLYLANG: Unable to load polylang locales, missing function 'pll_languages_list'");
 		}
-		//which locales do we need to download, remove default locale en_US
-		$languages = array_diff($languages, $local_locales, array('en_US'));
-		debug_msg($languages, 'laguages ');
-		debug_msg($local_locales, 'locales ');
-		if(empty($languages)){
-			return true; //nothing to be loaded
-		}
 
-		//get available locales for CF7
+		/** Allow other plugins to load translation resources.
+		* @param Array $plugin an array with 'plugin slug'=>'version' to load.
+		* @since 2.4.0 */
+		$plugin_translations = apply_filters('cf7pll_load_plugin_translation_resource', array());
+		// if(!is_array($plugin_translations)) $plugin_translations = array();
+		$plugin_translations = array_merge( array('contact-form-7'=>WPCF7_VERSION), $plugin_translations);
+		//load the translation api.
 		require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
-		$cf7_locales = array();
+
+		foreach($plugin_translations as $plugin=>$version){
+			//what locales are already installed
+			$local_locales = $this->scan_local_locales($plugin);
+			//which locales do we need to download, remove default locale en_US
+			$languages = array_diff($pll_languages, $local_locales, array('en_US'));
+			/** @since 2.4.0 */
+			foreach($languages as $idx=>$locale){
+				$last_check = get_option("_cf7pll-{$plugin}-v{$version}-{$locale}", date('Y-m-d', strtotime('-2 month')) );
+				if( $last_check > date('Y-m-d', strtotime('-1 month')) ){
+					unset($languages[$idx]);//locale did not exists less than a month ago.
+					// debug_msg("CF7 POLYLANG: {$plugin} translation file for locale $locale not available, will check again later");
+				}
+			}
+			if(empty($languages)) continue; //nothing to be loaded
+			//get available locales for CF7
+			debug_msg($languages, "CF7 POLYLANG: fetching translation for {$plugin}(v{$version})");
+			$this->get_translation($plugin, $version, $languages);
+		}
+	}
+	/**
+	* Retrieve translation file for a give plugin and locale.
+	*
+	*@since 2.4.0
+	*@param String $plugin plugin slug
+	*@param String $version plugin version number
+	*@param Array $languages an array of locales to retrieve.
+	*/
+	protected function get_translation($plugin, $version, $languages){
+		$plugin_locales = array();
 		$api = translations_api( 'plugins', array(
-			'slug' => 'contact-form-7',
-			'version' => WPCF7_VERSION ) );
+			'slug' => $plugin,
+			'version' =>  $version) );
 		if ( is_wp_error( $api ) ) {
-			//display error
-			debug_msg("CF7 POLYLANG: Error loading CF7 translations, {$api->get_error_message()}");
-		}else if( empty( $api['translations'] ) ){
-			debug_msg('CF7 POLYLANG: CF7 translations are empty, please try again');
+			debug_msg("CF7 POLYLANG: Error loading {$plugin} translations, {$api->get_error_message()}");
 		}else{
-			debug_msg($api['translations'], 'api ');
 			foreach($api['translations'] as $translation){
-				$cf7_locales[$translation['language']] = $translation['package'];
+				$plugin_locales[$translation['language']] = $translation['package'];
 			}
 		}
 		//load the text domain for the locales found in Polylang.
 		foreach($languages as $locale){
-			if(isset($cf7_locales[$locale])){
+			if(isset($plugin_locales[$locale])){
 				$zipFile = $locale.'.zip';
 				$zipPath = WP_LANG_DIR . '/plugins/';// Local Zip File Path
 				//get the file stream, not using cURL as may not support https
-				file_put_contents($zipFile, fopen($cf7_locales[$locale], 'r'));
+				file_put_contents($zipFile, fopen($plugin_locales[$locale], 'r'));
 
 				/* Open the Zip file */
-        $zip = new ZipArchive;
+				$zip = new ZipArchive;
 
 				$extractPath = WP_LANG_DIR . '/plugins/';
 				if( $zip->open($zipFile) != "true"){
 					debug_msg( "CF7 POLYLANG: Error, unable to open the Zip File $zipFile");
-        }else{
+				}else{
 					/* Extract Zip File */
 					$zip->extractTo($extractPath);
 					$zip->close();
 					//delete zip file
 					unlink($zipFile);
 					//copy the .mo file to the CF7 language folder
-					if(! file_exists( $extractPath . 'contact-form-7-'.$locale.'.mo') ){
-						debug_msg("CF7 POLYLANG: Unable to retrieve tranlsation file contact-form-7-$locale.mo");
-					}else debug_msg("CF7 POLYLANG: Added translation file contact-form-7-$locale.mo");
+					if(! file_exists( "{$extractPath}{$plugin}-{$locale}.mo") ){
+						debug_msg("CF7 POLYLANG: Unable to retrieve translation file {$plugin}-{$locale}.mo");
+					}//else debug_msg("CF7 POLYLANG: Added translation file contact-form-7-$locale.mo");
 				}
 			}else{
 				//we need to report the missing translation
-				debug_msg("CF7 POLYLANG: Missing CF7 translation file for locale $locale");
+				update_option("_cf7pll-{$plugin}-v{$version}-{$locale}", date('Y-m-d') );
+				debug_msg("CF7 POLYLANG: Missing {$plugin} translation file for locale $locale");
 			}
 		}
 	}
@@ -363,20 +389,12 @@ class Cf7_Polylang_Admin {
 	 * @since    1.0.0
 	 * @return		array	an array of locales
 	 */
-	protected function scan_local_locales(){
-    if(!is_dir(WP_LANG_DIR . '/plugins/contact-form-7/')){
-      wp_mkdir_p(WP_LANG_DIR . '/plugins/contact-form-7/');
-    }
-		$translations = scandir(WP_LANG_DIR . '/plugins/contact-form-7/');
+	protected function scan_local_locales($plugin){
+		$translations = glob(WP_LANG_DIR . "/plugins/{$plugin}-*.mo");
 		$local_locales = array();
 		foreach($translations as $translation_file){
-			$parts = pathinfo($translation_file);
-			if( 'mo'==$parts['extension'] ){
-				if( !isset($parts['filename']) ){
-					$parts['filename'] = $local_locales[]=str_replace('.mo','', $parts['basename']);
-				}
-				$local_locales[]=str_replace( 'contact-form-7-','',$parts['filename'] ); //php 5.2 onwards
-			}
+			$loale = str_replace(WP_LANG_DIR . "/plugins/{$plugin}-",'',$translation_file);
+			$local_locales[]=str_replace( '.mo','', $loale);
 		}
 		return $local_locales;
 	}
@@ -474,6 +492,48 @@ class Cf7_Polylang_Admin {
       }
       $args['locale'] =$locale;
     }else $args['locale'] = get_locale();
+		/** @since 2.4.0 make sure the translation files for the plugin domains are loaded */
+    $this->load_l10n_domains($args['locale']);
 		return $args;
+	}
+	/**
+	* load translation domains for other plugins.
+	*@since 2.4.0
+	*@param string $param text_description
+	*@return string text_description
+	*/
+	protected function load_l10n_domains($locale){
+		//if the user locale is is requested, then translation files already loaded.
+		if ( is_admin() &&  get_user_locale() == $locale) return true;
+
+		$plugin_translations = apply_filters('cf7pll_load_plugin_translation_resource', array());
+		foreach($plugin_translations as $plugin=>$version){
+			//make sure we have at least 1 default locale should Polylang change its API.
+			$available_locales = array('en_US');
+			if( function_exists('pll_languages_list') ){
+				$available_locales = pll_languages_list(array('fields'=>'locale'));
+			}
+			//is the requested locale loaded among polylang languages?
+			if ( ! in_array( $locale, $available_locales ) ) {
+				if(function_exists('pll_default_language')){
+					$locale = pll_default_language('locale');
+				}else{
+					$locale = $locales[0];
+				}
+			}
+
+			if ( is_textdomain_loaded( $plugin ) ) {
+				unload_textdomain( $plugin );
+			}
+			$mofile = sprintf( '%s-%s.mo', $plugin, $locale );
+			//check the installation language path first.
+			$domain_path = path_join( WP_LANG_DIR, 'plugins' );
+			$loaded = load_textdomain( $plugin, path_join( $domain_path, $mofile ) );
+
+			if ( ! $loaded ) { //else, check the plugin language folder.
+				$domain_path = path_join( WP_PLUGIN_DIR, "{$plugin}/languages" );
+				load_textdomain( $plugin, path_join( $domain_path, $mofile ) );
+			}
+		}
 	}
 }
