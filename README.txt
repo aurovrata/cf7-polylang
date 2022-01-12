@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: polylang, contact form 7, multisite, contact form 7 extension, contact form 7 module, multilingual contact form 7, multilingual form, cf7 smart grid extension
 Requires at least: 4.7
 Requires PHP: 5.6
-Tested up to: 5.5.1
+Tested up to: 5.8.3
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -137,7 +137,7 @@ function add_translation_resource($plugin_translation){
 }`
 
 this filter should be used by plugin developers to ensure their plugin translation resources are loaded.
- 
+
 == Screenshots ==
 1. If you don't see the polylang links in your contact table list, head to the Polylang settings and save the existing post content to the default language. (Step 6 in the installation instructions)
 2. Contact form table list with Polylang language columns, a dropdown of available languages next to the 'Add New' button allows you to create new forms in any language, note also the portable cf7 shortcodes.
@@ -145,6 +145,8 @@ this filter should be used by plugin developers to ensure their plugin translati
 4. Ensure you enable translations for Contact Forms in your Polyland settings.
 
 == Changelog ==
+= 2.4.1 =
+* fix language update.
 = 2.4.0 =
 * enable other plugins to add their translation files.
 * added 'cf7pll_load_plugin_translation_resource' filter.

@@ -507,6 +507,7 @@ class Cf7_Polylang_Admin {
 		if ( is_admin() &&  get_user_locale() == $locale) return true;
 
 		$plugin_translations = apply_filters('cf7pll_load_plugin_translation_resource', array());
+
 		foreach($plugin_translations as $plugin=>$version){
 			//make sure we have at least 1 default locale should Polylang change its API.
 			$available_locales = array('en_US');
@@ -521,7 +522,6 @@ class Cf7_Polylang_Admin {
 					$locale = $locales[0];
 				}
 			}
-
 			if ( is_textdomain_loaded( $plugin ) ) {
 				unload_textdomain( $plugin );
 			}
@@ -535,5 +535,38 @@ class Cf7_Polylang_Admin {
 				load_textdomain( $plugin, path_join( $domain_path, $mofile ) );
 			}
 		}
+	}
+  /**
+  * Save locale and messages.
+  *
+  *@since 2.4.1
+  *@param string $post_id post id
+  */
+  public function save_locale($post_id){
+		$current = sanitize_text_field($_POST['wpcf7-locale']);
+    // $current = get_post_meta($post_id, '_locale', true);
+    $update = $current;
+		if(function_exists('pll_get_post_language')){
+      $update = pll_get_post_language($post_id, 'locale');
+    }
+    if($current != $update){
+      update_post_meta($post_id, '_locale', $update);
+      if(method_exists('WPCF7_ContactFormTemplate','messages')){
+				$this->load_l10n_domains($update);
+				$msg = WPCF7_ContactFormTemplate::messages();
+        update_post_meta($post_id, '_messages',$msg);
+      }
+    }
+  }
+	/**
+	* Filter plugins domains to load translation resources.
+	*
+	*@since 2.4.1
+	*@param Array $plugin_translations plugin-domain=>version-number pairs.
+	*@return Array
+	*/
+	public function include_cf7_plugin($plugin_translations){
+		$plugin_translations['contact-form-7']=WPCF7_VERSION;
+		return $plugin_translations;
 	}
 }

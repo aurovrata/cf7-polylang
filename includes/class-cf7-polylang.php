@@ -188,6 +188,9 @@ class Cf7_Polylang {
     $this->loader->add_filter( 'wpcf7_special_mail_tags',  $plugin_admin, 'cf7_tag_home_url', 10, 3 );
     /** @since 2.3.4 - fix translations in smart-grid */
     $this->loader->add_filter('cf7sg_new_cf7_form_template_arguments', $plugin_admin, 'new_form_template');
+    /** @since 2.4.1 - fix change language*/
+    $this->loader->add_action('save_post_wpcf7_contact_form', $plugin_admin, 'save_locale',100,1);
+		$this->loader->add_filter('cf7pll_load_plugin_translation_resource', $plugin_admin, 'include_cf7_plugin',10,1);
   }
 
 

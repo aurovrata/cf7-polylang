@@ -63,7 +63,7 @@ class Cf7_Polylang_Public {
    * @return     String     translated id.
   **/
   public function translate_form_id($id, $atts){
-    $default_lang = pll_default_language('slug');
+    // $default_lang = pll_default_language('slug');
     $current_lang = pll_current_language('slug');
     $form_id = pll_get_post($id, $current_lang);
     if(empty($form_id)){ //if a translation does not exists
