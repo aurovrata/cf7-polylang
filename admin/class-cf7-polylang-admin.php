@@ -76,7 +76,7 @@ class Cf7_Polylang_Admin {
 
 		$notices = get_option('cf7-polylang-admin-notices', array());
 		if(empty($notices)) return;
-
+// debug_msg($notices, "pagenow: $pagenow");
 		if(!isset($notices[$pagenow])) return;
 
 		foreach($notices[$pagenow] as $key=>$notice){
@@ -86,6 +86,7 @@ class Cf7_Polylang_Admin {
 				case $key==='any':
         case $key==='polylang':
 					$dismiss = $notice['nonce'].'-forever';
+          // debug_msg($notice,"notice -> $key");
 					if ( ! PAnD::is_admin_notice_active( $dismiss ) ) {
 						unset($notices[$pagenow]);
 						update_option('cf7-polylang-admin-notices', $notices);

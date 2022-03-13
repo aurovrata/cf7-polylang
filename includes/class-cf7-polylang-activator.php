@@ -41,7 +41,6 @@ class Cf7_Polylang_Activator {
     if(!is_plugin_active( 'contact-form-7/wp-contact-form-7.php' )){
       exit(__('This plugin requires the Contact Form 7 plugin to be installed first', 'cf7-polylang'));
     }
-
     if(!is_plugin_active( 'cf7-grid-layout/cf7-grid-layout.php' )){
       /**
       *@since 2.1.0
@@ -50,10 +49,12 @@ class Cf7_Polylang_Activator {
       $notice = array(
           'nonce'=>$nonce,
           'type'=>'notice-warning',
-          'msg'=> __('Contact Form 7 Polylang extension <strong>WARNING</strong>: due to the evolution of Polylang plugin, and non-WP standard coded CF7 plugin, this plugin is now an extension of the <a href="https://wordpress.org/plugins/cf7-grid-layout/">CF7 Smart Grid-layout</a> plugin.<br /> Please install it to get the full functionality of PolyLang in CF7 admin pages. If you choose not to install it, your existing forms will continue to work, but you will not be able to create <em>new translations</em>. More information on the plugin <a href="https://wordpress.org/plugins/cf7-polylang/">page</a>.', 'cf7-polylang')
+          'msg'=> __('Contact Form 7 Polylang extension <strong>WARNING</strong>: due to the evolution of Polylang plugin, and non-WP standard coded CF7 plugin, this plugin is now an extension of the <a href="https://wordpress.org/plugins/cf7-grid-layout/">CF7 Smart Grid-layout</a> plugin.<br /> Please install it to get the full functionality of PolyLang in CF7 admin pages. If you choose <strong>not</strong> to install it, your existing forms will continue to work, but you will not be able to create <em>new translations</em>. More information on the plugin <a href="https://wordpress.org/plugins/cf7-polylang/">page</a>.', 'cf7-polylang')
       );
       $notices['admin.php']['page=wpcf7']=$notice;
       $notices['plugins.php']['any']=$notice;
+      $notices['post-new.php']['post_type=wpcf7_contact_form']=$notice;
+      // debug_msg($notices, 'setting up notices ');
     }
     //is polylang installed?
     if(!defined ("POLYLANG_VERSION") ){
