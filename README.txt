@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: polylang, contact form 7, multisite, contact form 7 extension, contact form 7 module, multilingual contact form 7, multilingual form, cf7 smart grid extension
 Requires at least: 4.7
 Requires PHP: 5.6
-Tested up to: 5.9.2
+Tested up to: 6.0
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -145,9 +145,12 @@ this filter should be used by plugin developers to ensure their plugin translati
 4. Ensure you enable translations for Contact Forms in your Polyland settings.
 
 == Changelog ==
+== 2.5.0 ==
+* introduce 'cf7pll_sync_form_metakeys' to filter the synchronised form metakeys between translations.
+* improve translation sync from original post.
 = 2.4.1 =
 * fix language update.
-* add notice to post-new pages. 
+* add notice to post-new pages.
 = 2.4.0 =
 * enable other plugins to add their translation files.
 * added 'cf7pll_load_plugin_translation_resource' filter.

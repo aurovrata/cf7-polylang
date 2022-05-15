@@ -421,7 +421,7 @@ class Cf7_Polylang_Admin {
 	}
   /**
    * Stop polylang synchronising form meta fields.
-   *
+   * hooked to 'pll_copy_post_metas'
    * @since 1.4.3
    * @param      array     $keys    meta fields to be synched .
    * @param      boolean     $sync    if synchorinsation is enabled .
@@ -429,9 +429,17 @@ class Cf7_Polylang_Admin {
    * @return     array    filtered meta fields to be synched.
   **/
   public function polylang_meta_fields_sync($keys, $sync, $post_id){
-    if(!$sync) return $keys;
+		debug_msg("duplicating...$post_id/$sync");
     if('wpcf7_contact_form' != get_post_type($post_id)) return $keys;
-    else return array(); //don't sync any cf7 meta fields
+    else { /** @since 2.5.0 let's sync settings, form, and other props from cf7sg */
+			$form = wpcf7_contact_form($post_id);
+			$props = array();
+			foreach($form->get_properties() as $prop){
+				array_push($props, "_{$prop}");
+			}
+			$keys = array_merge($keys, Cf7_Grid_Layout_Admin::METAKEYS, $props);
+      return apply_filters('cf7pll_sync_form_metakeys',$keys, get_cf7form_key($post_id), $post_id);
+    }
   }
   /**
   * Fix for special email tag [_site_url].
