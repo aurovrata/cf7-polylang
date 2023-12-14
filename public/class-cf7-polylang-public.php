@@ -81,7 +81,7 @@ class Cf7_Polylang_Public {
   public function add_hidden_fields($hidden){
     $hidden['_wpcf7_lang'] = '';
     if(function_exists('pll_current_language')) $hidden['_wpcf7_lang'] = pll_current_language();
-    else debug_msg('WARNING: pll_current_language() not found, unable to set language for form');
+    else wpg_debug('WARNING: pll_current_language() not found, unable to set language for form');
     return $hidden;
   }
 }

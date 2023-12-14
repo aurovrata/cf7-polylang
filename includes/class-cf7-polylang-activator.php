@@ -54,7 +54,7 @@ class Cf7_Polylang_Activator {
       $notices['admin.php']['page=wpcf7']=$notice;
       $notices['plugins.php']['any']=$notice;
       $notices['post-new.php']['post_type=wpcf7_contact_form']=$notice;
-      // debug_msg($notices, 'setting up notices ');
+      // wpg_debug($notices, 'setting up notices ');
     }
     //is polylang installed?
     if(!defined ("POLYLANG_VERSION") ){
